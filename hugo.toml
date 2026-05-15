@@ -1,0 +1,44 @@
+baseURL = "https://yadongw.dpdns.org/"
+languageCode = "zh-cn"
+title = "Yadong's Blog"
+theme = "PaperMod"
+[pagination]
+  pagerSize = 10
+
+[params]
+  author = "Yadong"
+  description = "个人博客 - 记录想法与生活"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = true
+  tocopen = true
+  comments = true
+  twikooEnvId = ""
+
+[params.homeInfoParams]
+  Title = "👋 你好，欢迎来到我的博客"
+  Content = "这里记录我的想法、技术和生活"
+
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/2326239842"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    style = "monokai"

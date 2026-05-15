@@ -1,0 +1,29 @@
+{{ if .Site.Params.comments }}
+<section class="comments" style="margin-top: 2rem; padding: 1.5rem; background: var(--entry-content-bg, #f8f9fa); border-radius: 8px;">
+  <h2>💬 评论区</h2>
+  <p style="color: var(--entry-content-color, #666); font-size: 0.9em;">欢迎留言交流，支持匿名评论</p>
+  <div id="tcomment"></div>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      initTwikoo();
+    });
+    function initTwikoo() {
+      if (typeof twikoo !== 'undefined') {
+        renderTwikoo();
+      } else {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js';
+        script.onload = renderTwikoo;
+        document.body.appendChild(script);
+      }
+    }
+    function renderTwikoo() {
+      twikoo.init({
+        envId: '{{ .Site.Params.twikooEnvId }}',
+        el: '#tcomment',
+        region: '',
+      });
+    }
+  </script>
+</section>
+{{ end }}
