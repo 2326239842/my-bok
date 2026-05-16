@@ -428,7 +428,7 @@ openclaw onboard
 <p class="oc-anim">第一次使用时，我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token。每个模型赠送了 100 万 Token 的免费额度，对于初次体验来说足够了。</p>
 
 <div class="oc-img oc-anim">
-<img src="/images/aliyun-bailian.png" alt="阿里云百炼大模型平台">
+<img src="/images/阿里云百炼大模型.png" alt="阿里云百炼大模型平台">
 <div class="oc-img-cap">🖼️ 阿里云百炼大模型平台 —— 提供 155 个模型的免费额度，每个模型 100 万 Token</div>
 </div>
 
@@ -444,7 +444,7 @@ openclaw onboard
 <p class="oc-anim">然而甜蜜期很快就结束了——免费模型的 Token 开始限速了。每分钟只能处理很少的请求，做稍微复杂一点的任务就要等很久。</p>
 
 <div class="oc-img oc-anim">
-<img src="/images/xiaomi-mimo.png" alt="小米百亿Token计划">
+<img src="/images/小米百亿toekn计划.png" alt="小米百亿Token计划">
 <div class="oc-img-cap">🖼️ 小米 MiMo 百亿 Token 计划 —— Standard 月度套餐提供 2 亿 Credits，支持 OpenClaw 等主流编程工具</div>
 </div>
 
@@ -548,17 +548,17 @@ openclaw onboard
 </div>
 
 <div class="oc-img oc-anim">
-<img src="/images/openclaw-usage.png" alt="OpenClaw 实际使用截图">
+<img src="/images/openclaw实际使用.png" alt="OpenClaw 实际使用截图">
 <div class="oc-img-cap">🖼️ OpenClaw 实际使用截图 —— 告诉它需求，它就帮你搞定一切，包括 3D 樱花浮岛、粒子花瓣飘落等复杂效果</div>
 </div>
 
 <div class="oc-img oc-anim">
-<img src="/images/cloudflare-dashboard.png" alt="Cloudflare 配置截图">
+<img src="/images/cloudflare主页配置网站 图.png" alt="Cloudflare 配置截图">
 <div class="oc-img-cap">🖼️ Cloudflare 控制台 —— 网站部署后的管理界面，可以看到域名、Workers 和流量数据</div>
 </div>
 
 <div class="oc-img oc-anim">
-<img src="/images/github-projects.png" alt="GitHub 项目截图">
+<img src="/images/GitHub项目布置.png" alt="GitHub 项目截图">
 <div class="oc-img-cap">🖼️ GitHub 仓库 —— 通过 OpenClaw 直接管理代码仓库，实现网站的版本控制和部署</div>
 </div>
 
@@ -571,7 +571,7 @@ openclaw onboard
 <p class="oc-anim">使用 OpenClaw 期间，我查看了它的使用数据：</p>
 
 <div class="oc-img oc-anim">
-<img src="/images/openclaw-stats.png" alt="OpenClaw 使用统计">
+<img src="/images/openclaw使用记录.png" alt="OpenClaw 使用统计">
 <div class="oc-img-cap">🖼️ OpenClaw 使用统计 —— 317 条消息，14.1M Token 消耗，202 次工具调用，缓存命中率 97.6%</div>
 </div>
 
