@@ -23,7 +23,19 @@ function parseFrontMatter(content) {
   match[1].split('\n').forEach(line => {
     const [key, ...vals] = line.split(':');
     if (key && vals.length) {
-      meta[key.trim()] = vals.join(':').trim().replace(/^["']|["']$/g, '');
+      let val = vals.join(':').trim();
+      // 兼容 YAML 数组格式: ["a", "b", "c"]
+      if (val.startsWith('[') && val.endsWith(']')) {
+        try {
+          val = JSON.parse(val);
+        } catch(e) {
+          // fallback: 去掉 [] 再按逗号分割
+          val = val.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+        }
+      } else {
+        val = val.replace(/^["']|["']$/g, '');
+      }
+      meta[key.trim()] = val;
     }
   });
   return { meta, body: match[2] };
@@ -109,13 +121,16 @@ function build() {
     const basename = path.basename(file);
     const { meta, body } = parseFrontMatter(raw);
 
-    const content = escapeForTemplateLiteral(mdToHtml(body));
+    // 如果正文以 HTML 标签开头（来自 content/posts/），直接保留原文
+    // 否则通过 mdToHtml 转换（来自旧 posts/）
+    const isHtml = /^\s*</.test(body.trim());
+    const content = isHtml ? escapeForTemplateLiteral(body.trim()) : escapeForTemplateLiteral(mdToHtml(body));
 
     articles.push({
       id: idx + 1,
       title: meta.title || basename.replace('.md', ''),
       date: meta.date || new Date().toISOString().split('T')[0],
-      tags: meta.tags ? meta.tags.split(',').map(t => t.trim()) : [],
+      tags: Array.isArray(meta.tags) ? meta.tags : (meta.tags ? meta.tags.split(',').map(t => t.trim()) : []),
       summary: meta.summary || body.substring(0, 100).replace(/[#*>\-]/g, '').trim() + '...',
       content: content,
       image: meta.image || '',
