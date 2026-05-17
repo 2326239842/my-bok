@@ -192,6 +192,18 @@ a:hover{text-decoration:underline}
         <a class="side-link" href="mailto:hello@example.com">📧 邮件</a>
       </div>
       <div class="side-section">
+        <h4>💭 随机一句</h4>
+        <div id="sideQuote" style="font-size:.8rem;color:var(--tx2);line-height:1.6;font-style:italic;padding:.5rem 0"></div>
+      </div>
+      <div class="side-section">
+        <h4>⏱️ 站点运行</h4>
+        <div id="sideUptime" style="font-size:.82rem;color:var(--tx2)"></div>
+      </div>
+      <div class="side-section">
+        <h4>📁 文章归档</h4>
+        <div id="sideArchives"></div>
+      </div>
+      <div class="side-section">
         <h4>热门标签</h4>
         <div class="side-tags" id="sideTags"></div>
       </div>
@@ -235,7 +247,7 @@ let curTag=null,curArt=null,isDark=true;
 
 // ===== Init =====
 document.addEventListener('DOMContentLoaded',()=>{
-  initTags();renderCards();updateStats();initScroll();
+  initTags();renderCards();updateStats();initScroll();initQuote();initUptime();initArchives();
 });
 
 // ===== Tags =====
@@ -258,10 +270,12 @@ function pickTag(t){
 const PER_PAGE=30;let curPage=1;
 function renderCards(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const mf=window._monthFilter;
   const list=articles.filter(a=>{
     const tagOk=!curTag||a.tags.includes(curTag);
+    const monthOk=!mf||a.date.startsWith(mf);
     const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
-    return tagOk&&sOk;
+    return tagOk&&monthOk&&sOk;
   });
   const totalPages=Math.ceil(list.length/PER_PAGE)||1;
   if(curPage>totalPages)curPage=totalPages;
@@ -402,6 +416,62 @@ function updateStats(){
   const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
   document.getElementById('statTags').textContent=tags.size;
   document.getElementById('statComments').textContent=totalComments();
+}
+
+// ===== 随机一句 =====
+const quotes=[
+  {text:'代码是写给人看的，顺便让机器执行。',author:'Harold Abelson'},
+  {text:'先让它能用，再让它好用，最后让它快。',author:'Kent Beck'},
+  {text:'任何足够先进的技术，都与魔法无异。',author:'Arthur C. Clarke'},
+  {text:'简单是终极的复杂。',author:'达芬奇'},
+  {text:'学而不思则罔，思而不学则殆。',author:'孔子'},
+  {text:'种一棵树最好的时间是十年前，其次是现在。',author:'中国谚语'},
+  {text:'完成比完美更重要。',author:'Facebook 格言'},
+  {text:'Stay hungry, stay foolish.',author:'Steve Jobs'},
+  {text:'好的设计是尽可能少的设计。',author:'Dieter Rams'},
+  {text:'工具不会定义人，但人可以用工具定义自己。',author:'Yadong'}
+];
+function initQuote(){
+  const q=quotes[Math.floor(Math.random()*quotes.length)];
+  document.getElementById('sideQuote').innerHTML=`"${q.text}"<div style="margin-top:.4rem;color:var(--tx3);font-style:normal;font-size:.72rem">— ${q.author}</div>`;
+}
+
+// ===== 站点运行时间 =====
+const SITE_START=new Date('2026-05-15');
+function initUptime(){
+  function update(){
+    const now=new Date();
+    const diff=now-SITE_START;
+    const days=Math.floor(diff/(1000*60*60*24));
+    const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const mins=Math.floor((diff%(1000*60*60))/(1000*60));
+    document.getElementById('sideUptime').innerHTML=`<span style="color:var(--ac)">●</span> 已运行 <b>${days}</b> 天 <b>${hours}</b> 时 <b>${mins}</b> 分`;
+  }
+  update();setInterval(update,60000);
+}
+
+// ===== 文章归档 =====
+function initArchives(){
+  const months={};
+  articles.forEach(a=>{
+    const m=a.date.substring(0,7);
+    if(!months[m])months[m]=0;
+    months[m]++;
+  });
+  const sorted=Object.keys(months).sort().reverse();
+  document.getElementById('sideArchives').innerHTML=sorted.map(m=>{
+    const [y,mo]=m.split('-');
+    return `<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="pickMonth('${m}')"><span>${y}年${parseInt(mo)}月</span><span style="color:var(--tx3)">${months[m]} 篇</span></div>`;
+  }).join('');
+}
+function pickMonth(m){
+  curTag=null;curPage=1;
+  const filtered=articles.filter(a=>a.date.startsWith(m));
+  // Temporarily override filter for renderCards
+  const orig=articles.slice();
+  window._monthFilter=m;
+  renderCards();
+  window._monthFilter=null;
 }
 
 // ===== Lightbox =====
