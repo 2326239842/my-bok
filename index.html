@@ -5,452 +5,404 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Yadong's Blog</title>
 <style>
-/* ===== Reset ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0d0d0d;--bg-card:#161616;--bg-card-hover:#1c1c1c;
-  --border:#222;--border-hover:#333;
-  --text:#e8e8e8;--text-sec:#999;--text-muted:#555;
-  --accent:#00f0a8;--accent-soft:rgba(0,240,168,.1);
-  --accent-glow:rgba(0,240,168,.25);
-  --radius:12px;--radius-sm:8px;
-  --font:-apple-system,BlinkMacSystemFont,'SF Pro Text','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
-  --mono:'SF Mono','Fira Code','JetBrains Mono',Consolas,monospace;
-  --max-w:860px;--nav-h:56px;
+--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--bg4:#222230;
+--bdr:#2a2a3a;--bdr2:#3a3a50;
+--tx:#eee;--tx2:#aaa;--tx3:#666;
+--ac:#00e89d;--ac2:rgba(0,232,157,.12);--ac3:rgba(0,232,157,.3);
+--r:12px;--r2:8px;
+--font:-apple-system,BlinkMacSystemFont,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+--mono:'SF Mono','JetBrains Mono',Consolas,monospace;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.7}
+a{color:var(--ac);text-decoration:none}
 a:hover{text-decoration:underline}
 
-/* ===== Reading Progress ===== */
-#progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1001;width:0;transition:width .1s}
+/* Progress */
+#progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--ac),#7c6aef);z-index:1001;width:0;transition:width .1s}
 
-/* ===== Nav ===== */
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2rem);background:rgba(13,13,13,.6);backdrop-filter:blur(0px);transition:backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
-.nav.scrolled{backdrop-filter:blur(20px);border-bottom-color:var(--border)}
-.nav-title{font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
-.nav-links{display:flex;gap:1.5rem;align-items:center}
-.nav-links a{font-size:.85rem;color:var(--text-sec);transition:color .2s}
-.nav-links a:hover{color:var(--text);text-decoration:none}
-#theme-toggle{background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--text-sec);transition:color .2s}
-#theme-toggle:hover{color:var(--text)}
-#search-toggle{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--text-sec)}
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,3vw,2rem);background:rgba(10,10,15,.5);backdrop-filter:blur(0);transition:all .3s;border-bottom:1px solid transparent}
+.nav.scrolled{backdrop-filter:blur(20px);border-bottom-color:var(--bdr)}
+.nav-logo{font-size:1rem;font-weight:700;color:var(--tx)}
+.nav-r{display:flex;gap:1rem;align-items:center}
+.nav-r button{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--tx2)}
+.nav-r button:hover{color:var(--tx)}
 
-/* ===== Hero ===== */
-.hero{padding:calc(var(--nav-h) + 3rem) clamp(1rem,4vw,2rem) 2rem;max-width:var(--max-w);margin:0 auto}
-.hero h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem}
-.hero p{color:var(--text-sec);font-size:1rem}
+/* Layout */
+.layout{display:flex;max-width:1200px;margin:0 auto;padding:calc(52px + 2rem) clamp(1rem,3vw,2rem) 3rem;gap:2rem}
+.main{flex:7;min-width:0}
+.side{flex:3;min-width:260px;max-width:320px}
 
-/* ===== Search Bar ===== */
-.search-wrap{max-width:var(--max-w);margin:0 auto;padding:0 clamp(1rem,4vw,2rem);display:none}
+/* Sidebar */
+.side-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem;position:sticky;top:calc(52px + 1.5rem)}
+.side-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--ac),#7c6aef);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto .8rem;box-shadow:0 0 30px var(--ac3)}
+.side-name{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:.3rem}
+.side-bio{font-size:.82rem;color:var(--tx2);text-align:center;line-height:1.6;margin-bottom:1rem}
+.side-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.side-stat{background:var(--bg3);border-radius:var(--r2);padding:.6rem;text-align:center}
+.side-stat-num{font-size:1.1rem;font-weight:700;color:var(--ac)}
+.side-stat-lbl{font-size:.7rem;color:var(--tx3)}
+.side-links{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
+.side-link{padding:.35rem .7rem;border-radius:999px;font-size:.75rem;background:var(--bg3);color:var(--tx2);border:1px solid var(--bdr);transition:all .2s}
+.side-link:hover{border-color:var(--ac);color:var(--ac);text-decoration:none}
+.side-section{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--bdr)}
+.side-section h4{font-size:.8rem;color:var(--tx3);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em}
+.side-tags{display:flex;gap:.3rem;flex-wrap:wrap}
+
+/* Tags */
+.tags-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.tag-btn{padding:.3rem .7rem;border-radius:999px;font-size:.75rem;background:var(--bg3);border:1px solid var(--bdr);color:var(--tx2);cursor:pointer;transition:all .2s;font-family:var(--font)}
+.tag-btn:hover,.tag-btn.active{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+
+/* Search */
+.search-wrap{display:none;margin-bottom:1rem}
 .search-wrap.active{display:block}
-.search-input{width:100%;padding:.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .2s}
-.search-input:focus{border-color:var(--accent)}
-.search-input::placeholder{color:var(--text-muted)}
+.search-input{width:100%;padding:.65rem 1rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-size:.88rem;font-family:var(--font);outline:none}
+.search-input:focus{border-color:var(--ac)}
+.search-input::placeholder{color:var(--tx3)}
 
-/* ===== Tags ===== */
-.tags-bar{max-width:var(--max-w);margin:1rem auto;padding:0 clamp(1rem,4vw,2rem);display:flex;gap:.5rem;flex-wrap:wrap}
-.tag-btn{padding:.35rem .85rem;border-radius:999px;font-size:.78rem;font-weight:500;background:var(--bg-card);border:1px solid var(--border);color:var(--text-sec);cursor:pointer;transition:all .2s;font-family:var(--font)}
-.tag-btn:hover,.tag-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+/* Article Cards */
+.articles{display:flex;flex-direction:column;gap:.8rem}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.1rem 1.3rem;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(16px)}
+.card.visible{opacity:1;transform:translateY(0)}
+.card:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.card-title{font-size:1rem;font-weight:600;flex:1}
+.card-date{font-size:.72rem;color:var(--tx3);white-space:nowrap}
+.card-summary{font-size:.85rem;color:var(--tx2);line-height:1.6;margin-bottom:.5rem}
+.card-bottom{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.card-tag{font-size:.68rem;padding:.15rem .5rem;border-radius:999px;background:var(--ac2);color:var(--ac)}
+.card-comments{font-size:.72rem;color:var(--tx3);margin-left:auto}
 
-/* ===== Article Grid ===== */
-.articles{max-width:var(--max-w);margin:1rem auto;padding:0 clamp(1rem,4vw,2rem) 4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.article-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;opacity:0;transform:translateY(20px)}
-.article-card.visible{opacity:1;transform:translateY(0)}
-.article-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.4);border-color:var(--border-hover)}
-.card-img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--bg-card-hover)}
-.card-img.lazy{filter:blur(10px);transition:filter .5s}
-.card-img.loaded{filter:blur(0)}
-.card-body{padding:1.1rem 1.2rem}
-.card-date{font-size:.75rem;color:var(--text-muted);margin-bottom:.4rem}
-.card-title{font-size:1rem;font-weight:600;margin-bottom:.4rem;line-height:1.4}
-.card-summary{font-size:.85rem;color:var(--text-sec);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-tags{display:flex;gap:.35rem;margin-top:.7rem;flex-wrap:wrap}
-.card-tag{font-size:.7rem;padding:.15rem .5rem;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
-
-/* ===== Article Detail ===== */
-.detail{display:none;max-width:var(--max-w);margin:0 auto;padding:calc(var(--nav-h) + 2rem) clamp(1rem,4vw,2rem) 4rem}
+/* Detail */
+.detail{display:none}
 .detail.active{display:block}
-.detail-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--text-sec);margin-bottom:1.5rem;cursor:pointer}
-.detail-back:hover{color:var(--accent);text-decoration:none}
-.detail-meta{margin-bottom:1.5rem}
-.detail-meta h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
-.detail-meta .meta-line{font-size:.82rem;color:var(--text-muted);display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
-.detail-cover{width:100%;border-radius:var(--radius);margin-bottom:1.5rem;max-height:400px;object-fit:cover}
-.detail-content{font-size:1rem;line-height:1.85;color:var(--text)}
-.detail-content h2{font-size:1.4rem;font-weight:700;margin:2rem 0 .8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
-.detail-content h3{font-size:1.15rem;font-weight:600;margin:1.5rem 0 .6rem}
-.detail-content p{margin-bottom:1rem}
-.detail-content img{max-width:100%;border-radius:var(--radius-sm);cursor:pointer;transition:transform .3s}
-.detail-content img:hover{transform:scale(1.01)}
-.detail-content pre{background:#1a1a1a;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;overflow-x:auto;margin:1rem 0;position:relative;font-size:.85rem}
-.detail-content code{font-family:var(--mono);font-size:.85rem}
-.detail-content :not(pre)>code{background:#1a1a1a;padding:.15rem .4rem;border-radius:4px;font-size:.82rem}
-.detail-content blockquote{border-left:3px solid var(--accent);padding:.8rem 1rem;margin:1rem 0;background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:var(--text-sec)}
-.detail-content ul,.detail-content ol{padding-left:1.5rem;margin-bottom:1rem}
-.detail-content li{margin-bottom:.3rem}
-.detail-content table{width:100%;border-collapse:collapse;margin:1rem 0}
-.detail-content th,.detail-content td{padding:.5rem .8rem;border:1px solid var(--border);text-align:left;font-size:.9rem}
-.detail-content th{background:var(--bg-card);font-weight:600}
+.back-btn{display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;color:var(--tx2);margin-bottom:1rem;cursor:pointer}
+.back-btn:hover{color:var(--ac)}
+.d-meta{margin-bottom:1.5rem}
+.d-meta h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:.4rem}
+.d-meta .d-info{font-size:.8rem;color:var(--tx3);display:flex;gap:1rem;flex-wrap:wrap}
+.d-content{font-size:.95rem;line-height:1.85;color:var(--tx)}
+.d-content h2{font-size:1.3rem;font-weight:700;margin:1.8rem 0 .6rem;padding-bottom:.3rem;border-bottom:1px solid var(--bdr)}
+.d-content h3{font-size:1.1rem;font-weight:600;margin:1.3rem 0 .5rem}
+.d-content p{margin-bottom:.8rem}
+.d-content pre{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r2);padding:.8rem 1rem;overflow-x:auto;margin:1rem 0;position:relative}
+.d-content code{font-family:var(--mono);font-size:.82rem}
+.d-content :not(pre)>code{background:var(--bg3);padding:.12rem .35rem;border-radius:4px}
+.d-content blockquote{border-left:3px solid var(--ac);padding:.6rem 1rem;margin:.8rem 0;background:var(--ac2);border-radius:0 var(--r2) var(--r2) 0;color:var(--tx2)}
+.d-content img{max-width:100%;border-radius:var(--r2);cursor:zoom-in}
+.d-content ul,.d-content ol{padding-left:1.3rem;margin-bottom:.8rem}
+.d-content li{margin-bottom:.2rem}
+.copy-btn{position:absolute;top:.4rem;right:.4rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:.2rem .5rem;font-size:.7rem;color:var(--tx2);cursor:pointer;font-family:var(--font)}
+.copy-btn:hover{border-color:var(--ac);color:var(--ac)}
 
-/* Audio Player */
-.audio-player{margin:1.5rem 0;padding:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;gap:1rem}
-.audio-player audio{flex:1;height:36px}
+/* Comments */
+.comments{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
+.comments h3{font-size:1rem;font-weight:600;margin-bottom:1rem}
+.comment-form{margin-bottom:1.5rem}
+.comment-form textarea{width:100%;min-height:80px;padding:.7rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-family:var(--font);font-size:.88rem;resize:vertical;outline:none}
+.comment-form textarea:focus{border-color:var(--ac)}
+.comment-form .row{display:flex;gap:.5rem;margin-top:.5rem}
+.comment-form input{flex:1;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-size:.82rem;font-family:var(--font);outline:none}
+.comment-form input:focus{border-color:var(--ac)}
+.comment-form button{padding:.5rem 1rem;background:var(--ac);color:#0a0a0f;border:none;border-radius:var(--r2);font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--font)}
+.comment-form button:hover{opacity:.9}
+.cmt-list{display:flex;flex-direction:column;gap:.8rem}
+.cmt{background:var(--bg3);border-radius:var(--r2);padding:.8rem 1rem}
+.cmt-top{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.cmt-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.cmt-name{font-size:.82rem;font-weight:600}
+.cmt-time{font-size:.68rem;color:var(--tx3);margin-left:auto}
+.cmt-text{font-size:.85rem;color:var(--tx2);line-height:1.6}
+.cmt-delete{font-size:.68rem;color:var(--tx3);cursor:pointer;margin-left:.5rem}
+.cmt-delete:hover{color:#f44}
 
-/* Code Copy */
-.code-wrap{position:relative}
-.copy-btn{position:absolute;top:.5rem;right:.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.72rem;color:var(--text-sec);cursor:pointer;transition:all .2s;font-family:var(--font);z-index:1}
-.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
-.copy-btn.copied{border-color:var(--accent);color:var(--accent)}
-
-/* TOC Sidebar */
-.toc-sidebar{position:fixed;top:calc(var(--nav-h) + 1rem);right:clamp(1rem,3vw,3rem);width:200px;max-height:calc(100vh - var(--nav-h) - 2rem);overflow-y:auto;font-size:.78rem;display:none;z-index:100}
-.detail.active ~ .toc-sidebar{display:block}
-.toc-sidebar a{display:block;padding:.25rem 0;color:var(--text-muted);transition:color .2s;line-height:1.4}
-.toc-sidebar a:hover,.toc-sidebar a.active{color:var(--accent);text-decoration:none}
-.toc-sidebar .toc-h3{padding-left:1rem}
-@media(max-width:1100px){.toc-sidebar{display:none!important}}
+/* TOC */
+.toc{position:fixed;top:calc(52px + 2rem);right:clamp(1rem,2vw,2rem);width:180px;font-size:.75rem;display:none;z-index:100}
+.detail.active~.toc{display:block}
+.toc a{display:block;padding:.2rem 0;color:var(--tx3);transition:color .2s;line-height:1.4}
+.toc a:hover,.toc a.active{color:var(--ac);text-decoration:none}
+.toc .h3{padding-left:.8rem}
+@media(max-width:1100px){.toc{display:none!important}}
 
 /* Lightbox */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
-.lightbox.active{display:flex}
-.lightbox img{max-width:90vw;max-height:90vh;border-radius:var(--radius-sm)}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:90vw;max-height:90vh;border-radius:var(--r2)}
 
-/* Back to Top */
-#back-top{position:fixed;bottom:2rem;right:2rem;width:42px;height:42px;border-radius:50%;background:var(--accent);color:#0d0d0d;border:none;font-size:1.1rem;cursor:pointer;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:1000;display:flex;align-items:center;justify-content:center}
-#back-top.visible{opacity:1;transform:translateY(0)}
-#back-top:hover{box-shadow:0 0 20px var(--accent-glow)}
+/* Back top */
+#btop{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--ac);color:#0a0a0f;border:none;font-size:1rem;cursor:pointer;opacity:0;transition:all .3s;z-index:1000;display:flex;align-items:center;justify-content:center}
+#btop.on{opacity:1}
+#btop:hover{box-shadow:0 0 20px var(--ac3)}
 
-/* Page Load Animation */
-@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.page-enter{animation:fadeInUp .5s ease forwards}
-
-/* Footer */
-.footer{text-align:center;padding:2rem;color:var(--text-muted);font-size:.78rem;border-top:1px solid var(--border)}
-
-/* ===== Responsive ===== */
+/* Responsive */
 @media(max-width:768px){
-  .articles{grid-template-columns:1fr}
-  .nav-links .hide-mobile{display:none}
-  .toc-sidebar{display:none!important}
-  .detail-content pre{font-size:.8rem;padding:.8rem}
-}
-@media(min-width:1400px){
-  .articles{grid-template-columns:repeat(3,1fr)}
+  .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
+  .side{max-width:100%;position:relative;top:0}
+  .side-card{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+  .side-avatar{margin:0;width:50px;height:50px;font-size:1.4rem}
+  .side-name,.side-bio,.side-stats,.side-links,.side-section{text-align:left}
+  .side-stats{grid-template-columns:repeat(4,1fr)}
+  .toc{display:none!important}
 }
 </style>
 </head>
 <body>
 
-<!-- Reading Progress -->
 <div id="progress"></div>
 
-<!-- Nav -->
 <nav class="nav" id="nav">
-  <a href="#" class="nav-title" onclick="showHome();return false">Yadong's Blog</a>
-  <div class="nav-links">
-    <button id="search-toggle" onclick="toggleSearch()" title="搜索">🔍</button>
-    <button id="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
-    <a href="#about" class="hide-mobile">关于</a>
+  <a href="#" class="nav-logo" onclick="showHome();return false">📝 Yadong</a>
+  <div class="nav-r">
+    <button onclick="toggleSearch()" title="搜索">🔍</button>
+    <button onclick="toggleTheme()" title="主题">🌙</button>
   </div>
 </nav>
 
-<!-- Search -->
-<div class="search-wrap" id="searchWrap">
-  <input class="search-input" id="searchInput" type="text" placeholder="搜索文章标题或内容..." oninput="filterArticles()">
-</div>
-
-<!-- Tags -->
-<div class="tags-bar" id="tagsBar"></div>
-
-<!-- Home: Article List -->
-<div id="homePage">
-  <div class="hero page-enter">
-    <h1>📝 我的博客</h1>
-    <p>记录想法、技术与生活。</p>
+<div class="layout" id="layout">
+  <!-- Main -->
+  <div class="main" id="mainArea">
+    <div id="homeView">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-input" id="searchInput" placeholder="搜索文章..." oninput="renderCards()">
+      </div>
+      <div class="tags-bar" id="tagsBar"></div>
+      <div class="articles" id="cards"></div>
+    </div>
+    <div class="detail" id="detailView"></div>
   </div>
-  <div class="articles" id="articleGrid"></div>
+
+  <!-- Sidebar -->
+  <div class="side">
+    <div class="side-card">
+      <div class="side-avatar">🧑‍💻</div>
+      <div class="side-name">Yadong</div>
+      <div class="side-bio">写代码的，偶尔写点别的。<br>喜欢折腾，喜欢把想法变成现实。</div>
+      <div class="side-stats">
+        <div class="side-stat"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
+        <div class="side-stat"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
+        <div class="side-stat"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
+        <div class="side-stat"><div class="side-stat-num">☕</div><div class="side-stat-lbl">续命中</div></div>
+      </div>
+      <div class="side-links">
+        <a class="side-link" href="https://github.com/2326239842" target="_blank">🐙 GitHub</a>
+        <a class="side-link" href="mailto:hello@example.com">📧 邮件</a>
+      </div>
+      <div class="side-section">
+        <h4>热门标签</h4>
+        <div class="side-tags" id="sideTags"></div>
+      </div>
+      <div class="side-section">
+        <h4>最近文章</h4>
+        <div id="sideRecent"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- Detail -->
-<div class="detail" id="detailPage"></div>
-
-<!-- TOC Sidebar -->
-<div class="toc-sidebar" id="tocSidebar"></div>
-
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightboxImg" src="" alt="">
-</div>
-
-<!-- Back to Top -->
-<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<!-- Footer -->
-<div class="footer" id="footer">© 2026 Yadong's Blog · Made with ❤️</div>
+<div class="toc" id="toc"></div>
+<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbImg"></div>
+<button id="btop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ===== Article Data =====
-const articles = [
-  {
-    "id": 1,
-    "title": "Hello World - 我的第一篇博客",
-    "date": "2026-05-15",
-    "tags": [
-      "技术",
-      "前端"
-    ],
-    "summary": "欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",
-    "content": "<p><br><h2>为什么写博客</h2></p><p>一直想有个自己的博客，记录学习和生活。之前用过 WordPress、Hugo，这次想试试最纯粹的方式：纯静态 HTML，一个文件搞定一切。</p><p><h2>技术选型</h2></p><p>最终选择了：</p><p><ul><li>HTML5 + CSS3 + 原生 JavaScript</li></ul><br><ul><li>零 npm 依赖</li></ul><br><ul><li>Cloudflare Pages 部署</li></ul></p><p><h2>Hello World</h2></p><p>这是每程序员的第一步。从这个简单的输出开始，到搭建完整的博客系统，每一步都是学习。</p><p><pre><code class=\"language-javascript\">console.log(\"Hello World!\");<br></code></pre></p><p>期待在这里记录更多有趣的故事。<br></p>",
-    "image": "",
-    "audio": ""
-  }
+// ===== 数据 =====
+const articles=[
+{id:1,title:"周末的一天",date:"2026-05-16 14:30",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2><p>周末的早晨总是醒得比工作日早。拉开窗帘，阳光洒进来，又是新的一天。</p><h2>上午</h2><p>泡了一杯咖啡，打开电脑看了会代码。最近在研究 Three.js，想做个3D小岛的互动页面。</p><blockquote>好的工具能让生活更高效，所以总是在造轮子的路上。</blockquote><h2>下午</h2><p>出门走了走，春天的风很舒服。路过一家新开的咖啡店，装修很有格调。</p><h3>关于设计</h3><p>好的设计不是加法，而是减法。留白、节奏、层次，这些比花哨的效果更重要。</p><h2>晚上</h2><p>回来继续写博客系统。用纯 HTML + CSS + JS 搭了一个单文件博客，零依赖。</p><pre><code>const articles = [{ id: 1, title: "周末的一天" }];</code></pre><p>这就是我的周末，平淡但充实。</p>`,image:"",audio:""},
+{id:2,title:"Hello World - 我的第一篇博客",date:"2026-05-15 10:00",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2><p>一直想有个自己的博客，记录学习和生活。之前用过 WordPress、Hugo，这次想试试最纯粹的方式：纯静态 HTML，一个文件搞定一切。</p><h2>技术选型</h2><p>最终选择了：</p><ul><li>HTML5 + CSS3 + 原生 JavaScript</li><li>零 npm 依赖</li><li>Cloudflare Pages 部署</li></ul><h2>Hello World</h2><p>这是每程序员的第一步。从这个简单的输出开始，到搭建完整的博客系统，每一步都是学习。</p><pre><code>console.log("Hello World!");</code></pre><p>期待在这里记录更多有趣的故事。</p>`,image:"",audio:""},
+{id:3,title:"前端性能优化笔记",date:"2026-05-10 09:15",tags:["技术","前端","性能"],summary:"整理前端性能优化的常见手段，从加载到渲染全覆盖。",content:`<h2>加载优化</h2><p>首屏加载速度直接影响用户体验。</p><h3>资源优化</h3><ul><li><strong>代码分割</strong>：按路由拆分</li><li><strong>图片优化</strong>：WebP、懒加载</li><li><strong>字体优化</strong>：font-display: swap</li></ul><h2>渲染优化</h2><pre><code>.card{will-change:transform;transition:transform .3s}
+.card:hover{transform:translateY(-4px)}</code></pre><blockquote>性能优化不是一次性的工作，而是持续的过程。</blockquote>`,image:"",audio:""},
+{id:4,title:"Three.js 低多边形场景入门",date:"2026-05-08 16:45",tags:["技术","3D"],summary:"用 Three.js 创建 Low Poly 3D 场景的入门教程。",content:`<h2>什么是 Low Poly</h2><p>Low Poly 是一种用少量多边形建模的3D风格。</p><h2>搭建场景</h2><pre><code>const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75,w/h,.1,1000);
+const renderer = new THREE.WebGLRenderer({antialias:true});</code></pre><h2>创建几何体</h2><pre><code>const geo = new THREE.IcosahedronGeometry(1,1);
+const mat = new THREE.MeshPhongMaterial({color:0x00e89d,flatShading:true});</code></pre><p>这就是低多边形的入门，后面会尝试更复杂的场景。</p>`,image:"",audio:""},
+{id:5,title:"我的歌单推荐",date:"2026-05-05 20:00",tags:["音乐","生活"],summary:"最近循环播放的一些歌，适合编码时听。",content:`<h2>编码时的 BGM</h2><h3>Lo-Fi / Chill</h3><ul><li>Lofi Hip Hop Radio</li><li>Chillhop Music</li></ul><h3>电子 / Ambient</h3><ul><li>Tycho - A Walk</li><li>Boards of Canada - Dayvan Cowboy</li></ul><blockquote>音乐是编码的第四维度。</blockquote>`,image:"",audio:""},
+{id:6,title:"OpenClaw 使用后感：从踩坑到真香",date:"2026-05-16 19:00",tags:["OpenClaw","AI Agent","技术"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。",content:`<h2>初识 OpenClaw</h2><p>OpenClaw 刚发布时，一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。作为技术小白，这些描述简直是致命的吸引力。</p><h2>Windows 上的艰难安装</h2><p>第一次安装连命令行都输错了。需要先安装 Node.js 和 Git，然后在 PowerShell 中解除脚本执行限制。</p><pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser\niwr -useb https://openclaw.ai/install.ps1 | iex</code></pre><h2>再次归来</h2><p>第二次使用是最近这段时间。新一代大模型彻底改变了局面，尤其是 DeepSeek，百万 Token 低至 0.02 元。</p><blockquote>三四天时间就可以完成网站的搭建、运行和各种数据库配置。对于一个普通人而言，这在以前是无法想象的。</blockquote>`,image:"",audio:""},
+{id:7,title:"用 OpenClaw 搭建双站的一天",date:"2026-05-16 20:57",tags:["OpenClaw","Three.js","Cloudflare"],summary:"从零搭建个人介绍站和博客站，包含 3D 樱花浮岛、匿名评论系统的完整过程。",content:`<h2>今天做了什么</h2><p>一个下午 + 晚上，用 OpenClaw 从零搭建了两个网站。</p><h2>个人介绍站：3D 樱花浮岛</h2><ul><li>Three.js 低多边形浮岛</li><li>点击树枝花瓣爆发 + 对白气泡</li><li>月亮月相变化 + 音乐播放器</li><li>深浅色模式 + 响应式适配</li></ul><h2>博客站：匿名评论系统</h2><p>使用 Cloudflare Workers + KV 自建评论系统，完全匿名，任何人可评论。</p><pre><code>// 评论 API\nPOST /api/comments\n{ slug, name, content }</code></pre><blockquote>这证明了一件事：有了 AI Agent，一个人也能做出看起来很专业的网站。</blockquote>`,image:"",audio:""}
 ];
 
-// ===== State =====
-let currentTag = null;
-let currentArticle = null;
-let isDark = true;
+// 按日期倒序排列（最新在最上面）
+articles.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+// ===== 评论系统 =====
+function getComments(id){try{return JSON.parse(localStorage.getItem('cmt_'+id)||'[]}')}catch{return[]}}
+function saveComment(id,c){const list=getComments(id);list.push(c);localStorage.setItem('cmt_'+id,JSON.stringify(list))}
+function deleteComment(id,idx){const list=getComments(id);list.splice(idx,1);localStorage.setItem('cmt_'+id,JSON.stringify(list))}
+function totalComments(){let n=0;articles.forEach(a=>n+=getComments(a.id).length);return n}
+
+// ===== 状态 =====
+let curTag=null,curArt=null,isDark=true;
 
 // ===== Init =====
-document.addEventListener('DOMContentLoaded', () => {
-  initTags();
-  renderArticles();
-  initScrollEffects();
+document.addEventListener('DOMContentLoaded',()=>{
+  initTags();renderCards();updateStats();initScroll();
 });
 
 // ===== Tags =====
-function initTags() {
-  const tagSet = new Set();
-  articles.forEach(a => a.tags.forEach(t => tagSet.add(t)));
-  const bar = document.getElementById('tagsBar');
-  bar.innerHTML = '<button class="tag-btn active" onclick="selectTag(null)">全部</button>';
-  [...tagSet].sort().forEach(t => {
-    bar.innerHTML += `<button class="tag-btn" onclick="selectTag('${t}')">${t}</button>`;
-  });
+function initTags(){
+  const s=new Set();articles.forEach(a=>a.tags.forEach(t=>s.add(t)));
+  const bar=document.getElementById('tagsBar');
+  bar.innerHTML='<button class="tag-btn active" onclick="pickTag(null)">全部</button>';
+  [...s].sort().forEach(t=>bar.innerHTML+=`<button class="tag-btn" onclick="pickTag('${t}')">${t}</button>`);
+  // Side tags
+  const st=document.getElementById('sideTags');
+  st.innerHTML=[...s].map(t=>`<button class="tag-btn" onclick="pickTag('${t}')" style="font-size:.7rem;padding:.2rem .5rem">${t}</button>`).join('');
+}
+function pickTag(t){
+  curTag=t;
+  document.querySelectorAll('.tag-btn').forEach(b=>b.classList.toggle('active',(t===null&&b.textContent==='全部')||b.textContent===t));
+  renderCards();
 }
 
-function selectTag(tag) {
-  currentTag = tag;
-  document.querySelectorAll('.tag-btn').forEach(b => b.classList.toggle('active', 
-    (tag === null && b.textContent === '全部') || b.textContent === tag
-  ));
-  renderArticles();
-}
-
-// ===== Render Articles =====
-function renderArticles(filter = '') {
-  const grid = document.getElementById('articleGrid');
-  const q = filter.toLowerCase();
-  const list = articles.filter(a => {
-    const tagOk = !currentTag || a.tags.includes(currentTag);
-    const searchOk = !q || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.content.toLowerCase().includes(q);
-    return tagOk && searchOk;
+// ===== Render Cards =====
+function renderCards(){
+  const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+  const list=articles.filter(a=>{
+    const tagOk=!curTag||a.tags.includes(curTag);
+    const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
+    return tagOk&&sOk;
   });
-  
-  grid.innerHTML = list.map((a, i) => `
-    <div class="article-card" onclick="showArticle(${a.id})" style="animation-delay:${i * 80}ms">
-      ${a.image ? `<img class="card-img lazy" data-src="${a.image}" alt="${a.title}">` : ''}
-      <div class="card-body">
-        <div class="card-date">${a.date}</div>
+  const el=document.getElementById('cards');
+  el.innerHTML=list.map((a,i)=>{
+    const cmts=getComments(a.id).length;
+    return `<div class="card" onclick="showDetail(${a.id})" style="animation-delay:${i*60}ms">
+      <div class="card-top">
         <div class="card-title">${a.title}</div>
-        <div class="card-summary">${a.summary}</div>
-        <div class="card-tags">${a.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+        <div class="card-date">📅 ${a.date}</div>
       </div>
-    </div>
-  `).join('');
-
-  // Staggered fade-in
-  requestAnimationFrame(() => {
-    grid.querySelectorAll('.article-card').forEach((card, i) => {
-      setTimeout(() => card.classList.add('visible'), i * 80);
-    });
-  });
-
-  // Lazy load images
-  lazyLoadImages();
+      <div class="card-summary">${a.summary}</div>
+      <div class="card-bottom">
+        ${a.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}
+        <span class="card-comments">💬 ${cmts}</span>
+      </div>
+    </div>`;
+  }).join('');
+  requestAnimationFrame(()=>el.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('visible'),i*60)));
+  // Side recent
+  document.getElementById('sideRecent').innerHTML=articles.slice(0,4).map(a=>`<div style="font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="showDetail(${a.id})">${a.title}</div>`).join('');
 }
 
-// ===== Lazy Load =====
-function lazyLoadImages() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const img = e.target;
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-          img.onload = () => img.classList.add('loaded');
-          img.removeAttribute('data-src');
-        }
-        observer.unobserve(img);
-      }
-    });
-  }, { rootMargin: '200px' });
-  document.querySelectorAll('.card-img.lazy').forEach(img => observer.observe(img));
-}
-
-// ===== Show Article =====
-function showArticle(id) {
-  const a = articles.find(x => x.id === id);
-  if (!a) return;
-  currentArticle = a;
-  
-  document.getElementById('homePage').style.display = 'none';
-  document.getElementById('tagsBar').style.display = 'none';
-  document.getElementById('searchWrap').classList.remove('active');
-  
-  const detail = document.getElementById('detailPage');
-  detail.className = 'detail active page-enter';
-  detail.innerHTML = `
-    <a class="detail-back" onclick="showHome()">← 返回列表</a>
-    <div class="detail-meta">
+// ===== Detail =====
+function showDetail(id){
+  const a=articles.find(x=>x.id===id);if(!a)return;curArt=a;
+  document.getElementById('homeView').style.display='none';
+  const d=document.getElementById('detailView');
+  d.className='detail active';
+  const cmts=getComments(a.id);
+  d.innerHTML=`
+    <div class="back-btn" onclick="showHome()">← 返回</div>
+    <div class="d-meta">
       <h1>${a.title}</h1>
-      <div class="meta-line">
-        <span>📅 ${a.date}</span>
-        <span>🏷️ ${a.tags.join(', ')}</span>
-      </div>
+      <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 ${cmts.length} 条评论</span></div>
     </div>
-    ${a.image ? `<img class="detail-cover" src="${a.image}" alt="${a.title}" onclick="openLightbox(this.src)">` : ''}
-    ${a.audio ? `
-    <div class="audio-player">
-      <span>🎧</span>
-      <audio controls preload="metadata"><source src="${a.audio}"></audio>
-    </div>` : ''}
-    <div class="detail-content" id="detailContent">${a.content}</div>
-  `;
-
-  // Add code copy buttons
-  detail.querySelectorAll('pre').forEach(pre => {
-    const wrap = document.createElement('div');
-    wrap.className = 'code-wrap';
-    pre.parentNode.insertBefore(wrap, pre);
-    wrap.appendChild(pre);
-    const btn = document.createElement('button');
-    btn.className = 'copy-btn';
-    btn.textContent = '复制';
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      navigator.clipboard.writeText(pre.textContent).then(() => {
-        btn.textContent = '已复制';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 1500);
-      });
-    };
-    wrap.appendChild(btn);
+    <div class="d-content" id="dContent">${a.content}</div>
+    <div class="comments">
+      <h3>💬 评论 (${cmts.length})</h3>
+      <div class="comment-form">
+        <textarea id="cmtText" placeholder="写下你的评论..."></textarea>
+        <div class="row">
+          <input id="cmtName" placeholder="你的名字" value="${localStorage.getItem('cmt_name')||''}">
+          <button onclick="postComment(${a.id})">发表</button>
+        </div>
+      </div>
+      <div class="cmt-list" id="cmtList">${renderCmts(a.id)}</div>
+    </div>`;
+  // Code copy
+  d.querySelectorAll('pre').forEach(pre=>{
+    const w=document.createElement('div');w.className='code-wrap';w.style.position='relative';
+    pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
+    const b=document.createElement('button');b.className='copy-btn';b.textContent='复制';
+    b.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(pre.textContent).then(()=>{b.textContent='✓';setTimeout(()=>b.textContent='复制',1200)})};
+    w.appendChild(b);
   });
-
-  // Add click-to-zoom on content images
-  detail.querySelectorAll('.detail-content img').forEach(img => {
-    img.style.cursor = 'zoom-in';
-    img.onclick = () => openLightbox(img.src);
-  });
-
-  // Build TOC
+  d.querySelectorAll('.d-content img').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openLB(img.src)});
   buildTOC();
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollTo({top:0,behavior:'smooth'});
 }
 
-// ===== Show Home =====
-function showHome() {
-  currentArticle = null;
-  document.getElementById('homePage').style.display = 'block';
-  document.getElementById('tagsBar').style.display = 'flex';
-  document.getElementById('detailPage').className = 'detail';
-  document.getElementById('tocSidebar').innerHTML = '';
-  renderArticles();
+function renderCmts(id){
+  return getComments(id).map((c,i)=>`<div class="cmt">
+    <div class="cmt-top"><div class="cmt-avatar">👤</div><div class="cmt-name">${esc(c.name)}</div><div class="cmt-time">${c.time}</div><span class="cmt-delete" onclick="delCmt(${id},${i})">删除</span></div>
+    <div class="cmt-text">${esc(c.text)}</div>
+  </div>`).join('')||'<div style="font-size:.85rem;color:var(--tx3)">暂无评论，来说点什么吧 ✍️</div>';
+}
+
+function postComment(id){
+  const text=document.getElementById('cmtText').value.trim();
+  const name=document.getElementById('cmtName').value.trim()||'匿名';
+  if(!text)return;
+  localStorage.setItem('cmt_name',name);
+  saveComment(id,{name,text,time:new Date().toLocaleString('zh-CN')});
+  document.getElementById('cmtText').value='';
+  document.getElementById('cmtList').innerHTML=renderCmts(id);
+  updateStats();
+}
+
+function delCmt(id,idx){deleteComment(id,idx);document.getElementById('cmtList').innerHTML=renderCmts(id);updateStats()}
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function showHome(){
+  curArt=null;
+  document.getElementById('homeView').style.display='block';
+  document.getElementById('detailView').className='detail';
+  document.getElementById('toc').innerHTML='';
+  renderCards();
 }
 
 // ===== TOC =====
-function buildTOC() {
-  const content = document.getElementById('detailContent');
-  const sidebar = document.getElementById('tocSidebar');
-  const headings = content.querySelectorAll('h2, h3');
-  if (headings.length < 2) { sidebar.innerHTML = ''; return; }
-  
-  sidebar.innerHTML = '<div style="font-weight:600;margin-bottom:.5rem;color:var(--text)">目录</div>' +
-    [...headings].map((h, i) => {
-      h.id = 'toc-' + i;
-      const cls = h.tagName === 'H3' ? 'toc-h3' : '';
-      return `<a class="${cls}" href="#toc-${i}" onclick="event.preventDefault();document.getElementById('toc-${i}').scrollIntoView({behavior:'smooth',block:'start'})">${h.textContent}</a>`;
-    }).join('');
-
-  // Active TOC highlight
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        sidebar.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-        const link = sidebar.querySelector(`a[href="#${e.target.id}"]`);
-        if (link) link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-  headings.forEach(h => obs.observe(h));
+function buildTOC(){
+  const c=document.getElementById('dContent');const t=document.getElementById('toc');
+  const hs=c.querySelectorAll('h2,h3');if(hs.length<2){t.innerHTML='';return}
+  t.innerHTML='<div style="font-weight:600;margin-bottom:.4rem;color:var(--tx);font-size:.8rem">目录</div>'+
+    [...hs].map((h,i)=>{h.id='h'+i;return`<a class="${h.tagName==='H3'?'h3':''}" href="#h${i}" onclick="event.preventDefault();document.getElementById('h${i}').scrollIntoView({behavior:'smooth',block:'start'})">${h.textContent}</a>`}).join('');
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){t.querySelectorAll('a').forEach(a=>a.classList.remove('active'));const l=t.querySelector(`a[href="#${e.target.id}"]`);if(l)l.classList.add('active')}}),{rootMargin:'-20% 0px -70% 0px'});
+  hs.forEach(h=>obs.observe(h));
 }
 
 // ===== Search =====
-function toggleSearch() {
-  const wrap = document.getElementById('searchWrap');
-  wrap.classList.toggle('active');
-  if (wrap.classList.contains('active')) {
-    document.getElementById('searchInput').focus();
-  }
-}
-
-function filterArticles() {
-  renderArticles(document.getElementById('searchInput').value);
-}
+function toggleSearch(){document.getElementById('searchWrap').classList.toggle('active');if(document.getElementById('searchWrap').classList.contains('active'))document.getElementById('searchInput').focus()}
 
 // ===== Theme =====
-function toggleTheme() {
-  isDark = !isDark;
-  document.documentElement.style.setProperty('--bg', isDark ? '#0d0d0d' : '#f5f5f5');
-  document.documentElement.style.setProperty('--bg-card', isDark ? '#161616' : '#fff');
-  document.documentElement.style.setProperty('--bg-card-hover', isDark ? '#1c1c1c' : '#fafafa');
-  document.documentElement.style.setProperty('--border', isDark ? '#222' : '#e0e0e0');
-  document.documentElement.style.setProperty('--border-hover', isDark ? '#333' : '#ccc');
-  document.documentElement.style.setProperty('--text', isDark ? '#e8e8e8' : '#1a1a1a');
-  document.documentElement.style.setProperty('--text-sec', isDark ? '#999' : '#666');
-  document.documentElement.style.setProperty('--text-muted', isDark ? '#555' : '#999');
-  document.getElementById('theme-toggle').textContent = isDark ? '🌙' : '☀️';
+function toggleTheme(){
+  isDark=!isDark;
+  const s=document.documentElement.style;
+  s.setProperty('--bg',isDark?'#0a0a0f':'#f5f5f5');
+  s.setProperty('--bg2',isDark?'#12121a':'#fff');
+  s.setProperty('--bg3',isDark?'#1a1a25':'#f0f0f0');
+  s.setProperty('--bg4',isDark?'#222230':'#e0e0e0');
+  s.setProperty('--bdr',isDark?'#2a2a3a':'#ddd');
+  s.setProperty('--bdr2',isDark?'#3a3a50':'#ccc');
+  s.setProperty('--tx',isDark?'#eee':'#1a1a1a');
+  s.setProperty('--tx2',isDark?'#aaa':'#555');
+  s.setProperty('--tx3',isDark?'#666':'#999');
+  document.querySelector('.nav-r button:last-child').textContent=isDark?'🌙':'☀️';
+}
+
+// ===== Stats =====
+function updateStats(){
+  document.getElementById('statPosts').textContent=articles.length;
+  const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
+  document.getElementById('statTags').textContent=tags.size;
+  document.getElementById('statComments').textContent=totalComments();
 }
 
 // ===== Lightbox =====
-function openLightbox(src) {
-  document.getElementById('lightboxImg').src = src;
-  document.getElementById('lightbox').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
-}
+function openLB(s){document.getElementById('lbImg').src=s;document.getElementById('lb').classList.add('on')}
 
-// ===== Scroll Effects =====
-function initScrollEffects() {
-  const nav = document.getElementById('nav');
-  const progress = document.getElementById('progress');
-  const backTop = document.getElementById('back-top');
-
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    // Nav blur
-    nav.classList.toggle('scrolled', y > 10);
-    // Progress bar
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = h > 0 ? (y / h * 100) + '%' : '0%';
-    // Back to top
-    backTop.classList.toggle('visible', y > 400);
+// ===== Scroll =====
+function initScroll(){
+  const nav=document.getElementById('nav'),prog=document.getElementById('progress'),bt=document.getElementById('btop');
+  window.addEventListener('scroll',()=>{
+    const y=scrollY;
+    nav.classList.toggle('scrolled',y>10);
+    const h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.width=h>0?(y/h*100)+'%':'0%';
+    bt.classList.toggle('on',y>400);
   });
-
-  // Keyboard shortcut: Escape to go back
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      if (document.getElementById('lightbox').classList.contains('active')) closeLightbox();
-      else if (currentArticle) showHome();
-    }
-  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))document.getElementById('lb').classList.remove('on');else if(curArt)showHome()}});
 }
 </script>
 </body>
