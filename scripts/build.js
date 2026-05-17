@@ -91,7 +91,8 @@ function escapeForTemplateLiteral(str) {
   return str
     .replace(/\\/g, '\\\\')
     .replace(/`/g, '\\`')
-    .replace(/\$/g, '\\$');
+    .replace(/\$/g, '\\$')
+    .replace(/<\/script>/gi, '<\\/script>');  // 防止浏览器提前关闭 script 标签
 }
 
 function build() {
