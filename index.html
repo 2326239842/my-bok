@@ -5,606 +5,256 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Yadong's Blog</title>
 <style>
+/* ===== Reset ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--bg4:#222230;
---bdr:#2a2a3a;--bdr2:#3a3a50;
---tx:#eee;--tx2:#aaa;--tx3:#666;
---ac:#00e89d;--ac2:rgba(0,232,157,.12);--ac3:rgba(0,232,157,.3);
---r:12px;--r2:8px;
---font:-apple-system,BlinkMacSystemFont,'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
---mono:'SF Mono','JetBrains Mono',Consolas,monospace;
+  --bg:#0d0d0d;--bg-card:#161616;--bg-card-hover:#1c1c1c;
+  --border:#222;--border-hover:#333;
+  --text:#e8e8e8;--text-sec:#999;--text-muted:#555;
+  --accent:#00f0a8;--accent-soft:rgba(0,240,168,.1);
+  --accent-glow:rgba(0,240,168,.25);
+  --radius:12px;--radius-sm:8px;
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Text','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'SF Mono','Fira Code','JetBrains Mono',Consolas,monospace;
+  --max-w:860px;--nav-h:56px;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.7}
-a{color:var(--ac);text-decoration:none}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 
-/* Progress */
-#progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--ac),#7c6aef);z-index:1001;width:0;transition:width .1s}
+/* ===== Reading Progress ===== */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1001;width:0;transition:width .1s}
 
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;height:52px;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,3vw,2rem);background:rgba(10,10,15,.5);backdrop-filter:blur(0);transition:all .3s;border-bottom:1px solid transparent}
-.nav.scrolled{backdrop-filter:blur(20px);border-bottom-color:var(--bdr)}
-.nav-logo{font-size:1rem;font-weight:700;color:var(--tx)}
-.nav-r{display:flex;gap:1rem;align-items:center}
-.nav-r button{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--tx2)}
-.nav-r button:hover{color:var(--tx)}
+/* ===== Nav ===== */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2rem);background:rgba(13,13,13,.6);backdrop-filter:blur(0px);transition:backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+.nav-title{font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-size:.85rem;color:var(--text-sec);transition:color .2s}
+.nav-links a:hover{color:var(--text);text-decoration:none}
+#theme-toggle{background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--text-sec);transition:color .2s}
+#theme-toggle:hover{color:var(--text)}
+#search-toggle{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--text-sec)}
 
-/* Layout */
-.layout{display:flex;max-width:1200px;margin:0 auto;padding:calc(52px + 2rem) clamp(1rem,3vw,2rem) 3rem;gap:2rem}
-.main{flex:7;min-width:0}
-.side{flex:3;min-width:260px;max-width:320px}
+/* ===== Hero ===== */
+.hero{padding:calc(var(--nav-h) + 3rem) clamp(1rem,4vw,2rem) 2rem;max-width:var(--max-w);margin:0 auto}
+.hero h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem}
+.hero p{color:var(--text-sec);font-size:1rem}
 
-/* Sidebar */
-.side-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem;position:sticky;top:calc(52px + 1.5rem)}
-.side-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--ac),#7c6aef);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto .8rem;box-shadow:0 0 30px var(--ac3)}
-.side-name{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:.3rem}
-.side-bio{font-size:.82rem;color:var(--tx2);text-align:center;line-height:1.6;margin-bottom:1rem}
-.side-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
-.side-stat{background:var(--bg3);border-radius:var(--r2);padding:.6rem;text-align:center}
-.side-stat-num{font-size:1.1rem;font-weight:700;color:var(--ac)}
-.side-stat-lbl{font-size:.7rem;color:var(--tx3)}
-.side-links{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
-.side-link{padding:.35rem .7rem;border-radius:999px;font-size:.75rem;background:var(--bg3);color:var(--tx2);border:1px solid var(--bdr);transition:all .2s}
-.side-link:hover{border-color:var(--ac);color:var(--ac);text-decoration:none}
-.side-section{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--bdr)}
-.side-section h4{font-size:.8rem;color:var(--tx3);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.08em}
-.side-tags{display:flex;gap:.3rem;flex-wrap:wrap}
-
-/* Tags */
-.tags-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
-.tag-btn{padding:.3rem .7rem;border-radius:999px;font-size:.75rem;background:var(--bg3);border:1px solid var(--bdr);color:var(--tx2);cursor:pointer;transition:all .2s;font-family:var(--font)}
-.tag-btn:hover,.tag-btn.active{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
-
-/* Search */
-.search-wrap{display:none;margin-bottom:1rem}
+/* ===== Search Bar ===== */
+.search-wrap{max-width:var(--max-w);margin:0 auto;padding:0 clamp(1rem,4vw,2rem);display:none}
 .search-wrap.active{display:block}
-.search-input{width:100%;padding:.65rem 1rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-size:.88rem;font-family:var(--font);outline:none}
-.search-input:focus{border-color:var(--ac)}
-.search-input::placeholder{color:var(--tx3)}
+.search-input{width:100%;padding:.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--text-muted)}
 
-/* Article Cards */
-.articles{display:flex;flex-direction:column;gap:.8rem}
-.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.1rem 1.3rem;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(16px)}
-.card.visible{opacity:1;transform:translateY(0)}
-.card:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.card-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
-.card-title{font-size:1rem;font-weight:600;flex:1}
-.card-date{font-size:.72rem;color:var(--tx3);white-space:nowrap}
-.card-summary{font-size:.85rem;color:var(--tx2);line-height:1.6;margin-bottom:.5rem}
-.card-bottom{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.card-tag{font-size:.68rem;padding:.15rem .5rem;border-radius:999px;background:var(--ac2);color:var(--ac)}
-.card-comments{font-size:.72rem;color:var(--tx3);margin-left:auto}
+/* ===== Tags ===== */
+.tags-bar{max-width:var(--max-w);margin:1rem auto;padding:0 clamp(1rem,4vw,2rem);display:flex;gap:.5rem;flex-wrap:wrap}
+.tag-btn{padding:.35rem .85rem;border-radius:999px;font-size:.78rem;font-weight:500;background:var(--bg-card);border:1px solid var(--border);color:var(--text-sec);cursor:pointer;transition:all .2s;font-family:var(--font)}
+.tag-btn:hover,.tag-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
 
-/* Detail */
-.detail{display:none}
+/* ===== Article Grid ===== */
+.articles{max-width:var(--max-w);margin:1rem auto;padding:0 clamp(1rem,4vw,2rem) 4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.article-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;opacity:0;transform:translateY(20px)}
+.article-card.visible{opacity:1;transform:translateY(0)}
+.article-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.4);border-color:var(--border-hover)}
+.card-img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--bg-card-hover)}
+.card-img.lazy{filter:blur(10px);transition:filter .5s}
+.card-img.loaded{filter:blur(0)}
+.card-body{padding:1.1rem 1.2rem}
+.card-date{font-size:.75rem;color:var(--text-muted);margin-bottom:.4rem}
+.card-title{font-size:1rem;font-weight:600;margin-bottom:.4rem;line-height:1.4}
+.card-summary{font-size:.85rem;color:var(--text-sec);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-tags{display:flex;gap:.35rem;margin-top:.7rem;flex-wrap:wrap}
+.card-tag{font-size:.7rem;padding:.15rem .5rem;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+
+/* ===== Article Detail ===== */
+.detail{display:none;max-width:var(--max-w);margin:0 auto;padding:calc(var(--nav-h) + 2rem) clamp(1rem,4vw,2rem) 4rem}
 .detail.active{display:block}
-.back-btn{display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;color:var(--tx2);margin-bottom:1rem;cursor:pointer}
-.back-btn:hover{color:var(--ac)}
-.d-meta{margin-bottom:1.5rem}
-.d-meta h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:.4rem}
-.d-meta .d-info{font-size:.8rem;color:var(--tx3);display:flex;gap:1rem;flex-wrap:wrap}
-.d-content{font-size:.95rem;line-height:1.85;color:var(--tx)}
-.d-content h2{font-size:1.3rem;font-weight:700;margin:1.8rem 0 .6rem;padding-bottom:.3rem;border-bottom:1px solid var(--bdr)}
-.d-content h3{font-size:1.1rem;font-weight:600;margin:1.3rem 0 .5rem}
-.d-content p{margin-bottom:.8rem}
-.d-content pre{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r2);padding:.8rem 1rem;overflow-x:auto;margin:1rem 0;position:relative}
-.d-content code{font-family:var(--mono);font-size:.82rem}
-.d-content :not(pre)>code{background:var(--bg3);padding:.12rem .35rem;border-radius:4px}
-.d-content blockquote{border-left:3px solid var(--ac);padding:.6rem 1rem;margin:.8rem 0;background:var(--ac2);border-radius:0 var(--r2) var(--r2) 0;color:var(--tx2)}
-.d-content img{max-width:100%;border-radius:var(--r2);cursor:zoom-in}
-.d-content ul,.d-content ol{padding-left:1.3rem;margin-bottom:.8rem}
-.d-content li{margin-bottom:.2rem}
-.copy-btn{position:absolute;top:.4rem;right:.4rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:.2rem .5rem;font-size:.7rem;color:var(--tx2);cursor:pointer;font-family:var(--font)}
-.copy-btn:hover{border-color:var(--ac);color:var(--ac)}
+.detail-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--text-sec);margin-bottom:1.5rem;cursor:pointer}
+.detail-back:hover{color:var(--accent);text-decoration:none}
+.detail-meta{margin-bottom:1.5rem}
+.detail-meta h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+.detail-meta .meta-line{font-size:.82rem;color:var(--text-muted);display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.detail-cover{width:100%;border-radius:var(--radius);margin-bottom:1.5rem;max-height:400px;object-fit:cover}
+.detail-content{font-size:1rem;line-height:1.85;color:var(--text)}
+.detail-content h2{font-size:1.4rem;font-weight:700;margin:2rem 0 .8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.detail-content h3{font-size:1.15rem;font-weight:600;margin:1.5rem 0 .6rem}
+.detail-content p{margin-bottom:1rem}
+.detail-content img{max-width:100%;border-radius:var(--radius-sm);cursor:pointer;transition:transform .3s}
+.detail-content img:hover{transform:scale(1.01)}
+.detail-content pre{background:#1a1a1a;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;overflow-x:auto;margin:1rem 0;position:relative;font-size:.85rem}
+.detail-content code{font-family:var(--mono);font-size:.85rem}
+.detail-content :not(pre)>code{background:#1a1a1a;padding:.15rem .4rem;border-radius:4px;font-size:.82rem}
+.detail-content blockquote{border-left:3px solid var(--accent);padding:.8rem 1rem;margin:1rem 0;background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:var(--text-sec)}
+.detail-content ul,.detail-content ol{padding-left:1.5rem;margin-bottom:1rem}
+.detail-content li{margin-bottom:.3rem}
+.detail-content table{width:100%;border-collapse:collapse;margin:1rem 0}
+.detail-content th,.detail-content td{padding:.5rem .8rem;border:1px solid var(--border);text-align:left;font-size:.9rem}
+.detail-content th{background:var(--bg-card);font-weight:600}
 
-/* Comments */
-.comments{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
-.comments h3{font-size:1rem;font-weight:600;margin-bottom:1rem}
-.comment-form{margin-bottom:1.5rem}
-.comment-form textarea{width:100%;min-height:80px;padding:.7rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-family:var(--font);font-size:.88rem;resize:vertical;outline:none}
-.comment-form textarea:focus{border-color:var(--ac)}
-.comment-form .row{display:flex;gap:.5rem;margin-top:.5rem}
-.comment-form input{flex:1;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r2);color:var(--tx);font-size:.82rem;font-family:var(--font);outline:none}
-.comment-form input:focus{border-color:var(--ac)}
-.comment-form button{padding:.5rem 1rem;background:var(--ac);color:#0a0a0f;border:none;border-radius:var(--r2);font-size:.82rem;font-weight:600;cursor:pointer;font-family:var(--font)}
-.comment-form button:hover{opacity:.9}
-.cmt-list{display:flex;flex-direction:column;gap:.8rem}
-.cmt{background:var(--bg3);border-radius:var(--r2);padding:.8rem 1rem}
-.cmt-top{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
-.cmt-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:.7rem}
-.cmt-name{font-size:.82rem;font-weight:600}
-.cmt-time{font-size:.68rem;color:var(--tx3);margin-left:auto}
-.cmt-text{font-size:.85rem;color:var(--tx2);line-height:1.6}
-.cmt-delete{font-size:.68rem;color:var(--tx3);cursor:pointer;margin-left:.5rem}
-.cmt-delete:hover{color:#f44}
+/* Audio Player */
+.audio-player{margin:1.5rem 0;padding:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;gap:1rem}
+.audio-player audio{flex:1;height:36px}
 
-/* TOC */
-.toc{position:fixed;top:calc(52px + 2rem);right:clamp(1rem,2vw,2rem);width:180px;font-size:.75rem;display:none;z-index:100}
-.detail.active~.toc{display:block}
-.toc a{display:block;padding:.2rem 0;color:var(--tx3);transition:color .2s;line-height:1.4}
-.toc a:hover,.toc a.active{color:var(--ac);text-decoration:none}
-.toc .h3{padding-left:.8rem}
-@media(max-width:1100px){.toc{display:none!important}}
+/* Code Copy */
+.code-wrap{position:relative}
+.copy-btn{position:absolute;top:.5rem;right:.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:.25rem .6rem;font-size:.72rem;color:var(--text-sec);cursor:pointer;transition:all .2s;font-family:var(--font);z-index:1}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn.copied{border-color:var(--accent);color:var(--accent)}
+
+/* TOC Sidebar */
+.toc-sidebar{position:fixed;top:calc(var(--nav-h) + 1rem);right:clamp(1rem,3vw,3rem);width:200px;max-height:calc(100vh - var(--nav-h) - 2rem);overflow-y:auto;font-size:.78rem;display:none;z-index:100}
+.detail.active ~ .toc-sidebar{display:block}
+.toc-sidebar a{display:block;padding:.25rem 0;color:var(--text-muted);transition:color .2s;line-height:1.4}
+.toc-sidebar a:hover,.toc-sidebar a.active{color:var(--accent);text-decoration:none}
+.toc-sidebar .toc-h3{padding-left:1rem}
+@media(max-width:1100px){.toc-sidebar{display:none!important}}
 
 /* Lightbox */
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
-.lb.on{display:flex}
-.lb img{max-width:90vw;max-height:90vh;border-radius:var(--r2)}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:var(--radius-sm)}
 
-/* Back top */
-#btop{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--ac);color:#0a0a0f;border:none;font-size:1rem;cursor:pointer;opacity:0;transition:all .3s;z-index:1000;display:flex;align-items:center;justify-content:center}
-#btop.on{opacity:1}
-#btop:hover{box-shadow:0 0 20px var(--ac3)}
+/* Back to Top */
+#back-top{position:fixed;bottom:2rem;right:2rem;width:42px;height:42px;border-radius:50%;background:var(--accent);color:#0d0d0d;border:none;font-size:1.1rem;cursor:pointer;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;z-index:1000;display:flex;align-items:center;justify-content:center}
+#back-top.visible{opacity:1;transform:translateY(0)}
+#back-top:hover{box-shadow:0 0 20px var(--accent-glow)}
 
-/* Responsive */
+/* Page Load Animation */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.page-enter{animation:fadeInUp .5s ease forwards}
+
+/* Footer */
+.footer{text-align:center;padding:2rem;color:var(--text-muted);font-size:.78rem;border-top:1px solid var(--border)}
+
+/* ===== Responsive ===== */
 @media(max-width:768px){
-  .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
-  .side{max-width:100%;position:relative;top:0}
-  .side-card{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
-  .side-avatar{margin:0;width:50px;height:50px;font-size:1.4rem}
-  .side-name,.side-bio,.side-stats,.side-links,.side-section{text-align:left}
-  .side-stats{grid-template-columns:repeat(4,1fr)}
-  .toc{display:none!important}
+  .articles{grid-template-columns:1fr}
+  .nav-links .hide-mobile{display:none}
+  .toc-sidebar{display:none!important}
+  .detail-content pre{font-size:.8rem;padding:.8rem}
 }
-</style>
-
-<style>
-
-/* ========== 文章自定义样式 ========== */
-.oc-review .oc-hero-quote {
-    background: linear-gradient(135deg, #fff5f5, #fff0f0);
-    border-left: 4px solid #e53935;
-    padding: 20px 24px;
-    margin: 24px 0;
-    border-radius: 0 12px 12px 0;
-    font-style: italic;
-    color: #555;
-    position: relative;
-    animation: oc-fadeInRight 0.6s ease-out both;
+@media(min-width:1400px){
+  .articles{grid-template-columns:repeat(3,1fr)}
 }
-.oc-review .oc-hero-quote::before {
-    content: '"';
-    position: absolute;
-    top: -8px;
-    left: 12px;
-    font-size: 48px;
-    color: #e53935;
-    opacity: 0.2;
-    font-style: normal;
-}
-
-/* 信息卡片 */
-.oc-review .oc-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 24px 28px;
-    margin: 24px 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: oc-fadeInUp 0.6s ease-out both;
-}
-.oc-review .oc-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-}
-.oc-review .oc-card.oc-warn { border-top: 3px solid #ff9800; }
-.oc-review .oc-card.oc-ok { border-top: 3px solid #4caf50; }
-.oc-review .oc-card.oc-info { border-top: 3px solid #2196f3; }
-.oc-review .oc-card.oc-danger { border-top: 3px solid #e53935; }
-.oc-review .oc-card-title {
-    font-weight: 700;
-    font-size: 15px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.oc-review .oc-card.oc-warn .oc-card-title { color: #e65100; }
-.oc-review .oc-card.oc-ok .oc-card-title { color: #2e7d32; }
-.oc-review .oc-card.oc-info .oc-card-title { color: #1565c0; }
-.oc-review .oc-card.oc-danger .oc-card-title { color: #e53935; }
-.oc-review .oc-card p { margin-bottom: 8px; }
-.oc-review .oc-card p:last-child { margin-bottom: 0; }
-
-/* 统计卡片网格 */
-.oc-review .oc-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 16px;
-    margin: 24px 0;
-}
-.oc-review .oc-stat {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
-    animation: oc-fadeInUp 0.6s ease-out both;
-}
-.oc-review .oc-stat:hover { transform: translateY(-4px); }
-.oc-review .oc-stat-num {
-    font-size: 28px;
-    font-weight: 800;
-    color: #e53935;
-    line-height: 1.2;
-}
-.oc-review .oc-stat-label {
-    font-size: 12px;
-    color: #999;
-    margin-top: 4px;
-}
-
-/* 时间线 */
-.oc-review .oc-timeline {
-    position: relative;
-    padding-left: 32px;
-    margin: 32px 0;
-}
-.oc-review .oc-timeline::before {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, #e53935, #ff8a65);
-    border-radius: 2px;
-}
-.oc-review .oc-tl-item {
-    position: relative;
-    margin-bottom: 28px;
-    animation: oc-fadeInLeft 0.6s ease-out both;
-}
-.oc-review .oc-tl-item::before {
-    content: '';
-    position: absolute;
-    left: -28px;
-    top: 8px;
-    width: 12px;
-    height: 12px;
-    background: #e53935;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px #e53935;
-    animation: oc-pulseDot 2s ease-in-out infinite;
-}
-.oc-review .oc-tl-label {
-    font-size: 13px;
-    color: #e53935;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-/* 对比表格 */
-.oc-review .oc-table-wrap {
-    overflow-x: auto;
-    margin: 24px 0;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    animation: oc-fadeInUp 0.6s ease-out both;
-}
-.oc-review table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: 14px;
-}
-.oc-review table th {
-    background: linear-gradient(135deg, #e53935, #ff6f60);
-    color: #fff;
-    padding: 14px 20px;
-    text-align: left;
-    font-weight: 600;
-}
-.oc-review table td {
-    padding: 12px 20px;
-    border-bottom: 1px solid #eee;
-}
-.oc-review table tr:last-child td { border-bottom: none; }
-.oc-review table tr:nth-child(even) { background: #fafafa; }
-.oc-review table tr { transition: background 0.3s ease; }
-.oc-review table tr:hover td { background: #fff5f5; }
-
-/* 图片容器 */
-.oc-review .oc-img {
-    margin: 32px 0;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    animation: oc-fadeInUp 0.8s ease-out both;
-}
-.oc-review .oc-img:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-}
-.oc-review .oc-img img {
-    width: 100%;
-    display: block;
-    transition: transform 0.6s ease;
-}
-.oc-review .oc-img:hover img { transform: scale(1.02); }
-.oc-review .oc-img-cap {
-    background: #fff;
-    padding: 14px 20px;
-    font-size: 13px;
-    color: #666;
-    text-align: center;
-    border-top: 1px solid #eee;
-}
-
-/* 分隔线 */
-.oc-review .oc-divider {
-    text-align: center;
-    margin: 40px 0;
-    position: relative;
-}
-.oc-review .oc-divider::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #eee, transparent);
-}
-.oc-review .oc-divider span {
-    background: var(--bg, #fafafa);
-    padding: 0 20px;
-    position: relative;
-    font-size: 20px;
-    animation: oc-bounce 2s ease-in-out infinite;
-}
-
-/* 高亮引用 */
-.oc-review .oc-quote {
-    background: linear-gradient(135deg, #fff5f5, #fff0f0);
-    border-left: 4px solid #e53935;
-    padding: 20px 24px;
-    margin: 24px 0;
-    border-radius: 0 12px 12px 0;
-    font-style: italic;
-    color: #555;
-    position: relative;
-    animation: oc-fadeInRight 0.6s ease-out both;
-}
-.oc-review .oc-quote::before {
-    content: '"';
-    position: absolute;
-    top: -8px;
-    left: 12px;
-    font-size: 48px;
-    color: #e53935;
-    opacity: 0.2;
-    font-style: normal;
-}
-
-/* 内联代码 */
-.oc-review code:not(pre code) {
-    background: #f0f0f0;
-    color: #e53935;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-/* 滚动触发动画 */
-.oc-review .oc-anim {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.oc-review .oc-anim.oc-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ========== 动画关键帧 ========== */
-@keyframes oc-fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes oc-fadeInLeft {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-@keyframes oc-fadeInRight {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-@keyframes oc-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-@keyframes oc-pulseDot {
-    0%, 100% { box-shadow: 0 0 0 2px #e53935; }
-    50% { box-shadow: 0 0 0 6px rgba(229, 57, 53, 0.2); }
-}
-@keyframes oc-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* 阅读进度条 */
-.oc-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #e53935, #ff8a65);
-    z-index: 10000;
-    transition: width 0.1s linear;
-    border-radius: 0 2px 2px 0;
-}
-
-/* 回到顶部 */
-.oc-top-btn {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    width: 44px;
-    height: 44px;
-    background: #e53935;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(229, 57, 53, 0.3);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s, background 0.3s;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.oc-top-btn.oc-show {
-    opacity: 1;
-    transform: translateY(0);
-}
-.oc-top-btn:hover {
-    background: #ff6f60;
-    transform: translateY(-2px);
-}
-
-/* 响应式 */
-@media (max-width: 640px) {
-    .oc-review .oc-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .oc-review table th, .oc-review table td {
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-}
-
 </style>
 </head>
 <body>
 
+<!-- Reading Progress -->
 <div id="progress"></div>
 
+<!-- Nav -->
 <nav class="nav" id="nav">
-  <a href="#" class="nav-logo" onclick="showHome();return false">📝 Yadong</a>
-  <div class="nav-r">
-    <button onclick="toggleSearch()" title="搜索">🔍</button>
-    <button onclick="toggleTheme()" title="主题">🌙</button>
+  <a href="#" class="nav-title" onclick="showHome();return false">Yadong's Blog</a>
+  <div class="nav-links">
+    <button id="search-toggle" onclick="toggleSearch()" title="搜索">🔍</button>
+    <button id="theme-toggle" onclick="toggleTheme()" title="切换主题">🌙</button>
+    <a href="#about" class="hide-mobile">关于</a>
   </div>
 </nav>
 
-<div class="layout" id="layout">
-  <!-- Main -->
-  <div class="main" id="mainArea">
-    <div id="homeView">
-      <div class="search-wrap" id="searchWrap">
-        <input class="search-input" id="searchInput" placeholder="搜索文章..." oninput="renderCards()">
-      </div>
-      <div class="tags-bar" id="tagsBar"></div>
-      <div class="articles" id="cards"></div>
-    </div>
-    <div class="detail" id="detailView"></div>
-  </div>
-
-  <!-- Sidebar -->
-  <div class="side">
-    <div class="side-card">
-      <div class="side-avatar">🧑‍💻</div>
-      <div class="side-name">Yadong</div>
-      <div class="side-bio">写代码的，偶尔写点别的。<br>喜欢折腾，喜欢把想法变成现实。</div>
-      <div class="side-stats">
-        <div class="side-stat"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
-        <div class="side-stat"><div class="side-stat-num">☕</div><div class="side-stat-lbl">续命中</div></div>
-      </div>
-      <div class="side-links">
-        <a class="side-link" href="https://github.com/2326239842" target="_blank">🐙 GitHub</a>
-        <a class="side-link" href="mailto:hello@example.com">📧 邮件</a>
-      </div>
-      <div class="side-section">
-        <h4>热门标签</h4>
-        <div class="side-tags" id="sideTags"></div>
-      </div>
-      <div class="side-section">
-        <h4>最近文章</h4>
-        <div id="sideRecent"></div>
-      </div>
-    </div>
-  </div>
+<!-- Search -->
+<div class="search-wrap" id="searchWrap">
+  <input class="search-input" id="searchInput" type="text" placeholder="搜索文章标题或内容..." oninput="filterArticles()">
 </div>
 
-<div class="toc" id="toc"></div>
-<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbImg"></div>
-<button id="btop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<!-- Tags -->
+<div class="tags-bar" id="tagsBar"></div>
+
+<!-- Home: Article List -->
+<div id="homePage">
+  <div class="hero page-enter">
+    <h1>📝 我的博客</h1>
+    <p>记录想法、技术与生活。</p>
+  </div>
+  <div class="articles" id="articleGrid"></div>
+</div>
+
+<!-- Detail -->
+<div class="detail" id="detailPage"></div>
+
+<!-- TOC Sidebar -->
+<div class="toc-sidebar" id="tocSidebar"></div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- Back to Top -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Footer -->
+<div class="footer" id="footer">© 2026 Yadong's Blog · Made with ❤️</div>
 
 <script>
-// ===== 数据 =====
-const articles=[
-{id:1,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16 19:00",tags:["OpenClaw", "AI Agent", "大模型", "DeepSeek", "个人博客", "Cloudflare", "GitHub Pages", "AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<!-- 阅读进度条 -->
-<div class="oc-progress" id="ocProgress"></div>
-<!-- 回到顶部 -->
-<button class="oc-top-btn" id="ocTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<div class="oc-review">
-
-<div class="oc-hero-quote oc-anim">
-如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。
-</div>
+// ===== Article Data =====
+const articles = [
+  {
+    "id": 1,
+    "title": "OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",
+    "date": "2026-05-16",
+    "tags": [
+      "OpenClaw",
+      "AI Agent",
+      "技术"
+    ],
+    "summary": "从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。",
+    "content": "<blockquote>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</blockquote>
 
 ## 🚀 一、初识 OpenClaw：满怀期待的第一次
 
-<p class="oc-anim">时间回到去年，OpenClaw 刚刚发布的时候，我在社交平台上刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器……这些描述对于一个对技术充满好奇但又毫无基础的人来说，简直是致命的吸引力。</p>
+<p>时间回到去年，OpenClaw 刚刚发布的时候，我在社交平台上刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器……这些描述对于一个对技术充满好奇但又毫无基础的人来说，简直是致命的吸引力。</p>
 
-<p class="oc-anim">我第一时间就去下载了。然而，现实很快给了我当头一棒。</p>
+<p>我第一时间就去下载了。然而，现实很快给了我当头一棒。</p>
 
-<div class="oc-card oc-warn oc-anim">
-<div class="oc-card-title">⚠️ 当时的困境</div>
+<div>
+<div>⚠️ 当时的困境</div>
 <p>安装教程寥寥无几，而且 OpenClaw 优先适配的是 macOS 和 Linux 系统。作为一个 Windows 用户，我几乎找不到针对自己系统的详细指引。网上的教程大多一笔带过，仿佛 Windows 用户不配使用一样。</p>
 </div>
 
 ## 🔧 二、Windows 上的艰难安装之路
 
-<p class="oc-anim">第一次安装的时候，我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档之后我才明白，在 Windows 上使用 OpenClaw，需要先安装两个关键依赖：</p>
+<p>第一次安装的时候，我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档之后我才明白，在 Windows 上使用 OpenClaw，需要先安装两个关键依赖：</p>
 
-<div class="oc-stats oc-anim">
-<div class="oc-stat">
-<div class="oc-stat-num">Node.js</div>
-<div class="oc-stat-label">JavaScript 运行时环境<br>OpenClaw 的核心依赖</div>
+<div>
+<div>
+<div>Node.js</div>
+<div>JavaScript 运行时环境<br>OpenClaw 的核心依赖</div>
 </div>
-<div class="oc-stat">
-<div class="oc-stat-num">Git</div>
-<div class="oc-stat-label">版本控制系统<br>用于拉取和更新代码</div>
+<div>
+<div>Git</div>
+<div>版本控制系统<br>用于拉取和更新代码</div>
 </div>
 </div>
 
-<p class="oc-anim">Node.js 是 OpenClaw 运行的核心环境，而 Git 则是版本控制工具，两者缺一不可。安装好这两个依赖之后，还需要在 PowerShell 中解除脚本执行限制：</p>
+<p>Node.js 是 OpenClaw 运行的核心环境，而 Git 则是版本控制工具，两者缺一不可。安装好这两个依赖之后，还需要在 PowerShell 中解除脚本执行限制：</p>
 
-\`\`\`powershell
+```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-\`\`\`
+```
 
-<p class="oc-anim">然后运行一键安装脚本：</p>
+<p>然后运行一键安装脚本：</p>
 
-\`\`\`powershell
+```powershell
 iwr -useb https://openclaw.ai/install.ps1 | iex
-\`\`\`
+```
 
-<p class="oc-anim">当终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——</p>
+<p>当终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——</p>
 
-<div class="oc-card oc-danger oc-anim">
-<div class="oc-card-title">🚫 初始化配置缺失</div>
+<div>
+<div>🚫 初始化配置缺失</div>
 <p>安装完成后，并没有出现教程里提到的初始化配置向导。后来我才了解到，这是因为 Windows 的适配问题，需要手动启动 Gateway 服务后才能进行配置。</p>
 </div>
 
 ## ⚙️ 三、第一次配置：手忙脚乱中摸索
 
-<p class="oc-anim">找到更详细的教程后，我按照步骤依次执行了以下命令：</p>
+<p>找到更详细的教程后，我按照步骤依次执行了以下命令：</p>
 
-\`\`\`bash
+```bash
 # 1. 先运行健康检查（推荐第一步执行）
 openclaw doctor
 
@@ -613,61 +263,61 @@ openclaw gateway start
 
 # 3. 执行初始化配置
 openclaw onboard
-\`\`\`
+```
 
-<div class="oc-timeline oc-anim">
-<div class="oc-tl-item">
-<div class="oc-tl-label">第一步：openclaw doctor</div>
+<div>
+<div>
+<div>第一步：openclaw doctor</div>
 <p>第一次运行时甚至报错说没有安装相关服务组件。Windows 的兼容性问题开始显现——很多在 macOS 和 Linux 上默认就有的东西，在 Windows 上需要手动处理。</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">第二步：openclaw gateway start</div>
+<div>
+<div>第二步：openclaw gateway start</div>
 <p>成功启动了 Gateway 服务。这个服务是 OpenClaw 的核心运行时，相当于控制入口和路由层，所有的会话、渠道和工具都通过它来连接。</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">第三步：openclaw onboard</div>
+<div>
+<div>第三步：openclaw onboard</div>
 <p>终于进入了配置向导！第一次配置时很多地方都出错了，不过好在后来在网上找到了详细的教学视频，跟着一步步操作，最终顺利完成了配置。</p>
 </div>
 </div>
 
-<p class="oc-anim">第一次使用时，我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token。每个模型赠送了 100 万 Token 的免费额度，对于初次体验来说足够了。</p>
+<p>第一次使用时，我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token。每个模型赠送了 100 万 Token 的免费额度，对于初次体验来说足够了。</p>
 
-<div class="oc-img oc-anim">
-<img src="/images/aliyun-bailian.png" alt="阿里云百炼大模型平台">
-<div class="oc-img-cap">🖼️ 阿里云百炼大模型平台 —— 提供 155 个模型的免费额度，每个模型 100 万 Token</div>
+<div>
+<img src=\"/images/aliyun-bailian.png\" alt=\"阿里云百炼大模型平台\">
+<div>🖼️ 阿里云百炼大模型平台 —— 提供 155 个模型的免费额度，每个模型 100 万 Token</div>
 </div>
 
-<div class="oc-card oc-warn oc-anim">
-<div class="oc-card-title">💡 浏览器界面打不开？</div>
-<p>当我选择使用 UI（浏览器界面）时，页面显示"无法连接"。排查了很久才发现——我把 <code>openclaw gateway start</code> 的服务窗口给关了！Gateway 服务必须保持运行状态，浏览器界面才能正常访问。这个低级错误让我哭笑不得。</p>
+<div>
+<div>💡 浏览器界面打不开？</div>
+<p>当我选择使用 UI（浏览器界面）时，页面显示\"无法连接\"。排查了很久才发现——我把 <code>openclaw gateway start</code> 的服务窗口给关了！Gateway 服务必须保持运行状态，浏览器界面才能正常访问。这个低级错误让我哭笑不得。</p>
 </div>
 
 ## 💸 四、免费 Token 的甜蜜与苦涩
 
-<p class="oc-anim">配置完成后，我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便的。</p>
+<p>配置完成后，我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便的。</p>
 
-<p class="oc-anim">然而甜蜜期很快就结束了——免费模型的 Token 开始限速了。每分钟只能处理很少的请求，做稍微复杂一点的任务就要等很久。</p>
+<p>然而甜蜜期很快就结束了——免费模型的 Token 开始限速了。每分钟只能处理很少的请求，做稍微复杂一点的任务就要等很久。</p>
 
-<div class="oc-img oc-anim">
-<img src="/images/xiaomi-mimo.png" alt="小米百亿Token计划">
-<div class="oc-img-cap">🖼️ 小米 MiMo 百亿 Token 计划 —— Standard 月度套餐提供 2 亿 Credits，支持 OpenClaw 等主流编程工具</div>
+<div>
+<img src=\"/images/xiaomi-mimo.png\" alt=\"小米百亿Token计划\">
+<div>🖼️ 小米 MiMo 百亿 Token 计划 —— Standard 月度套餐提供 2 亿 Credits，支持 OpenClaw 等主流编程工具</div>
 </div>
 
-<p class="oc-anim">我试着自己配置 Token，但作为第一次使用的纯小白，我连 Token 配置在哪里都不知道。好在阿里云平台给每个模型都提供了 100 万的免费额度，我就用免费额度让 OpenClaw 自己帮我配置 Token——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。</p>
+<p>我试着自己配置 Token，但作为第一次使用的纯小白，我连 Token 配置在哪里都不知道。好在阿里云平台给每个模型都提供了 100 万的免费额度，我就用免费额度让 OpenClaw 自己帮我配置 Token——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。</p>
 
-<div class="oc-quote oc-anim">
+<div>
 坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务的执行。于是，第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。
 </div>
 
-<div class="oc-divider oc-anim"><span>🌊</span></div>
+<div><span>🌊</span></div>
 
 ## 🔄 五、再次归来：大模型时代的必然选择
 
-<p class="oc-anim">第二次开始使用 OpenClaw 是最近这段时间。短短一年间，AI 的发展速度远超我的想象。</p>
+<p>第二次开始使用 OpenClaw 是最近这段时间。短短一年间，AI 的发展速度远超我的想象。</p>
 
-<p class="oc-anim">之前最大的痛点是<strong>AI 模型不够聪明</strong>和<strong>上下文对话量不够</strong>。但如今，新一代大模型已经彻底改变了这个局面：</p>
+<p>之前最大的痛点是<strong>AI 模型不够聪明</strong>和<strong>上下文对话量不够</strong>。但如今，新一代大模型已经彻底改变了这个局面：</p>
 
-<div class="oc-table-wrap oc-anim">
+<div>
 <table>
 <thead>
 <tr>
@@ -716,117 +366,117 @@ openclaw onboard
 </table>
 </div>
 
-<p class="oc-anim">尤其是 <strong>DeepSeek</strong>，它的定价策略堪称"价格屠夫"——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p>
+<p>尤其是 <strong>DeepSeek</strong>，它的定价策略堪称\"价格屠夫\"——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p>
 
-<div class="oc-card oc-ok oc-anim">
-<div class="oc-card-title">✅ 价格对比感受</div>
-<p>以前用免费 Token，100 万很快就用完了，而且还会限速。现在用 DeepSeek，同样的价格可以买到几百倍的 Token 量，再也不用小心翼翼地"省着用"了。这才是 Agent 能够真正跑起来的基础设施。</p>
+<div>
+<div>✅ 价格对比感受</div>
+<p>以前用免费 Token，100 万很快就用完了，而且还会限速。现在用 DeepSeek，同样的价格可以买到几百倍的 Token 量，再也不用小心翼翼地\"省着用\"了。这才是 Agent 能够真正跑起来的基础设施。</p>
 </div>
 
 ## 🌐 六、实战体验：从零搭建个人网站
 
-<p class="oc-anim">就我个人使用 OpenClaw 的体验而言，最直观的感受就是——<strong>它真的能打破知识壁垒</strong>。</p>
+<p>就我个人使用 OpenClaw 的体验而言，最直观的感受就是——<strong>它真的能打破知识壁垒</strong>。</p>
 
-<p class="oc-anim">比如我对于网站搭建是一窍不通的。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像是外星语言。但是有了 OpenClaw，我只需要告诉它"我需要搭建一个个人网站"，它就会帮我处理几乎所有的事情：</p>
+<p>比如我对于网站搭建是一窍不通的。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像是外星语言。但是有了 OpenClaw，我只需要告诉它\"我需要搭建一个个人网站\"，它就会帮我处理几乎所有的事情：</p>
 
-<div class="oc-timeline oc-anim">
-<div class="oc-tl-item">
-<div class="oc-tl-label">📋 需求沟通</div>
+<div>
+<div>
+<div>📋 需求沟通</div>
 <p>告诉 OpenClaw 我想要一个什么样的网站，包括页面设计、功能需求等</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">🎨 前端开发</div>
+<div>
+<div>🎨 前端开发</div>
 <p>OpenClaw 自动生成 HTML/CSS/JavaScript 代码，包括 3D 樱花浮岛、粒子效果等复杂交互</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">🌐 DNS 配置</div>
+<div>
+<div>🌐 DNS 配置</div>
 <p>帮我解决域名解析和 Cloudflare 上的 DNS 设置</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">🚀 GitHub 部署</div>
+<div>
+<div>🚀 GitHub 部署</div>
 <p>通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署</p>
 </div>
-<div class="oc-tl-item">
-<div class="oc-tl-label">✅ 上线运行</div>
+<div>
+<div>✅ 上线运行</div>
 <p>网站成功上线，包括个人介绍站和博客站</p>
 </div>
 </div>
 
-<div class="oc-img oc-anim">
-<img src="/images/openclaw-usage.png" alt="OpenClaw 实际使用截图">
-<div class="oc-img-cap">🖼️ OpenClaw 实际使用截图 —— 告诉它需求，它就帮你搞定一切，包括 3D 樱花浮岛、粒子花瓣飘落等复杂效果</div>
+<div>
+<img src=\"/images/openclaw-usage.png\" alt=\"OpenClaw 实际使用截图\">
+<div>🖼️ OpenClaw 实际使用截图 —— 告诉它需求，它就帮你搞定一切，包括 3D 樱花浮岛、粒子花瓣飘落等复杂效果</div>
 </div>
 
-<div class="oc-img oc-anim">
-<img src="/images/cloudflare-dashboard.png" alt="Cloudflare 配置截图">
-<div class="oc-img-cap">🖼️ Cloudflare 控制台 —— 网站部署后的管理界面，可以看到域名、Workers 和流量数据</div>
+<div>
+<img src=\"/images/cloudflare-dashboard.png\" alt=\"Cloudflare 配置截图\">
+<div>🖼️ Cloudflare 控制台 —— 网站部署后的管理界面，可以看到域名、Workers 和流量数据</div>
 </div>
 
-<div class="oc-img oc-anim">
-<img src="/images/github-projects.png" alt="GitHub 项目截图">
-<div class="oc-img-cap">🖼️ GitHub 仓库 —— 通过 OpenClaw 直接管理代码仓库，实现网站的版本控制和部署</div>
+<div>
+<img src=\"/images/github-projects.png\" alt=\"GitHub 项目截图\">
+<div>🖼️ GitHub 仓库 —— 通过 OpenClaw 直接管理代码仓库，实现网站的版本控制和部署</div>
 </div>
 
-<p class="oc-anim">全程我只需要少量的知识基础就可以做到。很多东西——页面设计、代码编写、文件上传——OpenClaw 都可以很完美地实现。虽然有些时候结果不够完美，需要进行精雕细琢，但<strong>三四天时间就可以完成网站的搭建、运行和各种数据库配置</strong>。</p>
+<p>全程我只需要少量的知识基础就可以做到。很多东西——页面设计、代码编写、文件上传——OpenClaw 都可以很完美地实现。虽然有些时候结果不够完美，需要进行精雕细琢，但<strong>三四天时间就可以完成网站的搭建、运行和各种数据库配置</strong>。</p>
 
-<p class="oc-anim">对于一个普通人而言，这在以前是无法想象的。</p>
+<p>对于一个普通人而言，这在以前是无法想象的。</p>
 
 ## 📊 七、客观评价：打破知识壁垒的利器
 
-<p class="oc-anim">使用 OpenClaw 期间，我查看了它的使用数据：</p>
+<p>使用 OpenClaw 期间，我查看了它的使用数据：</p>
 
-<div class="oc-img oc-anim">
-<img src="/images/openclaw-stats.png" alt="OpenClaw 使用统计">
-<div class="oc-img-cap">🖼️ OpenClaw 使用统计 —— 317 条消息，14.1M Token 消耗，202 次工具调用，缓存命中率 97.6%</div>
-</div>
-
-<div class="oc-stats oc-anim">
-<div class="oc-stat">
-<div class="oc-stat-num">317</div>
-<div class="oc-stat-label">消息总数</div>
-</div>
-<div class="oc-stat">
-<div class="oc-stat-num">14.1M</div>
-<div class="oc-stat-label">Token 消耗</div>
-</div>
-<div class="oc-stat">
-<div class="oc-stat-num">202</div>
-<div class="oc-stat-label">工具调用次数</div>
-</div>
-<div class="oc-stat">
-<div class="oc-stat-num">97.6%</div>
-<div class="oc-stat-label">缓存命中率</div>
-</div>
+<div>
+<img src=\"/images/openclaw-stats.png\" alt=\"OpenClaw 使用统计\">
+<div>🖼️ OpenClaw 使用统计 —— 317 条消息，14.1M Token 消耗，202 次工具调用，缓存命中率 97.6%</div>
 </div>
 
-<p class="oc-anim">这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中的网站的过程。OpenClaw 调用了 140 次 <code>exec</code>（命令执行）、38 次 <code>process</code>（进程管理）、7 次 <code>write</code>（文件写入）和 7 次 <code>edit</code>（文件编辑）——这些原本需要我手动完成的操作，全部由 AI Agent 自动执行了。</p>
+<div>
+<div>
+<div>317</div>
+<div>消息总数</div>
+</div>
+<div>
+<div>14.1M</div>
+<div>Token 消耗</div>
+</div>
+<div>
+<div>202</div>
+<div>工具调用次数</div>
+</div>
+<div>
+<div>97.6%</div>
+<div>缓存命中率</div>
+</div>
+</div>
 
-<div class="oc-quote oc-anim">
-大模型加持下的全自动工程，最主要的优点是可以<strong>打破知识壁垒，加速普通人对于新事物的学习和使用</strong>。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让"想法"到"实现"之间的距离，缩短到了前所未有的程度。
+<p>这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中的网站的过程。OpenClaw 调用了 140 次 <code>exec</code>（命令执行）、38 次 <code>process</code>（进程管理）、7 次 <code>write</code>（文件写入）和 7 次 <code>edit</code>（文件编辑）——这些原本需要我手动完成的操作，全部由 AI Agent 自动执行了。</p>
+
+<div>
+大模型加持下的全自动工程，最主要的优点是可以<strong>打破知识壁垒，加速普通人对于新事物的学习和使用</strong>。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让\"想法\"到\"实现\"之间的距离，缩短到了前所未有的程度。
 </div>
 
 ## 🤔 八、大模型的问题与冲击
 
-<p class="oc-anim">但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。</p>
+<p>但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。</p>
 
 ### 劳动方式的转变：从打工人到审核员
 
-<p class="oc-anim">这几天搭建网站的过程中，我的工作模式变成了这样：把需求告诉 OpenClaw → 喝着水刷着抖音等待完成 → 检查结果 → 提出修改意见 → 再次等待。</p>
+<p>这几天搭建网站的过程中，我的工作模式变成了这样：把需求告诉 OpenClaw → 喝着水刷着抖音等待完成 → 检查结果 → 提出修改意见 → 再次等待。</p>
 
-<p class="oc-anim">这种劳动方式，更像是从一个<strong>"打工人"</strong>变成了一个<strong>"审核员"</strong>。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。</p>
+<p>这种劳动方式，更像是从一个<strong>\"打工人\"</strong>变成了一个<strong>\"审核员\"</strong>。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。</p>
 
-<div class="oc-card oc-danger oc-anim">
-<div class="oc-card-title">🔴 不可避免的冲击</div>
+<div>
+<div>🔴 不可避免的冲击</div>
 <p>像设计、编程、内容创作等职业，绝对会面临巨大的市场冲击。尤其是那些以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。</p>
 </div>
 
 ### 大模型能替代人类吗？
 
-<p class="oc-anim">我的答案是：<strong>部分能，但不能全部</strong>。</p>
+<p>我的答案是：<strong>部分能，但不能全部</strong>。</p>
 
-<p class="oc-anim">大模型终究只是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p>
+<p>大模型终究只是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p>
 
-<div class="oc-table-wrap oc-anim">
+<div>
 <table>
 <thead>
 <tr>
@@ -838,22 +488,22 @@ openclaw onboard
 <tbody>
 <tr>
 <td>机械重复型工作</td>
-<td style="color: #e53935; font-weight: 700;">极高 🔴</td>
+<td style=\"color: #e53935; font-weight: 700;\">极高 🔴</td>
 <td>AI 擅长模式化和标准化任务</td>
 </tr>
 <tr>
 <td>设计 / 编程 / 内容创作</td>
-<td style="color: #ff9800; font-weight: 700;">较高 🟠</td>
+<td style=\"color: #ff9800; font-weight: 700;\">较高 🟠</td>
 <td>AI 效率远超个人，但顶级创意仍需人类</td>
 </tr>
 <tr>
 <td>需要承担责任的工作</td>
-<td style="color: #4caf50; font-weight: 700;">较低 🟢</td>
+<td style=\"color: #4caf50; font-weight: 700;\">较低 🟢</td>
 <td>法律、医疗决策等需要人类担责</td>
 </tr>
 <tr>
 <td>依赖深度经验的工作</td>
-<td style="color: #4caf50; font-weight: 700;">很低 🟢</td>
+<td style=\"color: #4caf50; font-weight: 700;\">很低 🟢</td>
 <td>复杂判断和人际互动难以被替代</td>
 </tr>
 </tbody>
@@ -862,28 +512,28 @@ openclaw onboard
 
 ### 失业问题的本质
 
-<p class="oc-anim">未来的 AI 是"提出建议和执行建议的行为人"，而我们则是"审核员"和"对 AI 的监督员"。是的，很多岗位会被替代，失业人口会增加，生产力会极速提高。</p>
+<p>未来的 AI 是\"提出建议和执行建议的行为人\"，而我们则是\"审核员\"和\"对 AI 的监督员\"。是的，很多岗位会被替代，失业人口会增加，生产力会极速提高。</p>
 
-<p class="oc-anim">但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p>
+<p>但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p>
 
-<div class="oc-quote oc-anim">
+<div>
 解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是<strong>增加需求、扩大消费</strong>，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。
 </div>
 
-<p class="oc-anim">不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场。大模型对于普通生产生活还需要一段时间的适配期。</p>
+<p>不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场。大模型对于普通生产生活还需要一段时间的适配期。</p>
 
-<div class="oc-divider oc-anim"><span>✨</span></div>
+<div><span>✨</span></div>
 
 ## 🌟 九、写在最后：未来已来
 
-<p class="oc-anim">回顾我使用 OpenClaw 的这段经历，从第一次的满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。</p>
+<p>回顾我使用 OpenClaw 的这段经历，从第一次的满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。</p>
 
-<p class="oc-anim">以前，搭建一个网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会"说话"就行。</p>
+<p>以前，搭建一个网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会\"说话\"就行。</p>
 
-<p class="oc-anim">未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个"审核员"和"监督员"。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p>
+<p>未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个\"审核员\"和\"监督员\"。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p>
 
-<div class="oc-card oc-info oc-anim">
-<div class="oc-card-title">💡 写在最后的话</div>
+<div>
+<div>💡 写在最后的话</div>
 <p>这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。</p>
 </div>
 
@@ -918,189 +568,255 @@ openclaw onboard
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     items.forEach(function(el){ obs.observe(el); });
 })();
-</script>`,image:"",audio:""}
+</script>",
+    "image": "",
+    "audio": ""
+  }
 ];
 
-// 按日期倒序排列（最新在最上面）
-articles.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-// ===== 评论系统 =====
-function getComments(id){try{return JSON.parse(localStorage.getItem('cmt_'+id)||'[]}')}catch{return[]}}
-function saveComment(id,c){const list=getComments(id);list.push(c);localStorage.setItem('cmt_'+id,JSON.stringify(list))}
-function deleteComment(id,idx){const list=getComments(id);list.splice(idx,1);localStorage.setItem('cmt_'+id,JSON.stringify(list))}
-function totalComments(){let n=0;articles.forEach(a=>n+=getComments(a.id).length);return n}
-
-// ===== 状态 =====
-let curTag=null,curArt=null,isDark=true;
+// ===== State =====
+let currentTag = null;
+let currentArticle = null;
+let isDark = true;
 
 // ===== Init =====
-document.addEventListener('DOMContentLoaded',()=>{
-  initTags();renderCards();updateStats();initScroll();
+document.addEventListener('DOMContentLoaded', () => {
+  initTags();
+  renderArticles();
+  initScrollEffects();
 });
 
 // ===== Tags =====
-function initTags(){
-  const s=new Set();articles.forEach(a=>a.tags.forEach(t=>s.add(t)));
-  const bar=document.getElementById('tagsBar');
-  bar.innerHTML='<button class="tag-btn active" onclick="pickTag(null)">全部</button>';
-  [...s].sort().forEach(t=>bar.innerHTML+=`<button class="tag-btn" onclick="pickTag('${t}')">${t}</button>`);
-  // Side tags
-  const st=document.getElementById('sideTags');
-  st.innerHTML=[...s].map(t=>`<button class="tag-btn" onclick="pickTag('${t}')" style="font-size:.7rem;padding:.2rem .5rem">${t}</button>`).join('');
-}
-function pickTag(t){
-  curTag=t;
-  document.querySelectorAll('.tag-btn').forEach(b=>b.classList.toggle('active',(t===null&&b.textContent==='全部')||b.textContent===t));
-  renderCards();
+function initTags() {
+  const tagSet = new Set();
+  articles.forEach(a => a.tags.forEach(t => tagSet.add(t)));
+  const bar = document.getElementById('tagsBar');
+  bar.innerHTML = '<button class="tag-btn active" onclick="selectTag(null)">全部</button>';
+  [...tagSet].sort().forEach(t => {
+    bar.innerHTML += `<button class="tag-btn" onclick="selectTag('${t}')">${t}</button>`;
+  });
 }
 
-// ===== Render Cards =====
-function renderCards(){
-  const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
-  const list=articles.filter(a=>{
-    const tagOk=!curTag||a.tags.includes(curTag);
-    const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
-    return tagOk&&sOk;
+function selectTag(tag) {
+  currentTag = tag;
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.toggle('active', 
+    (tag === null && b.textContent === '全部') || b.textContent === tag
+  ));
+  renderArticles();
+}
+
+// ===== Render Articles =====
+function renderArticles(filter = '') {
+  const grid = document.getElementById('articleGrid');
+  const q = filter.toLowerCase();
+  const list = articles.filter(a => {
+    const tagOk = !currentTag || a.tags.includes(currentTag);
+    const searchOk = !q || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q) || a.content.toLowerCase().includes(q);
+    return tagOk && searchOk;
   });
-  const el=document.getElementById('cards');
-  el.innerHTML=list.map((a,i)=>{
-    const cmts=getComments(a.id).length;
-    return `<div class="card" onclick="showDetail(${a.id})" style="animation-delay:${i*60}ms">
-      <div class="card-top">
+  
+  grid.innerHTML = list.map((a, i) => `
+    <div class="article-card" onclick="showArticle(${a.id})" style="animation-delay:${i * 80}ms">
+      ${a.image ? `<img class="card-img lazy" data-src="${a.image}" alt="${a.title}">` : ''}
+      <div class="card-body">
+        <div class="card-date">${a.date}</div>
         <div class="card-title">${a.title}</div>
-        <div class="card-date">📅 ${a.date}</div>
+        <div class="card-summary">${a.summary}</div>
+        <div class="card-tags">${a.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
       </div>
-      <div class="card-summary">${a.summary}</div>
-      <div class="card-bottom">
-        ${a.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}
-        <span class="card-comments">💬 ${cmts}</span>
-      </div>
-    </div>`;
-  }).join('');
-  requestAnimationFrame(()=>el.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('visible'),i*60)));
-  // Side recent
-  document.getElementById('sideRecent').innerHTML=articles.slice(0,4).map(a=>`<div style="font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="showDetail(${a.id})">${a.title}</div>`).join('');
-}
-
-// ===== Detail =====
-function showDetail(id){
-  const a=articles.find(x=>x.id===id);if(!a)return;curArt=a;
-  document.getElementById('homeView').style.display='none';
-  const d=document.getElementById('detailView');
-  d.className='detail active';
-  const cmts=getComments(a.id);
-  d.innerHTML=`
-    <div class="back-btn" onclick="showHome()">← 返回</div>
-    <div class="d-meta">
-      <h1>${a.title}</h1>
-      <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 ${cmts.length} 条评论</span></div>
     </div>
-    <div class="d-content" id="dContent">${a.content}</div>
-    <div class="comments">
-      <h3>💬 评论 (${cmts.length})</h3>
-      <div class="comment-form">
-        <textarea id="cmtText" placeholder="写下你的评论..."></textarea>
-        <div class="row">
-          <input id="cmtName" placeholder="你的名字" value="${localStorage.getItem('cmt_name')||''}">
-          <button onclick="postComment(${a.id})">发表</button>
-        </div>
-      </div>
-      <div class="cmt-list" id="cmtList">${renderCmts(a.id)}</div>
-    </div>`;
-  // Code copy
-  d.querySelectorAll('pre').forEach(pre=>{
-    const w=document.createElement('div');w.className='code-wrap';w.style.position='relative';
-    pre.parentNode.insertBefore(w,pre);w.appendChild(pre);
-    const b=document.createElement('button');b.className='copy-btn';b.textContent='复制';
-    b.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(pre.textContent).then(()=>{b.textContent='✓';setTimeout(()=>b.textContent='复制',1200)})};
-    w.appendChild(b);
+  `).join('');
+
+  // Staggered fade-in
+  requestAnimationFrame(() => {
+    grid.querySelectorAll('.article-card').forEach((card, i) => {
+      setTimeout(() => card.classList.add('visible'), i * 80);
+    });
   });
-  d.querySelectorAll('.d-content img').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openLB(img.src)});
+
+  // Lazy load images
+  lazyLoadImages();
+}
+
+// ===== Lazy Load =====
+function lazyLoadImages() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const img = e.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.add('loaded');
+          img.removeAttribute('data-src');
+        }
+        observer.unobserve(img);
+      }
+    });
+  }, { rootMargin: '200px' });
+  document.querySelectorAll('.card-img.lazy').forEach(img => observer.observe(img));
+}
+
+// ===== Show Article =====
+function showArticle(id) {
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+  currentArticle = a;
+  
+  document.getElementById('homePage').style.display = 'none';
+  document.getElementById('tagsBar').style.display = 'none';
+  document.getElementById('searchWrap').classList.remove('active');
+  
+  const detail = document.getElementById('detailPage');
+  detail.className = 'detail active page-enter';
+  detail.innerHTML = `
+    <a class="detail-back" onclick="showHome()">← 返回列表</a>
+    <div class="detail-meta">
+      <h1>${a.title}</h1>
+      <div class="meta-line">
+        <span>📅 ${a.date}</span>
+        <span>🏷️ ${a.tags.join(', ')}</span>
+      </div>
+    </div>
+    ${a.image ? `<img class="detail-cover" src="${a.image}" alt="${a.title}" onclick="openLightbox(this.src)">` : ''}
+    ${a.audio ? `
+    <div class="audio-player">
+      <span>🎧</span>
+      <audio controls preload="metadata"><source src="${a.audio}"></audio>
+    </div>` : ''}
+    <div class="detail-content" id="detailContent">${a.content}</div>
+  `;
+
+  // Add code copy buttons
+  detail.querySelectorAll('pre').forEach(pre => {
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = '复制';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(pre.textContent).then(() => {
+        btn.textContent = '已复制';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 1500);
+      });
+    };
+    wrap.appendChild(btn);
+  });
+
+  // Add click-to-zoom on content images
+  detail.querySelectorAll('.detail-content img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.onclick = () => openLightbox(img.src);
+  });
+
+  // Build TOC
   buildTOC();
-  scrollTo({top:0,behavior:'smooth'});
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function renderCmts(id){
-  return getComments(id).map((c,i)=>`<div class="cmt">
-    <div class="cmt-top"><div class="cmt-avatar">👤</div><div class="cmt-name">${esc(c.name)}</div><div class="cmt-time">${c.time}</div><span class="cmt-delete" onclick="delCmt(${id},${i})">删除</span></div>
-    <div class="cmt-text">${esc(c.text)}</div>
-  </div>`).join('')||'<div style="font-size:.85rem;color:var(--tx3)">暂无评论，来说点什么吧 ✍️</div>';
-}
-
-function postComment(id){
-  const text=document.getElementById('cmtText').value.trim();
-  const name=document.getElementById('cmtName').value.trim()||'匿名';
-  if(!text)return;
-  localStorage.setItem('cmt_name',name);
-  saveComment(id,{name,text,time:new Date().toLocaleString('zh-CN')});
-  document.getElementById('cmtText').value='';
-  document.getElementById('cmtList').innerHTML=renderCmts(id);
-  updateStats();
-}
-
-function delCmt(id,idx){deleteComment(id,idx);document.getElementById('cmtList').innerHTML=renderCmts(id);updateStats()}
-
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-
-function showHome(){
-  curArt=null;
-  document.getElementById('homeView').style.display='block';
-  document.getElementById('detailView').className='detail';
-  document.getElementById('toc').innerHTML='';
-  renderCards();
+// ===== Show Home =====
+function showHome() {
+  currentArticle = null;
+  document.getElementById('homePage').style.display = 'block';
+  document.getElementById('tagsBar').style.display = 'flex';
+  document.getElementById('detailPage').className = 'detail';
+  document.getElementById('tocSidebar').innerHTML = '';
+  renderArticles();
 }
 
 // ===== TOC =====
-function buildTOC(){
-  const c=document.getElementById('dContent');const t=document.getElementById('toc');
-  const hs=c.querySelectorAll('h2,h3');if(hs.length<2){t.innerHTML='';return}
-  t.innerHTML='<div style="font-weight:600;margin-bottom:.4rem;color:var(--tx);font-size:.8rem">目录</div>'+
-    [...hs].map((h,i)=>{h.id='h'+i;return`<a class="${h.tagName==='H3'?'h3':''}" href="#h${i}" onclick="event.preventDefault();document.getElementById('h${i}').scrollIntoView({behavior:'smooth',block:'start'})">${h.textContent}</a>`}).join('');
-  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){t.querySelectorAll('a').forEach(a=>a.classList.remove('active'));const l=t.querySelector(`a[href="#${e.target.id}"]`);if(l)l.classList.add('active')}}),{rootMargin:'-20% 0px -70% 0px'});
-  hs.forEach(h=>obs.observe(h));
+function buildTOC() {
+  const content = document.getElementById('detailContent');
+  const sidebar = document.getElementById('tocSidebar');
+  const headings = content.querySelectorAll('h2, h3');
+  if (headings.length < 2) { sidebar.innerHTML = ''; return; }
+  
+  sidebar.innerHTML = '<div style="font-weight:600;margin-bottom:.5rem;color:var(--text)">目录</div>' +
+    [...headings].map((h, i) => {
+      h.id = 'toc-' + i;
+      const cls = h.tagName === 'H3' ? 'toc-h3' : '';
+      return `<a class="${cls}" href="#toc-${i}" onclick="event.preventDefault();document.getElementById('toc-${i}').scrollIntoView({behavior:'smooth',block:'start'})">${h.textContent}</a>`;
+    }).join('');
+
+  // Active TOC highlight
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        sidebar.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+        const link = sidebar.querySelector(`a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  headings.forEach(h => obs.observe(h));
 }
 
 // ===== Search =====
-function toggleSearch(){document.getElementById('searchWrap').classList.toggle('active');if(document.getElementById('searchWrap').classList.contains('active'))document.getElementById('searchInput').focus()}
-
-// ===== Theme =====
-function toggleTheme(){
-  isDark=!isDark;
-  const s=document.documentElement.style;
-  s.setProperty('--bg',isDark?'#0a0a0f':'#f5f5f5');
-  s.setProperty('--bg2',isDark?'#12121a':'#fff');
-  s.setProperty('--bg3',isDark?'#1a1a25':'#f0f0f0');
-  s.setProperty('--bg4',isDark?'#222230':'#e0e0e0');
-  s.setProperty('--bdr',isDark?'#2a2a3a':'#ddd');
-  s.setProperty('--bdr2',isDark?'#3a3a50':'#ccc');
-  s.setProperty('--tx',isDark?'#eee':'#1a1a1a');
-  s.setProperty('--tx2',isDark?'#aaa':'#555');
-  s.setProperty('--tx3',isDark?'#666':'#999');
-  document.querySelector('.nav-r button:last-child').textContent=isDark?'🌙':'☀️';
+function toggleSearch() {
+  const wrap = document.getElementById('searchWrap');
+  wrap.classList.toggle('active');
+  if (wrap.classList.contains('active')) {
+    document.getElementById('searchInput').focus();
+  }
 }
 
-// ===== Stats =====
-function updateStats(){
-  document.getElementById('statPosts').textContent=articles.length;
-  const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
-  document.getElementById('statTags').textContent=tags.size;
-  document.getElementById('statComments').textContent=totalComments();
+function filterArticles() {
+  renderArticles(document.getElementById('searchInput').value);
+}
+
+// ===== Theme =====
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.style.setProperty('--bg', isDark ? '#0d0d0d' : '#f5f5f5');
+  document.documentElement.style.setProperty('--bg-card', isDark ? '#161616' : '#fff');
+  document.documentElement.style.setProperty('--bg-card-hover', isDark ? '#1c1c1c' : '#fafafa');
+  document.documentElement.style.setProperty('--border', isDark ? '#222' : '#e0e0e0');
+  document.documentElement.style.setProperty('--border-hover', isDark ? '#333' : '#ccc');
+  document.documentElement.style.setProperty('--text', isDark ? '#e8e8e8' : '#1a1a1a');
+  document.documentElement.style.setProperty('--text-sec', isDark ? '#999' : '#666');
+  document.documentElement.style.setProperty('--text-muted', isDark ? '#555' : '#999');
+  document.getElementById('theme-toggle').textContent = isDark ? '🌙' : '☀️';
 }
 
 // ===== Lightbox =====
-function openLB(s){document.getElementById('lbImg').src=s;document.getElementById('lb').classList.add('on')}
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-// ===== Scroll =====
-function initScroll(){
-  const nav=document.getElementById('nav'),prog=document.getElementById('progress'),bt=document.getElementById('btop');
-  window.addEventListener('scroll',()=>{
-    const y=scrollY;
-    nav.classList.toggle('scrolled',y>10);
-    const h=document.documentElement.scrollHeight-innerHeight;
-    prog.style.width=h>0?(y/h*100)+'%':'0%';
-    bt.classList.toggle('on',y>400);
+// ===== Scroll Effects =====
+function initScrollEffects() {
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  const backTop = document.getElementById('back-top');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    // Nav blur
+    nav.classList.toggle('scrolled', y > 10);
+    // Progress bar
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = h > 0 ? (y / h * 100) + '%' : '0%';
+    // Back to top
+    backTop.classList.toggle('visible', y > 400);
   });
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))document.getElementById('lb').classList.remove('on');else if(curArt)showHome()}});
+
+  // Keyboard shortcut: Escape to go back
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('lightbox').classList.contains('active')) closeLightbox();
+      else if (currentArticle) showHome();
+    }
+  });
 }
 </script>
 </body>
