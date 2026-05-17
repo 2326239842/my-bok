@@ -209,19 +209,7 @@ a:hover{text-decoration:underline}
 
 <script>
 // ===== 数据 =====
-const articles=[
-{id:1,title:"周末的一天",date:"2026-05-16 14:30",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2><p>周末的早晨总是醒得比工作日早。拉开窗帘，阳光洒进来，又是新的一天。</p><h2>上午</h2><p>泡了一杯咖啡，打开电脑看了会代码。最近在研究 Three.js，想做个3D小岛的互动页面。</p><blockquote>好的工具能让生活更高效，所以总是在造轮子的路上。</blockquote><h2>下午</h2><p>出门走了走，春天的风很舒服。路过一家新开的咖啡店，装修很有格调。</p><h3>关于设计</h3><p>好的设计不是加法，而是减法。留白、节奏、层次，这些比花哨的效果更重要。</p><h2>晚上</h2><p>回来继续写博客系统。用纯 HTML + CSS + JS 搭了一个单文件博客，零依赖。</p><pre><code>const articles = [{ id: 1, title: "周末的一天" }];</code></pre><p>这就是我的周末，平淡但充实。</p>`,image:"",audio:""},
-{id:2,title:"Hello World - 我的第一篇博客",date:"2026-05-15 10:00",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2><p>一直想有个自己的博客，记录学习和生活。之前用过 WordPress、Hugo，这次想试试最纯粹的方式：纯静态 HTML，一个文件搞定一切。</p><h2>技术选型</h2><p>最终选择了：</p><ul><li>HTML5 + CSS3 + 原生 JavaScript</li><li>零 npm 依赖</li><li>Cloudflare Pages 部署</li></ul><h2>Hello World</h2><p>这是每程序员的第一步。从这个简单的输出开始，到搭建完整的博客系统，每一步都是学习。</p><pre><code>console.log("Hello World!");</code></pre><p>期待在这里记录更多有趣的故事。</p>`,image:"",audio:""},
-{id:3,title:"前端性能优化笔记",date:"2026-05-10 09:15",tags:["技术","前端","性能"],summary:"整理前端性能优化的常见手段，从加载到渲染全覆盖。",content:`<h2>加载优化</h2><p>首屏加载速度直接影响用户体验。</p><h3>资源优化</h3><ul><li><strong>代码分割</strong>：按路由拆分</li><li><strong>图片优化</strong>：WebP、懒加载</li><li><strong>字体优化</strong>：font-display: swap</li></ul><h2>渲染优化</h2><pre><code>.card{will-change:transform;transition:transform .3s}
-.card:hover{transform:translateY(-4px)}</code></pre><blockquote>性能优化不是一次性的工作，而是持续的过程。</blockquote>`,image:"",audio:""},
-{id:4,title:"Three.js 低多边形场景入门",date:"2026-05-08 16:45",tags:["技术","3D"],summary:"用 Three.js 创建 Low Poly 3D 场景的入门教程。",content:`<h2>什么是 Low Poly</h2><p>Low Poly 是一种用少量多边形建模的3D风格。</p><h2>搭建场景</h2><pre><code>const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75,w/h,.1,1000);
-const renderer = new THREE.WebGLRenderer({antialias:true});</code></pre><h2>创建几何体</h2><pre><code>const geo = new THREE.IcosahedronGeometry(1,1);
-const mat = new THREE.MeshPhongMaterial({color:0x00e89d,flatShading:true});</code></pre><p>这就是低多边形的入门，后面会尝试更复杂的场景。</p>`,image:"",audio:""},
-{id:5,title:"我的歌单推荐",date:"2026-05-05 20:00",tags:["音乐","生活"],summary:"最近循环播放的一些歌，适合编码时听。",content:`<h2>编码时的 BGM</h2><h3>Lo-Fi / Chill</h3><ul><li>Lofi Hip Hop Radio</li><li>Chillhop Music</li></ul><h3>电子 / Ambient</h3><ul><li>Tycho - A Walk</li><li>Boards of Canada - Dayvan Cowboy</li></ul><blockquote>音乐是编码的第四维度。</blockquote>`,image:"",audio:""},
-{id:6,title:"OpenClaw 使用后感：从踩坑到真香",date:"2026-05-16 19:00",tags:["OpenClaw","AI Agent","技术"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。",content:`<h2>初识 OpenClaw</h2><p>OpenClaw 刚发布时，一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。作为技术小白，这些描述简直是致命的吸引力。</p><h2>Windows 上的艰难安装</h2><p>第一次安装连命令行都输错了。需要先安装 Node.js 和 Git，然后在 PowerShell 中解除脚本执行限制。</p><pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser\niwr -useb https://openclaw.ai/install.ps1 | iex</code></pre><h2>再次归来</h2><p>第二次使用是最近这段时间。新一代大模型彻底改变了局面，尤其是 DeepSeek，百万 Token 低至 0.02 元。</p><blockquote>三四天时间就可以完成网站的搭建、运行和各种数据库配置。对于一个普通人而言，这在以前是无法想象的。</blockquote>`,image:"",audio:""},
-{id:7,title:"用 OpenClaw 搭建双站的一天",date:"2026-05-16 20:57",tags:["OpenClaw","Three.js","Cloudflare"],summary:"从零搭建个人介绍站和博客站，包含 3D 樱花浮岛、匿名评论系统的完整过程。",content:`<h2>今天做了什么</h2><p>一个下午 + 晚上，用 OpenClaw 从零搭建了两个网站。</p><h2>个人介绍站：3D 樱花浮岛</h2><ul><li>Three.js 低多边形浮岛</li><li>点击树枝花瓣爆发 + 对白气泡</li><li>月亮月相变化 + 音乐播放器</li><li>深浅色模式 + 响应式适配</li></ul><h2>博客站：匿名评论系统</h2><p>使用 Cloudflare Workers + KV 自建评论系统，完全匿名，任何人可评论。</p><pre><code>// 评论 API\nPOST /api/comments\n{ slug, name, content }</code></pre><blockquote>这证明了一件事：有了 AI Agent，一个人也能做出看起来很专业的网站。</blockquote>`,image:"",audio:""}
-];
+const articles=[];
 
 // 按日期倒序排列（最新在最上面）
 articles.sort((a,b) => new Date(b.date) - new Date(a.date));
