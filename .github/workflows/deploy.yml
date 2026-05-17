@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Build & Deploy to Cloudflare Pages
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build
+      - name: Build articles from posts/
         run: node scripts/build.js
 
       - name: Deploy to Cloudflare Pages
