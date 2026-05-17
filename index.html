@@ -141,13 +141,21 @@ a:hover{text-decoration:underline}
 /* Responsive */
 @media(max-width:768px){
   .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
-  .side{max-width:100%;position:relative;top:0}
-  .side-card{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
-  .side-avatar{margin:0;width:50px;height:50px;font-size:1.4rem}
-  .side-name,.side-bio,.side-stats,.side-links,.side-section{text-align:left}
-  .side-stats{grid-template-columns:repeat(4,1fr)}
+  .side{position:fixed;top:0;left:-280px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease;padding:1rem;box-shadow:none}
+  .side.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5)}
+  .side-card{display:block;padding:0;border:none;background:none}
+  .side-avatar{margin:0 auto .8rem;width:60px;height:60px;font-size:1.6rem}
+  .side-name{text-align:center}
+  .side-bio{text-align:center}
+  .side-stats{grid-template-columns:repeat(2,1fr)}
+  .side-links{justify-content:center}
+  .side-section{text-align:left}
   .toc{display:none!important}
+  .side-mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999}
+  .side-mask.on{display:block}
+  .menu-btn{display:flex!important}
 }
+.menu-btn{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--tx2);padding:4px}
 </style>
 </head>
 <body>
@@ -157,11 +165,13 @@ a:hover{text-decoration:underline}
 <nav class="nav" id="nav">
   <a href="#" class="nav-logo" onclick="showHome();return false">📝 Yadong</a>
   <div class="nav-r">
+    <button class="menu-btn" onclick="toggleSide()" title="菜单">☰</button>
     <button onclick="toggleSearch()" title="搜索">🔍</button>
     <button onclick="toggleTheme()" title="主题">🌙</button>
   </div>
 </nav>
 
+<div class="side-mask" id="sideMask" onclick="toggleSide()"></div>
 <div class="layout" id="layout">
   <!-- Main -->
   <div class="main" id="mainArea">
@@ -393,6 +403,7 @@ function buildTOC(){
 
 // ===== Search =====
 function toggleSearch(){document.getElementById('searchWrap').classList.toggle('active');if(document.getElementById('searchWrap').classList.contains('active'))document.getElementById('searchInput').focus()}
+function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideMask').classList.toggle('on')}
 
 // ===== Theme =====
 function toggleTheme(){
