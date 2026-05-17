@@ -141,8 +141,8 @@ a:hover{text-decoration:underline}
 /* Responsive */
 @media(max-width:768px){
   .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
-  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease;padding:1rem;box-shadow:none;flex:none;min-width:0}
-  .side.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5)}
+  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease,padding .3s ease;padding:1rem;box-shadow:none;flex:none;min-width:0;pointer-events:none}
+  .side.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5);pointer-events:auto}
   .side-card{display:block;padding:0;border:none;background:none}
   .side-avatar{margin:0 auto .8rem;width:60px;height:60px;font-size:1.6rem}
   .side-name{text-align:center}
