@@ -37,6 +37,10 @@ theme = "PaperMod"
   home = ["HTML", "RSS", "JSON"]
 
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  ignoreLogs = ['warning-goldmark-raw-html']
   [markup.highlight]
     codeFences = true
     guessSyntax = true
