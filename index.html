@@ -451,27 +451,69 @@ function initUptime(){
 }
 
 // ===== 文章归档 =====
+let curArchiveYear=null,curArchiveMonth=null;
 function initArchives(){
-  const months={};
+  const years={};
   articles.forEach(a=>{
+    const y=a.date.substring(0,4);
     const m=a.date.substring(0,7);
-    if(!months[m])months[m]=0;
-    months[m]++;
+    if(!years[y])years[y]={};
+    if(!years[y][m])years[y][m]=0;
+    years[y][m]++;
   });
-  const sorted=Object.keys(months).sort().reverse();
-  document.getElementById('sideArchives').innerHTML=sorted.map(m=>{
-    const [y,mo]=m.split('-');
-    return `<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="pickMonth('${m}')"><span>${y}年${parseInt(mo)}月</span><span style="color:var(--tx3)">${months[m]} 篇</span></div>`;
-  }).join('');
+  const sorted=Object.keys(years).sort().reverse();
+  renderArchives(sorted,years);
+}
+function renderArchives(sorted,years){
+  const el=document.getElementById('sideArchives');
+  if(!curArchiveYear){
+    // Show years
+    el.innerHTML=sorted.map(y=>{
+      const count=Object.values(years[y]).reduce((a,b)=>a+b,0);
+      return `<div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.35rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="pickYear('${y}')"><span>📁 ${y} 年</span><span style="color:var(--tx3)">${count} 篇 ▸</span></div>`;
+    }).join('');
+  } else {
+    // Show months for selected year
+    const months=years[curArchiveYear];
+    const sortedM=Object.keys(months).sort().reverse();
+    let html=`<div style="font-size:.78rem;color:var(--tx3);padding:.3rem 0;cursor:pointer;margin-bottom:.3rem" onclick="pickYear(null)">← 返回全部年份</div>`;
+    html+=`<div style="font-size:.82rem;font-weight:600;color:var(--ac);padding:.3rem 0;border-bottom:1px solid var(--bdr);margin-bottom:.3rem">${curArchiveYear} 年</div>`;
+    html+=sortedM.map(m=>{
+      const mo=parseInt(m.split('-')[1]);
+      const active=curArchiveMonth===m;
+      return `<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:${active?'var(--ac)':'var(--tx2)'};font-weight:${active?'600':'400'}" onclick="pickMonth('${m}')"><span>${mo} 月</span><span style="color:var(--tx3)">${months[m]} 篇</span></div>`;
+    }).join('');
+    html+=`<div style="font-size:.78rem;color:var(--ac);padding:.4rem 0;cursor:pointer;text-align:center;margin-top:.3rem" onclick="pickMonth(null)">查看全部</div>`;
+    el.innerHTML=html;
+  }
+}
+function pickYear(y){
+  curArchiveYear=y;curArchiveMonth=null;curPage=1;
+  window._monthFilter=null;
+  const years={};
+  articles.forEach(a=>{
+    const yr=a.date.substring(0,4);
+    const m=a.date.substring(0,7);
+    if(!years[yr])years[yr]={};
+    if(!years[yr][m])years[yr][m]=0;
+    years[yr][m]++;
+  });
+  renderArchives(Object.keys(years).sort().reverse(),years);
+  renderCards();
 }
 function pickMonth(m){
-  curTag=null;curPage=1;
-  const filtered=articles.filter(a=>a.date.startsWith(m));
-  // Temporarily override filter for renderCards
-  const orig=articles.slice();
+  curArchiveMonth=m;curPage=1;
   window._monthFilter=m;
+  const years={};
+  articles.forEach(a=>{
+    const yr=a.date.substring(0,4);
+    const mo=a.date.substring(0,7);
+    if(!years[yr])years[yr]={};
+    if(!years[yr][mo])years[yr][mo]=0;
+    years[yr][mo]++;
+  });
+  renderArchives(Object.keys(years).sort().reverse(),years);
   renderCards();
-  window._monthFilter=null;
 }
 
 // ===== Lightbox =====
