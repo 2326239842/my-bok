@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AI on Yadong&#39;s Blog</title>
+    <link>https://yadongw118.dpdns.org/tags/ai/</link>
+    <description>Recent content in AI on Yadong&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 17 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://yadongw118.dpdns.org/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的AI工具折腾之路</title>
+      <link>https://yadongw118.dpdns.org/posts/my-ai-journey/</link>
+      <pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://yadongw118.dpdns.org/posts/my-ai-journey/</guid>
+      <description>从云端API到本地部署，我的AI工具使用体验与思考</description>
+    </item>
+  </channel>
+</rss>

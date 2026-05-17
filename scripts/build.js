@@ -6,7 +6,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const POSTS_DIR = path.join(__dirname, '..', 'posts');
+// 从 content/posts/（Trae Solo CN）和 posts/（旧目录）读取
+const POSTS_DIRS = [
+  path.join(__dirname, '..', 'content', 'posts'),
+  path.join(__dirname, '..', 'posts'),
+].filter(d => fs.existsSync(d));
 const INDEX_FILE = path.join(__dirname, '..', 'index.html');
 const START_MARKER = '// ===== ARTICLES_START =====';
 const END_MARKER = '// ===== ARTICLES_END =====';
@@ -79,12 +83,20 @@ function escapeForTemplateLiteral(str) {
 }
 
 function build() {
-  if (!fs.existsSync(POSTS_DIR)) {
-    console.log('❌ No posts/ directory found.');
+  if (POSTS_DIRS.length === 0) {
+    console.log('❌ No posts/ directories found.');
     process.exit(1);
   }
 
-  const files = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.md'));
+  const fileSet = new Map(); // name -> full path (first seen wins = content/posts/ priority)
+  POSTS_DIRS.forEach(dir => {
+    fs.readdirSync(dir).filter(f => f.endsWith('.md')).forEach(f => {
+      if (!fileSet.has(f)) {
+        fileSet.set(f, path.join(dir, f));
+      }
+    });
+  });
+  const files = [...fileSet.values()];
   if (files.length === 0) {
     console.log('⚠️  No .md files in posts/');
     process.exit(1);
@@ -93,14 +105,15 @@ function build() {
   const articles = [];
 
   files.forEach((file, idx) => {
-    const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8');
+    const raw = fs.readFileSync(file, 'utf-8');
+    const basename = path.basename(file);
     const { meta, body } = parseFrontMatter(raw);
 
     const content = escapeForTemplateLiteral(mdToHtml(body));
 
     articles.push({
       id: idx + 1,
-      title: meta.title || file.replace('.md', ''),
+      title: meta.title || basename.replace('.md', ''),
       date: meta.date || new Date().toISOString().split('T')[0],
       tags: meta.tags ? meta.tags.split(',').map(t => t.trim()) : [],
       summary: meta.summary || body.substring(0, 100).replace(/[#*>\-]/g, '').trim() + '...',

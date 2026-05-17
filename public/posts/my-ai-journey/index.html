@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>我的AI工具折腾之路 | Yadong&#39;s Blog</title>
+<meta name="keywords" content="AI, 技术, 工具">
+<meta name="description" content="从云端API到本地部署，我的AI工具使用体验与思考">
+<meta name="author" content="Yadong">
+<link rel="canonical" href="https://yadongw118.dpdns.org/posts/my-ai-journey/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.6ff46447b1fa3f8a5cc0bcae48088decc3ae37f5fbc99406a3aefc3bf0e6044a.css" integrity="sha256-b/RkR7H6P4pcwLyuSAiN7MOuN/X7yZQGo678O/DmBEo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://yadongw118.dpdns.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yadongw118.dpdns.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yadongw118.dpdns.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://yadongw118.dpdns.org/apple-touch-icon.png">
+<link rel="mask-icon" href="https://yadongw118.dpdns.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://yadongw118.dpdns.org/posts/my-ai-journey/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://yadongw118.dpdns.org/posts/my-ai-journey/">
+  <meta property="og:site_name" content="Yadong&#39;s Blog">
+  <meta property="og:title" content="我的AI工具折腾之路">
+  <meta property="og:description" content="从云端API到本地部署，我的AI工具使用体验与思考">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-17T00:00:00+00:00">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="技术">
+    <meta property="article:tag" content="工具">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="我的AI工具折腾之路">
+  <meta name="twitter:description" content="从云端API到本地部署，我的AI工具使用体验与思考">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://yadongw118.dpdns.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "我的AI工具折腾之路",
+      "item": "https://yadongw118.dpdns.org/posts/my-ai-journey/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "我的AI工具折腾之路",
+  "name": "我的AI工具折腾之路",
+  "description": "从云端API到本地部署，我的AI工具使用体验与思考",
+  "keywords": [
+    "AI", "技术", "工具"
+  ],
+  "articleBody": "前言 🚀 最近在AI工具的使用上经历了不少折腾，从最初的云端API调用，到后来尝试本地部署，这段经历让我对AI的使用成本和技术选型有了更深的理解。今天就来记录一下我的整个探索过程。\n小米平台API的消耗困境 📊 事情要从我的小米平台API说起。最近发现我的API调用量已经消耗了70%，这个消耗速度确实让我有些意外。\n说实话，云端API的使用成本比我想象的要高得多。每次调用都需要消耗token，而现在的AI模型动辄就是几K甚至几M的上下文窗口，累积下来的消耗确实不容小觑。\n飞书连接与OpenClaw的尝试 💬 在思考如何优化成本的同时，我也在尝试扩展更多的应用场景。比如想要连接飞书平台，通过OpenClaw来实现一些自动化的功能。\n然而事与愿违，在更新OpenClaw之后，原本正常使用的小米API竟然无法继续使用了。这让我不得不重新审视API的选择和配置问题。\nDeepSeek：性价比之选 💰 在寻找替代方案的过程中，我尝试了DeepSeek的API。说实话，DeepSeek的价格策略确实让人眼前一亮：\n💎 超低价格：两千多万token才花了一块钱 ⚡ 响应速度快：实际使用中反应非常迅速 🧠 效果超预期：生成质量出乎意料地好 然而，即便是这样\"便宜\"的API，面对海量的token消耗，长期使用下来依然是一笔不小的开支。这让我开始思考另一个问题：能否完全本地化部署AI能力？\nOllama本地部署：回归本地化 🤖 经过一番考量，我决定尝试在本地部署AI模型。我的方案是：\n在主机上安装Ollama 部署一个体积较小的本地模型 用本地模型处理一些简单的日常任务 这个方案的优势显而易见：\n✅ 零成本调用：本地运行，不消耗任何API额度 ✅ 响应更快：本地计算，没有网络延迟 ✅ 隐私更安全：数据不需要上传到云端 当然，本地模型的最终效果如何，还需要进一步验证和调优。这个问题还有待商榷。\nClaude Code：开发利器 🛠️ 在部署本地AI的同时，我也安装了Claude Code。通过OpenClaw来部署在Linux系统上，确实非常方便。开发效率有了明显的提升，很多重复性的编码工作现在可以交给AI来完成了。\n硬件升级的遗憾 💻 说起来，这段时间的使用也让我有了一个\"后悔\"——没有给电脑升级内存。\n现在的AI应用，尤其是本地部署的模型，对内存和存储的要求都不低：\n内存不足：运行稍大一点的模型就开始吃力 存储紧张：模型文件本身就非常大，再加上各种数据 AI时代存储的疯狂涨价 📈 说到存储，这个问题不得不提。随着AI的快速发展，固态存储的价格简直是疯涨。曾经的\"白菜价\"SSD，如今价格已经翻了原来的数倍，让人望其项背。\n不过话说回来，这也反映了市场对高性能存储的迫切需求。AI训练需要大量的高速读写，固态存储的涨价似乎也在情理之中。\n总结与思考 💡 这一路折腾下来，我最大的感受是：AI工具的使用需要综合考虑成本、效果和便利性。\n对于简单的日常任务，本地模型完全可以胜任 对于复杂的专业任务，云端API仍然是首选 合理组合使用，才能达到性价比的最优解 未来的AI使用之路还很长，且用且探索吧！\n技术在进步，成本在变化，保持学习和探索的心态最重要 🌟\n",
+  "wordCount" : "59",
+  "inLanguage": "en",
+  "datePublished": "2026-05-17T00:00:00Z",
+  "dateModified": "2026-05-17T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Yadong"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://yadongw118.dpdns.org/posts/my-ai-journey/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Yadong's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://yadongw118.dpdns.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://yadongw118.dpdns.org/" accesskey="h" title="Yadong&#39;s Blog (Alt + H)">Yadong&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      我的AI工具折腾之路
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-05-17 00:00:00 +0000 UTC'>May 17, 2026</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>59 words</span>&nbsp;·&nbsp;<span>Yadong</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言-">前言 🚀</a></li>
+    <li><a href="#小米平台api的消耗困境-">小米平台API的消耗困境 📊</a></li>
+    <li><a href="#飞书连接与openclaw的尝试-">飞书连接与OpenClaw的尝试 💬</a></li>
+    <li><a href="#deepseek性价比之选-">DeepSeek：性价比之选 💰</a></li>
+    <li><a href="#ollama本地部署回归本地化-">Ollama本地部署：回归本地化 🤖</a></li>
+    <li><a href="#claude-code开发利器-">Claude Code：开发利器 🛠️</a></li>
+    <li><a href="#硬件升级的遗憾-">硬件升级的遗憾 💻</a></li>
+    <li><a href="#ai时代存储的疯狂涨价-">AI时代存储的疯狂涨价 📈</a></li>
+    <li><a href="#总结与思考-">总结与思考 💡</a></li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="前言-">前言 🚀<a hidden class="anchor" aria-hidden="true" href="#前言-">#</a></h2>
+<p>最近在AI工具的使用上经历了不少折腾，从最初的云端API调用，到后来尝试本地部署，这段经历让我对AI的使用成本和技术选型有了更深的理解。今天就来记录一下我的整个探索过程。</p>
+<h2 id="小米平台api的消耗困境-">小米平台API的消耗困境 📊<a hidden class="anchor" aria-hidden="true" href="#小米平台api的消耗困境-">#</a></h2>
+<p>事情要从我的小米平台API说起。最近发现我的API调用量已经消耗了<strong>70%</strong>，这个消耗速度确实让我有些意外。</p>
+<p>说实话，云端API的使用成本比我想象的要高得多。每次调用都需要消耗token，而现在的AI模型动辄就是几K甚至几M的上下文窗口，累积下来的消耗确实不容小觑。</p>
+<h2 id="飞书连接与openclaw的尝试-">飞书连接与OpenClaw的尝试 💬<a hidden class="anchor" aria-hidden="true" href="#飞书连接与openclaw的尝试-">#</a></h2>
+<p>在思考如何优化成本的同时，我也在尝试扩展更多的应用场景。比如想要连接飞书平台，通过OpenClaw来实现一些自动化的功能。</p>
+<p>然而事与愿违，在更新OpenClaw之后，原本正常使用的小米API竟然无法继续使用了。这让我不得不重新审视API的选择和配置问题。</p>
+<h2 id="deepseek性价比之选-">DeepSeek：性价比之选 💰<a hidden class="anchor" aria-hidden="true" href="#deepseek性价比之选-">#</a></h2>
+<p>在寻找替代方案的过程中，我尝试了DeepSeek的API。说实话，DeepSeek的价格策略确实让人眼前一亮：</p>
+<ul>
+<li>💎 <strong>超低价格</strong>：两千多万token才花了一块钱</li>
+<li>⚡ <strong>响应速度快</strong>：实际使用中反应非常迅速</li>
+<li>🧠 <strong>效果超预期</strong>：生成质量出乎意料地好</li>
+</ul>
+<p>然而，即便是这样&quot;便宜&quot;的API，面对海量的token消耗，长期使用下来依然是一笔不小的开支。这让我开始思考另一个问题：<strong>能否完全本地化部署AI能力？</strong></p>
+<h2 id="ollama本地部署回归本地化-">Ollama本地部署：回归本地化 🤖<a hidden class="anchor" aria-hidden="true" href="#ollama本地部署回归本地化-">#</a></h2>
+<p>经过一番考量，我决定尝试在本地部署AI模型。我的方案是：</p>
+<ol>
+<li>在主机上安装Ollama</li>
+<li>部署一个体积较小的本地模型</li>
+<li>用本地模型处理一些简单的日常任务</li>
+</ol>
+<p>这个方案的优势显而易见：</p>
+<ul>
+<li>✅ <strong>零成本调用</strong>：本地运行，不消耗任何API额度</li>
+<li>✅ <strong>响应更快</strong>：本地计算，没有网络延迟</li>
+<li>✅ <strong>隐私更安全</strong>：数据不需要上传到云端</li>
+</ul>
+<p>当然，本地模型的最终效果如何，还需要进一步验证和调优。这个问题还有待商榷。</p>
+<h2 id="claude-code开发利器-">Claude Code：开发利器 🛠️<a hidden class="anchor" aria-hidden="true" href="#claude-code开发利器-">#</a></h2>
+<p>在部署本地AI的同时，我也安装了Claude Code。通过OpenClaw来部署在Linux系统上，确实非常方便。开发效率有了明显的提升，很多重复性的编码工作现在可以交给AI来完成了。</p>
+<h2 id="硬件升级的遗憾-">硬件升级的遗憾 💻<a hidden class="anchor" aria-hidden="true" href="#硬件升级的遗憾-">#</a></h2>
+<p>说起来，这段时间的使用也让我有了一个&quot;后悔&quot;——<strong>没有给电脑升级内存</strong>。</p>
+<p>现在的AI应用，尤其是本地部署的模型，对内存和存储的要求都不低：</p>
+<ul>
+<li><strong>内存不足</strong>：运行稍大一点的模型就开始吃力</li>
+<li><strong>存储紧张</strong>：模型文件本身就非常大，再加上各种数据</li>
+</ul>
+<h2 id="ai时代存储的疯狂涨价-">AI时代存储的疯狂涨价 📈<a hidden class="anchor" aria-hidden="true" href="#ai时代存储的疯狂涨价-">#</a></h2>
+<p>说到存储，这个问题不得不提。随着AI的快速发展，固态存储的价格简直是<strong>疯涨</strong>。曾经的&quot;白菜价&quot;SSD，如今价格已经翻了原来的数倍，让人望其项背。</p>
+<p>不过话说回来，这也反映了市场对高性能存储的迫切需求。AI训练需要大量的高速读写，固态存储的涨价似乎也在情理之中。</p>
+<h2 id="总结与思考-">总结与思考 💡<a hidden class="anchor" aria-hidden="true" href="#总结与思考-">#</a></h2>
+<p>这一路折腾下来，我最大的感受是：<strong>AI工具的使用需要综合考虑成本、效果和便利性</strong>。</p>
+<ul>
+<li>对于简单的日常任务，本地模型完全可以胜任</li>
+<li>对于复杂的专业任务，云端API仍然是首选</li>
+<li>合理组合使用，才能达到性价比的最优解</li>
+</ul>
+<p>未来的AI使用之路还很长，且用且探索吧！</p>
+<hr>
+<blockquote>
+<p>技术在进步，成本在变化，保持学习和探索的心态最重要 🌟</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://yadongw118.dpdns.org/tags/ai/">AI</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/%E6%8A%80%E6%9C%AF/">技术</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/%E5%B7%A5%E5%85%B7/">工具</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://yadongw118.dpdns.org/posts/openclaw-review/">
+    <span class="title">Next »</span>
+    <span>OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅</span>
+  </a>
+</nav>
+
+  </footer>
+<section class="comments" style="margin-top:2rem;padding:1.5rem;background:var(--entry-content-bg,#f8f9fa);border-radius:8px">
+  <h2 style="font-size:1.2rem;margin-bottom:.5rem">💬 评论区</h2>
+  <p style="color:var(--entry-content-color,#666);font-size:.85rem;margin-bottom:1rem">欢迎留言交流，支持匿名评论</p>
+  
+  
+  <div id="cmtList" style="margin-bottom:1.2rem"></div>
+  
+  
+  <div style="background:var(--entry-content-bg,#fff);border:1px solid #e0e0e0;border-radius:8px;padding:1rem">
+    <textarea id="cmtContent" placeholder="写下你的评论..." style="width:100%;min-height:80px;padding:.6rem;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:.9rem;resize:vertical;outline:none;background:#fff;color:#333" onfocus="this.style.borderColor='#4a90d9'" onblur="this.style.borderColor='#ddd'"></textarea>
+    <div style="display:flex;gap:.5rem;margin-top:.6rem;align-items:center">
+      <input id="cmtName" placeholder="你的名字（选填）" style="flex:1;padding:.45rem .6rem;border:1px solid #ddd;border-radius:6px;font-size:.85rem;outline:none;background:#fff;color:#333" onfocus="this.style.borderColor='#4a90d9'" onblur="this.style.borderColor='#ddd'">
+      <button onclick="postComment()" style="padding:.45rem 1rem;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit" onmouseover="this.style.background='#3a7bc8'" onmouseout="this.style.background='#4a90d9'">发表</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const slug = 'my-ai-journey';
+    const API = '/api/comments';
+    
+    
+    fetch(API + '?slug=' + slug)
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.comments.length > 0) {
+          renderComments(data.comments);
+        } else {
+          document.getElementById('cmtList').innerHTML = '<p style="color:#999;font-size:.85rem">暂无评论，来说点什么吧 ✍️</p>';
+        }
+      });
+
+    function renderComments(list) {
+      const el = document.getElementById('cmtList');
+      el.innerHTML = list.map(c => {
+        const d = new Date(c.time);
+        const time = d.toLocaleDateString('zh-CN') + ' ' + d.toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'});
+        const initial = (c.name || '匿名')[0];
+        return '<div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:.8rem 1rem;margin-bottom:.6rem">' +
+          '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">' +
+            '<div style="width:28px;height:28px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#4a90d9;font-weight:600">' + initial + '</div>' +
+            '<span style="font-size:.85rem;font-weight:600;color:#333">' + esc(c.name || '匿名') + '</span>' +
+            '<span style="font-size:.72rem;color:#999;margin-left:auto">' + time + '</span>' +
+          '</div>' +
+          '<div style="font-size:.88rem;color:#555;line-height:1.6;padding-left:2.1rem">' + esc(c.content) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    window.postComment = function() {
+      var content = document.getElementById('cmtContent').value.trim();
+      var name = document.getElementById('cmtName').value.trim();
+      if (!content) return alert('请输入评论内容');
+      
+      fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ slug: slug, name: name || '匿名', content: content })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok) {
+          document.getElementById('cmtContent').value = '';
+          
+          return fetch(API + '?slug=' + slug).then(r => r.json());
+        }
+      })
+      .then(data => {
+        if (data && data.ok) renderComments(data.comments);
+      });
+    };
+
+    function esc(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+  })();
+  </script>
+</section>
+
+
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://yadongw118.dpdns.org/">Yadong&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
