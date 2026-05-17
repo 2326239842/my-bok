@@ -153,9 +153,8 @@ a:hover{text-decoration:underline}
   .toc{display:none!important}
   .side-mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999}
   .side-mask.on{display:block}
-  .menu-btn{display:flex!important}
 }
-.menu-btn{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--tx2);padding:4px}
+
 </style>
 </head>
 <body>
@@ -163,9 +162,8 @@ a:hover{text-decoration:underline}
 <div id="progress"></div>
 
 <nav class="nav" id="nav">
-  <a href="#" class="nav-logo" onclick="showHome();return false">📝 Yadong</a>
+  <a href="#" class="nav-logo" onclick="if(window.innerWidth<=768){toggleSide();return false}showHome();return false">📝 Yadong</a>
   <div class="nav-r">
-    <button class="menu-btn" onclick="toggleSide()" title="菜单">☰</button>
     <button onclick="toggleSearch()" title="搜索">🔍</button>
     <button onclick="toggleTheme()" title="主题">🌙</button>
   </div>
