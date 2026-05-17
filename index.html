@@ -167,7 +167,7 @@ a:hover{text-decoration:underline}
   <div class="main" id="mainArea">
     <div id="homeView">
       <div class="search-wrap" id="searchWrap">
-        <input class="search-input" id="searchInput" placeholder="搜索文章..." oninput="renderCards()">
+        <input class="search-input" id="searchInput" placeholder="搜索文章..." oninput="curPage=1;renderCards()">
       </div>
       <div class="tags-bar" id="tagsBar"></div>
       <div class="articles" id="cards"></div>
@@ -249,12 +249,13 @@ function initTags(){
   st.innerHTML=[...s].map(t=>`<button class="tag-btn" onclick="pickTag('${t}')" style="font-size:.7rem;padding:.2rem .5rem">${t}</button>`).join('');
 }
 function pickTag(t){
-  curTag=t;
+  curTag=t;curPage=1;
   document.querySelectorAll('.tag-btn').forEach(b=>b.classList.toggle('active',(t===null&&b.textContent==='全部')||b.textContent===t));
   renderCards();
 }
 
 // ===== Render Cards =====
+const PER_PAGE=30;let curPage=1;
 function renderCards(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const list=articles.filter(a=>{
@@ -262,8 +263,11 @@ function renderCards(){
     const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
     return tagOk&&sOk;
   });
+  const totalPages=Math.ceil(list.length/PER_PAGE)||1;
+  if(curPage>totalPages)curPage=totalPages;
+  const paged=list.slice((curPage-1)*PER_PAGE,curPage*PER_PAGE);
   const el=document.getElementById('cards');
-  el.innerHTML=list.map((a,i)=>{
+  el.innerHTML=paged.map((a,i)=>{
     const cmts=getComments(a.id).length;
     return `<div class="card" onclick="showDetail(${a.id})" style="animation-delay:${i*60}ms">
       <div class="card-top">
@@ -277,10 +281,23 @@ function renderCards(){
       </div>
     </div>`;
   }).join('');
+  // Pagination
+  let pag='';
+  if(totalPages>1){
+    pag='<div style="display:flex;justify-content:center;gap:.5rem;margin-top:1.5rem;flex-wrap:wrap">';
+    if(curPage>1)pag+=`<button onclick="goPage(${curPage-1})" class="tag-btn">← 上一页</button>`;
+    for(let p=1;p<=totalPages;p++){
+      pag+=`<button onclick="goPage(${p})" class="tag-btn${p===curPage?' active':''}">${p}</button>`;
+    }
+    if(curPage<totalPages)pag+=`<button onclick="goPage(${curPage+1})" class="tag-btn">下一页 →</button>`;
+    pag+='</div>';
+  }
+  el.innerHTML+=pag;
   requestAnimationFrame(()=>el.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('visible'),i*60)));
   // Side recent
   document.getElementById('sideRecent').innerHTML=articles.slice(0,4).map(a=>`<div style="font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="showDetail(${a.id})">${a.title}</div>`).join('');
 }
+function goPage(p){curPage=p;renderCards();window.scrollTo({top:0,behavior:'smooth'})}
 
 // ===== Detail =====
 function showDetail(id){
