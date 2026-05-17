@@ -26,7 +26,7 @@ a:hover{text-decoration:underline}
 /* Nav */
 .nav{position:fixed;top:0;left:0;right:0;height:52px;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,3vw,2rem);background:rgba(10,10,15,.5);backdrop-filter:blur(0);transition:all .3s;border-bottom:1px solid transparent}
 .nav.scrolled{backdrop-filter:blur(20px);border-bottom-color:var(--bdr)}
-.nav-logo{font-size:1rem;font-weight:700;color:var(--tx)}
+.nav-logo{font-size:1rem;font-weight:700;color:var(--tx);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .nav-r{display:flex;gap:1rem;align-items:center}
 .nav-r button{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--tx2)}
 .nav-r button:hover{color:var(--tx)}
@@ -134,14 +134,14 @@ a:hover{text-decoration:underline}
 .lb img{max-width:90vw;max-height:90vh;border-radius:var(--r2)}
 
 /* Back top */
-#btop{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--ac);color:#0a0a0f;border:none;font-size:1rem;cursor:pointer;opacity:0;transition:all .3s;z-index:1000;display:flex;align-items:center;justify-content:center}
+#btop{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--ac);color:#0a0a0f;border:none;font-size:1rem;cursor:pointer;opacity:0;transition:all .3s;z-index:1000;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #btop.on{opacity:1}
 #btop:hover{box-shadow:0 0 20px var(--ac3)}
 
 /* Responsive */
 @media(max-width:768px){
   .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
-  .side{position:fixed;top:0;left:-280px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease;padding:1rem;box-shadow:none}
+  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease;padding:1rem;box-shadow:none;flex:none;min-width:0}
   .side.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5)}
   .side-card{display:block;padding:0;border:none;background:none}
   .side-avatar{margin:0 auto .8rem;width:60px;height:60px;font-size:1.6rem}
@@ -155,7 +155,7 @@ a:hover{text-decoration:underline}
   .side-mask.on{display:block}
   .menu-btn{display:flex!important}
 }
-.menu-btn{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--tx2);padding:4px}
+.menu-btn{display:none;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--tx2);padding:4px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 
 </style>
 </head>
