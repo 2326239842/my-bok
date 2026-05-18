@@ -230,15 +230,15 @@ const articles=[
 {id:2,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",content:`<p><br><h2>前言 🚀</h2><p>最近在AI工具的使用上经历了不少折腾，从最初的云端API调用，到后来尝试本地部署，这段经历让我对AI的使用成本和技术选型有了更深的理解。今天就来记录一下我的整个探索过程。</p><h2>小米平台API的消耗困境 📊</h2><p>事情要从我的小米平台API说起。最近发现我的API调用量已经消耗了<strong>70%</strong>，这个消耗速度确实让我有些意外。</p><p>说实话，云端API的使用成本比我想象的要高得多。每次调用都需要消耗token，而现在的AI模型动辄就是几K甚至几M的上下文窗口，累积下来的消耗确实不容小觑。</p><h2>飞书连接与OpenClaw的尝试 💬</h2><p>在思考如何优化成本的同时，我也在尝试扩展更多的应用场景。比如想要连接飞书平台，通过OpenClaw来实现一些自动化的功能。</p><p>然而事与愿违，在更新OpenClaw之后，原本正常使用的小米API竟然无法继续使用了。这让我不得不重新审视API的选择和配置问题。</p><h2>DeepSeek：性价比之选 💰</h2><p>在寻找替代方案的过程中，我尝试了DeepSeek的API。说实话，DeepSeek的价格策略确实让人眼前一亮：</p><ul><li>💎 <strong>超低价格</strong>：两千多万token才花了一块钱</li></ul><br><ul><li>⚡ <strong>响应速度快</strong>：实际使用中反应非常迅速</li></ul><br><ul><li>🧠 <strong>效果超预期</strong>：生成质量出乎意料地好</li></ul><p>然而，即便是这样"便宜"的API，面对海量的token消耗，长期使用下来依然是一笔不小的开支。这让我开始思考另一个问题：<strong>能否完全本地化部署AI能力？</strong></p><h2>Ollama本地部署：回归本地化 🤖</h2><p>经过一番考量，我决定尝试在本地部署AI模型。我的方案是：</p><p>1. 在主机上安装Ollama<br>2. 部署一个体积较小的本地模型<br>3. 用本地模型处理一些简单的日常任务</p><p>这个方案的优势显而易见：<br><ul><li>✅ <strong>零成本调用</strong>：本地运行，不消耗任何API额度</li></ul><br><ul><li>✅ <strong>响应更快</strong>：本地计算，没有网络延迟</li></ul><br><ul><li>✅ <strong>隐私更安全</strong>：数据不需要上传到云端</li></ul><p>当然，本地模型的最终效果如何，还需要进一步验证和调优。这个问题还有待商榷。</p><h2>Claude Code：开发利器 🛠️</h2><p>在部署本地AI的同时，我也安装了Claude Code。通过OpenClaw来部署在Linux系统上，确实非常方便。开发效率有了明显的提升，很多重复性的编码工作现在可以交给AI来完成了。</p><h2>硬件升级的遗憾 💻</h2><p>说起来，这段时间的使用也让我有了一个"后悔"——<strong>没有给电脑升级内存</strong>。</p><p>现在的AI应用，尤其是本地部署的模型，对内存和存储的要求都不低：</p><ul><li><strong>内存不足</strong>：运行稍大一点的模型就开始吃力</li></ul><br><ul><li><strong>存储紧张</strong>：模型文件本身就非常大，再加上各种数据</li></ul><h2>AI时代存储的疯狂涨价 📈</h2><p>说到存储，这个问题不得不提。随着AI的快速发展，固态存储的价格简直是<strong>疯涨</strong>。曾经的"白菜价"SSD，如今价格已经翻了原来的数倍，让人望其项背。</p><p>不过话说回来，这也反映了市场对高性能存储的迫切需求。AI训练需要大量的高速读写，固态存储的涨价似乎也在情理之中。</p><h2>总结与思考 💡</h2><p>这一路折腾下来，我最大的感受是：<strong>AI工具的使用需要综合考虑成本、效果和便利性</strong>。</p><ul><li>对于简单的日常任务，本地模型完全可以胜任</li></ul><br><ul><li>对于复杂的专业任务，云端API仍然是首选</li></ul><br><ul><li>合理组合使用，才能达到性价比的最优解</li></ul><p>未来的AI使用之路还很长，且用且探索吧！</p><p>---</p><blockquote>技术在进步，成本在变化，保持学习和探索的心态最重要 🌟</blockquote><br></p>`,image:"",audio:""},
 {id:3,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",content:`<p><br><h2>疲惫的一天 ☕</h2><p>今天真的是疲惫的一天，从早上忙到晚上，感觉身体被掏空了。但想想，好像也做了不少事情。</p><h3>上午的忙碌</h3><p>一大早起来就开始处理各种事情，感觉时间过得特别快。连喝口水的时间都差点没有。</p><h3>下午的折腾</h3><p>下午一直在折腾那个博客的自动化部署。先是尝试配置webhook，遇到了一些问题，后来又换用了定时轮询的方式。</p><p>不过好在现在有了 blog-poller，每 2 分钟检查一次，以后再写文章就方便多了！</p><h3>晚上的放松</h3><p>终于到了晚上，可以稍微放松一下了。准备泡杯茶，看看书，早点休息。</p><p>明天又是新的一天！加油！💪<br></p>`,image:"",audio:""},
 {id:4,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<style>
-/* ========== 文章自定义样式（紧凑版） ========== */
+/* ========== 文章自定义样式（紧凑版 + 暗色适配） ========== */
 .oc-review .oc-hero-quote {
-    background: linear-gradient(135deg, #fff5f5, #fff0f0);
+    background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(229,57,53,0.04));
     border-left: 4px solid #e53935;
     padding: 16px 20px;
     margin: 16px 0;
     border-radius: 0 10px 10px 0;
     font-style: italic;
-    color: #555;
+    color: var(--tx2, #aaa);
     position: relative;
     animation: oc-fadeInRight 0.6s ease-out both;
     line-height: 1.8;
@@ -256,17 +256,18 @@ const articles=[
 
 /* 信息卡片 */
 .oc-review .oc-card {
-    background: #fff;
+    background: var(--bg2, #fff);
     border-radius: 12px;
     padding: 16px 20px;
     margin: 16px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: oc-fadeInUp 0.6s ease-out both;
+    color: var(--tx, #eee);
 }
 .oc-review .oc-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
 }
 .oc-review .oc-card.oc-warn { border-top: 3px solid #ff9800; }
 .oc-review .oc-card.oc-ok { border-top: 3px solid #4caf50; }
@@ -280,11 +281,11 @@ const articles=[
     align-items: center;
     gap: 6px;
 }
-.oc-review .oc-card.oc-warn .oc-card-title { color: #e65100; }
-.oc-review .oc-card.oc-ok .oc-card-title { color: #2e7d32; }
-.oc-review .oc-card.oc-info .oc-card-title { color: #1565c0; }
+.oc-review .oc-card.oc-warn .oc-card-title { color: #ff9800; }
+.oc-review .oc-card.oc-ok .oc-card-title { color: #4caf50; }
+.oc-review .oc-card.oc-info .oc-card-title { color: #2196f3; }
 .oc-review .oc-card.oc-danger .oc-card-title { color: #e53935; }
-.oc-review .oc-card p { margin-bottom: 4px; line-height: 1.75; }
+.oc-review .oc-card p { margin-bottom: 4px; line-height: 1.75; color: var(--tx, #eee); }
 .oc-review .oc-card p:last-child { margin-bottom: 0; }
 
 /* 统计卡片网格 */
@@ -295,11 +296,11 @@ const articles=[
     margin: 16px 0;
 }
 .oc-review .oc-stat {
-    background: #fff;
+    background: var(--bg2, #fff);
     border-radius: 10px;
     padding: 14px 12px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
     animation: oc-fadeInUp 0.6s ease-out both;
 }
@@ -312,7 +313,7 @@ const articles=[
 }
 .oc-review .oc-stat-label {
     font-size: 12px;
-    color: #999;
+    color: var(--tx3, #999);
     margin-top: 4px;
     line-height: 1.5;
 }
@@ -367,7 +368,7 @@ const articles=[
     overflow-x: auto;
     margin: 16px 0;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     animation: oc-fadeInUp 0.6s ease-out both;
 }
 .oc-review table {
@@ -375,6 +376,7 @@ const articles=[
     border-collapse: separate;
     border-spacing: 0;
     font-size: 13px;
+    background: var(--bg2, #fff);
 }
 .oc-review table th {
     background: linear-gradient(135deg, #e53935, #ff6f60);
@@ -386,26 +388,27 @@ const articles=[
 }
 .oc-review table td {
     padding: 10px 16px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--bdr, #eee);
     line-height: 1.6;
+    color: var(--tx, #eee);
 }
 .oc-review table tr:last-child td { border-bottom: none; }
-.oc-review table tr:nth-child(even) { background: #fafafa; }
+.oc-review table tr:nth-child(even) { background: rgba(255,255,255,0.03); }
 .oc-review table tr { transition: background 0.3s ease; }
-.oc-review table tr:hover td { background: #fff5f5; }
+.oc-review table tr:hover td { background: rgba(229,57,53,0.08); }
 
 /* 图片容器 */
 .oc-review .oc-img {
     margin: 20px 0;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     animation: oc-fadeInUp 0.8s ease-out both;
 }
 .oc-review .oc-img:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
 }
 .oc-review .oc-img img {
     width: 100%;
@@ -414,12 +417,12 @@ const articles=[
 }
 .oc-review .oc-img:hover img { transform: scale(1.02); }
 .oc-review .oc-img-cap {
-    background: #fff;
+    background: var(--bg2, #fff);
     padding: 10px 16px;
     font-size: 12px;
-    color: #666;
+    color: var(--tx2, #666);
     text-align: center;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--bdr, #eee);
     line-height: 1.5;
 }
 
@@ -436,7 +439,7 @@ const articles=[
     right: 0;
     top: 50%;
     height: 1px;
-    background: linear-gradient(to right, transparent, #eee, transparent);
+    background: linear-gradient(to right, transparent, var(--bdr, #eee), transparent);
 }
 .oc-review .oc-divider span {
     background: var(--bg, #fafafa);
@@ -447,13 +450,13 @@ const articles=[
 
 /* 高亮引用 */
 .oc-review .oc-quote {
-    background: linear-gradient(135deg, #fff5f5, #fff0f0);
+    background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(229,57,53,0.04));
     border-left: 4px solid #e53935;
     padding: 16px 20px;
     margin: 16px 0;
     border-radius: 0 10px 10px 0;
     font-style: italic;
-    color: #555;
+    color: var(--tx2, #aaa);
     position: relative;
     animation: oc-fadeInRight 0.6s ease-out both;
     line-height: 1.8;
@@ -471,7 +474,7 @@ const articles=[
 
 /* 内联代码 */
 .oc-review code:not(pre code) {
-    background: #f0f0f0;
+    background: var(--bg3, #f0f0f0);
     color: #e53935;
     padding: 2px 6px;
     border-radius: 4px;
@@ -565,56 +568,6 @@ const articles=[
 .oc-top-btn:hover {
     background: #ff6f60;
     transform: translateY(-2px);
-}
-
-/* 暗色模式适配 */
-@media (prefers-color-scheme: dark) {
-    .oc-review p,
-    .oc-review li,
-    .oc-review span,
-    .oc-review div {
-        color: inherit;
-    }
-    .oc-review .oc-hero-quote,
-    .oc-review .oc-quote {
-        background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(229,57,53,0.05));
-        color: #c4c4c5;
-    }
-    .oc-review .oc-card {
-        background: var(--entry, #1e1e1e);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .oc-review .oc-stat {
-        background: var(--entry, #1e1e1e);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .oc-review .oc-stat-label {
-        color: #888;
-    }
-    .oc-review .oc-img-cap {
-        background: var(--entry, #1e1e1e);
-        color: #999;
-        border-top-color: #333;
-    }
-    .oc-review table td {
-        border-bottom-color: #333;
-    }
-    .oc-review table tr:nth-child(even) {
-        background: rgba(255,255,255,0.03);
-    }
-    .oc-review table tr:hover td {
-        background: rgba(229,57,53,0.08);
-    }
-    .oc-review code:not(pre code) {
-        background: rgba(255,255,255,0.1);
-        color: #ff6f60;
-    }
-    .oc-review .oc-divider::before {
-        background: linear-gradient(to right, transparent, #333, transparent);
-    }
-    .oc-review .oc-divider span {
-        background: var(--bg, #1a1b1e);
-    }
 }
 
 /* 响应式 */
