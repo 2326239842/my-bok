@@ -11,7 +11,11 @@ summary: "用AI为照片添加手绘风注解，记录美好的春日时光"
 
 ### 图片欣赏
 
-![春日樱花手账](/images/cherry-blossom-hand-drawn.jpg)
+![春日樱花手账](/images/花朵.png)
+
+![整齐的书桌](/images/整齐的书桌.png)
+
+![饭菜彩虹小路](/images/饭菜彩虹小路.png)
 
 ### 物件注解
 

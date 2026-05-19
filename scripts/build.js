@@ -24,12 +24,10 @@ function parseFrontMatter(content) {
     const [key, ...vals] = line.split(':');
     if (key && vals.length) {
       let val = vals.join(':').trim();
-      // 兼容 YAML 数组格式: ["a", "b", "c"]
       if (val.startsWith('[') && val.endsWith(']')) {
         try {
           val = JSON.parse(val);
         } catch(e) {
-          // fallback: 去掉 [] 再按逗号分割
           val = val.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
         }
       } else {
@@ -42,49 +40,117 @@ function parseFrontMatter(content) {
 }
 
 function mdToHtml(md) {
-  let html = md
-    // Code blocks (must be first)
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-    // Inline code
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    // Headings
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    // Bold & italic
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    // Blockquote
-    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-    // Images
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">')
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-    // Unordered list items
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    // Paragraphs (double newline)
-    .replace(/\n\n/g, '</p><p>')
-    // Single newlines to <br>
-    .replace(/\n/g, '<br>');
-
-  // Wrap consecutive <li> in <ul>
-  html = html.replace(/(<li>.*?<\/li>)/gs, (match) => {
-    if (!match.startsWith('<ul>')) return '<ul>' + match + '</ul>';
-    return match;
+  // Step 1: Extract fenced code blocks -> placeholders
+  const codeBlocks = [];
+  let html = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    const idx = codeBlocks.length;
+    codeBlocks.push({ lang, code });
+    return `%%CODEBLOCK_${idx}%%`;
   });
 
-  // Clean up empty paragraphs
-  html = html.replace(/<p>\s*<\/p>/g, '');
-  html = html.replace(/<p>(<h[1-6]>)/g, '$1');
-  html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
-  html = html.replace(/<p>(<ul>)/g, '$1');
-  html = html.replace(/(<\/ul>)<\/p>/g, '$1');
-  html = html.replace(/<p>(<pre>)/g, '$1');
-  html = html.replace(/(<\/pre>)<\/p>/g, '$1');
-  html = html.replace(/<p>(<blockquote>)/g, '$1');
-  html = html.replace(/(<\/blockquote>)<\/p>/g, '$1');
+  // Step 2: Inline code -> placeholders
+  const inlineCodes = [];
+  html = html.replace(/`([^`]+)`/g, (_, code) => {
+    const idx = inlineCodes.length;
+    inlineCodes.push(code);
+    return `%%INLINECODE_${idx}%%`;
+  });
 
-  return '<p>' + html + '</p>';
+  // Step 3: Horizontal rules
+  html = html.replace(/^---\s*$/gm, '<hr>');
+
+  // Step 4: Blockquotes - group consecutive lines
+  html = html.replace(/^>\s?(.+)$/gm, '%%BQ%%$1%%/BQ%%');
+  html = html.replace(/((?:%%BQ%%[^\n]*%%\/BQ%%\n?)+)/g, (match) => {
+    const lines = match
+      .split(/(?:%%\/BQ%%)\n?/)
+      .filter(l => l.startsWith('%%BQ%%'))
+      .map(l => l.replace('%%BQ%%', ''));
+    return '<blockquote>' + lines.join('<br>') + '</blockquote>';
+  });
+
+  // Step 5: Headings
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  // Step 6: Images (before links)
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
+
+  // Step 7: Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  // Step 8: Bold & italic
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+
+  // Step 9: Unordered list items
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+
+  // Step 10: Group consecutive <li> into <ul>
+  html = html.replace(/(?:<li>[\s\S]*?<\/li>\s*)+/g, (match) => {
+    return '<ul>' + match.trim() + '</ul>';
+  });
+
+  // Step 11: Restore inline code
+  inlineCodes.forEach((code, i) => {
+    const escaped = code
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    html = html.replace(`%%INLINECODE_${i}%%`, `<code>${escaped}</code>`);
+  });
+
+  // Step 12: Restore code blocks
+  codeBlocks.forEach(({ lang, code }, i) => {
+    html = html.replace(`%%CODEBLOCK_${i}%%`, `<pre><code>${lang ? lang + '\n' : ''}${code}</code></pre>`);
+  });
+
+  // Step 13: Wrap remaining text in paragraphs
+  // Split by block-level elements
+  const blockTagNames = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'blockquote', 'pre', 'hr'];
+  const blockRE = new RegExp(
+    `(<(?:${blockTagNames.join('|')})(?:\\s[^>]*)?>[\\s\\S]*?<\\/(?:${blockTagNames.join('|')})>|<hr\\s*\\/?>)`,
+    'gi'
+  );
+
+  const segments = [];
+  let lastEnd = 0;
+  let match;
+  blockRE.lastIndex = 0;
+  while ((match = blockRE.exec(html)) !== null) {
+    // Text before this block element
+    if (match.index > lastEnd) {
+      const text = html.slice(lastEnd, match.index).trim();
+      if (text) segments.push({ type: 'text', content: text });
+    }
+    segments.push({ type: 'block', content: match[0] });
+    lastEnd = match.index + match[0].length;
+  }
+  // Remaining text after last block element
+  if (lastEnd < html.length) {
+    const text = html.slice(lastEnd).trim();
+    if (text) segments.push({ type: 'text', content: text });
+  }
+
+  if (segments.length === 0) return '';
+
+  let result = '';
+  for (const seg of segments) {
+    if (seg.type === 'block') {
+      result += seg.content + '\n';
+    } else {
+      let text = seg.content;
+      text = text.replace(/\n{2,}/g, '</p><p>');
+      text = text.replace(/\n/g, '<br>');
+      // Skip empty paragraphs
+      if (text.replace(/<br>/g, '').trim()) {
+        result += '<p>' + text + '</p>\n';
+      }
+    }
+  }
+
+  return result.trim();
 }
 
 function escapeForTemplateLiteral(str) {
@@ -92,7 +158,7 @@ function escapeForTemplateLiteral(str) {
     .replace(/\\/g, '\\\\')
     .replace(/`/g, '\\`')
     .replace(/\$/g, '\\$')
-    .replace(/<\/script>/gi, '<\\/script>');  // 防止浏览器提前关闭 script 标签
+    .replace(/<\/script>/gi, '<\\/script>');
 }
 
 function build() {
@@ -101,7 +167,7 @@ function build() {
     process.exit(1);
   }
 
-  const fileSet = new Map(); // name -> full path (first seen wins = content/posts/ priority)
+  const fileSet = new Map();
   POSTS_DIRS.forEach(dir => {
     fs.readdirSync(dir).filter(f => f.endsWith('.md')).forEach(f => {
       if (!fileSet.has(f)) {
@@ -122,8 +188,6 @@ function build() {
     const basename = path.basename(file);
     const { meta, body } = parseFrontMatter(raw);
 
-    // 如果正文以 HTML 标签开头（来自 content/posts/），直接保留原文
-    // 否则通过 mdToHtml 转换（来自旧 posts/）
     const isHtml = /^\s*</.test(body.trim());
     const content = isHtml ? escapeForTemplateLiteral(body.trim()) : escapeForTemplateLiteral(mdToHtml(body));
 
@@ -139,13 +203,9 @@ function build() {
     });
   });
 
-  // Sort by date descending
   articles.sort((a, b) => b.date.localeCompare(a.date));
-
-  // Reassign IDs after sorting
   articles.forEach((a, i) => a.id = i + 1);
 
-  // Generate articles JS
   const articlesJs = articles.map(a => {
     const tags = JSON.stringify(a.tags);
     return `{id:${a.id},title:"${a.title}",date:"${a.date}",tags:${tags},summary:"${a.summary}",content:\`${a.content}\`,image:"${a.image}",audio:"${a.audio}"}`;
@@ -153,7 +213,6 @@ function build() {
 
   const block = `// ===== ARTICLES_START =====\nconst articles=[\n${articlesJs}\n];\n// ===== ARTICLES_END =====`;
 
-  // Read index.html and replace
   let html = fs.readFileSync(INDEX_FILE, 'utf-8');
   const startIdx = html.indexOf(START_MARKER);
   const endIdx = html.indexOf(END_MARKER);
