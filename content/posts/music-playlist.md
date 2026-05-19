@@ -22,7 +22,7 @@ audio: "/music/我们都一样_compressed.mp3"
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
-    <source src="/music/张杰 - 我们都一样.mp3" type="audio/mpeg">
+    <source src="/music/我们都一样_compressed.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
   </audio>
 </div>
