@@ -1,7 +1,7 @@
 // Pages Functions — 评论系统 + 管理员删除
-// 管理员密码: yadong@2026
+// 管理员密码: wyd73199254110
 
-const ADMIN_PW = "yadong@2026";
+const ADMIN_PW = "wyd73199254110";
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -40,6 +40,33 @@ export async function onRequest(context) {
     // 验证管理员
     if (body._action === 'verify') {
       return Response.json({ ok: body.password === ADMIN_PW }, { headers: CORS });
+    }
+
+    // 删除整篇文章（管理员）
+    if (body._action === 'delete_article') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      const deleted = await env.KV.get('deleted_articles', 'json') || [];
+      if (!deleted.includes(body.title)) {
+        deleted.push(body.title);
+        await env.KV.put('deleted_articles', JSON.stringify(deleted));
+      }
+      return Response.json({ ok: true }, { headers: CORS });
+    }
+
+    // 恢复文章（管理员）
+    if (body._action === 'restore_article') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      let deleted = await env.KV.get('deleted_articles', 'json') || [];
+      deleted = deleted.filter(t => t !== body.title);
+      await env.KV.put('deleted_articles', JSON.stringify(deleted));
+      return Response.json({ ok: true }, { headers: CORS });
+    }
+
+    // 获取已删除列表（管理员）
+    if (body._action === 'get_deleted') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      const deleted = await env.KV.get('deleted_articles', 'json') || [];
+      return Response.json({ ok: true, deleted }, { headers: CORS });
     }
 
     // 普通发表评论

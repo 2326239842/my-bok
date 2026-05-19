@@ -96,14 +96,14 @@ a:hover{text-decoration:underline}
 .copy-btn:hover{border-color:var(--ac);color:var(--ac)}
 
 /* Music Player */
-.music-player{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:.8rem 1rem;margin:1rem 0;transition:border-color .2s}
-.music-player:hover{border-color:var(--bdr2)}
+.music-player{background:var(--bg2);border:1px solid var(--ac3);border-radius:var(--r);padding:.8rem 1rem;margin:1rem 0;transition:border-color .2s}
+.music-player:hover{border-color:var(--ac)}
 .player-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
-.player-title{font-size:.88rem;font-weight:600;color:var(--tx)}
-.player-hint{font-size:.72rem;color:var(--tx3)}
-.music-audio{width:100%;height:36px;border-radius:var(--r2)}
-.music-audio::-webkit-media-controls-panel{background:var(--bg3)}
-.music-audio::-webkit-media-controls-enclosure{border-radius:var(--r2);background:var(--bg2)}
+.player-title{font-size:.9rem;font-weight:600;color:var(--tx)}
+.player-hint{font-size:.72rem;color:var(--ac);opacity:.7}
+.music-audio{width:100%;height:40px;border-radius:var(--r2);margin-top:.3rem}
+.music-audio::-webkit-media-controls-panel{background:var(--bg2)}
+.music-audio::-webkit-media-controls-enclosure{border-radius:var(--r2);background:var(--bg3);border:1px solid var(--bdr)}
 
 /* Comments */
 .comments{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
@@ -371,30 +371,35 @@ async function checkAdmin() {
   return _isAdmin;
 }
 
-function showAdminLogin() {
+async function showAdminLogin() {
   const pw = prompt('请输入管理员密码：');
   if (!pw) return;
-  fetch(API_BASE, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({_action: 'verify', password: pw}),
-  }).then(r=>r.json()).then(d=>{
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'verify', password: pw}),
+    });
+    const d = await r.json();
     if (d.ok) {
       _isAdmin = true;
       sessionStorage.setItem('cmt_admin', '1');
+      await loadDeletedArticles();
       if (curArt) showDetail(curArt.id, true);
       alert('✅ 管理员登录成功');
     } else {
       alert('❌ 密码错误');
     }
-  }).catch(()=>alert('❌ 验证失败'));
+  } catch(e) {
+    alert('❌ 验证失败');
+  }
 }
 
 function adminLogout() {
   _isAdmin = false;
+  _deletedArticles = [];
   sessionStorage.removeItem('cmt_admin');
-  if (curArt) showDetail(curArt.id, true);
-  alert('已退出管理员模式');
+  showHome();
 }
 
 async function postComment(a) {
@@ -429,7 +434,7 @@ async function deleteComment(a, cid) {
   const r = await fetch(API_BASE, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({_action: 'delete', slug, id: cid, password: 'yadong@2026'}),
+    body: JSON.stringify({_action: 'delete', slug, id: cid, password: 'wyd73199254110'}),
   });
   const d = await r.json();
   if (d.ok) {
@@ -460,9 +465,10 @@ async function renderDetailComments(a) {
 let curArt=null,isDark=true;
 
 // ===== Init =====
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',async ()=>{
   history.scrollRestoration='manual';window.scrollTo(0,0);
   renderCards();updateStats();initScroll();initQuote();initUptime();initArchives();
+  if (_isAdmin) await loadDeletedArticles();
 });
 
 // ===== Render Cards =====
@@ -471,6 +477,7 @@ function renderCards(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const mf=window._monthFilter;
   const list=articles.filter(a=>{
+    if (isArticleDeleted(a)) return false;
     const monthOk=!mf||a.date.startsWith(mf);
     const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
     return monthOk&&sOk;
@@ -518,13 +525,14 @@ function showDetail(id,noPush){
   const d=document.getElementById('detailView');
   d.className='detail active';
   const adminBtn = _isAdmin
-    ? '<span style="font-size:.72rem;color:var(--ac);cursor:pointer" onclick="adminLogout()">退出管理</span>'
-    : '<span style="font-size:.72rem;color:var(--tx3);cursor:pointer" onclick="showAdminLogin()">🔑 管理</span>';
+    ? '<span style="font-size:.72rem;color:var(--ac);cursor:pointer;margin-left:auto" onclick="adminLogout()">退出管理</span>'
+    : '<span style="font-size:.72rem;color:var(--tx3);cursor:pointer;margin-left:auto" onclick="showAdminLogin()">🔑 管理</span>';
   d.innerHTML=`
     <div class="back-btn" onclick="showHome()">← 返回</div>
     <div class="d-meta">
       <h1>${a.title}</h1>
       <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
+      ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span></div>` : ''}
     </div>
     <div class="d-content" id="dContent">${a.content}</div>
     <div class="comments">
@@ -555,6 +563,92 @@ function showDetail(id,noPush){
 }
 
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+// ===== 文章管理（管理员） =====
+let _deletedArticles = [];
+
+async function loadDeletedArticles() {
+  if (!_isAdmin) return;
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'get_deleted', password: 'wyd73199254110'}),
+    });
+    const d = await r.json();
+    if (d.ok) _deletedArticles = d.deleted || [];
+  } catch(e) {}
+  renderCards();
+}
+
+async function deleteArticle(a) {
+  if (!_isAdmin || !confirm('确定要删除「' + a.title + '」吗？删除后可从"管理已删"恢复。')) return;
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'delete_article', title: a.title, password: 'wyd73199254110'}),
+    });
+    const d = await r.json();
+    if (d.ok) {
+      _deletedArticles.push(a.title);
+      showHome();
+    } else {
+      alert('删除失败：' + (d.error || '未知错误'));
+    }
+  } catch(e) {
+    alert('网络错误');
+  }
+}
+
+async function restoreArticle(title) {
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'restore_article', title, password: 'wyd73199254110'}),
+    });
+    const d = await r.json();
+    if (d.ok) {
+      _deletedArticles = _deletedArticles.filter(t => t !== title);
+      showHome();
+    } else {
+      alert('恢复失败');
+    }
+  } catch(e) {
+    alert('网络错误');
+  }
+}
+
+function isArticleDeleted(a) {
+  return _deletedArticles.includes(a.title);
+}
+
+function showDeletedArticles() {
+  if (!_isAdmin) return;
+  const deleted = articles.filter(a => isArticleDeleted(a));
+  if (deleted.length === 0) {
+    alert('没有已删除的文章');
+    return;
+  }
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('detailView').className = 'detail';
+  document.getElementById('toc').innerHTML = '';
+  const el = document.getElementById('cards');
+  el.innerHTML = '<div style="margin-bottom:.8rem;font-size:.82rem;color:var(--tx2)">📂 已删除文章（点击恢复）</div>' +
+    deleted.map((a,i) => `<div class="card" onclick="restoreArticle('${esc(a.title)}')" style="animation-delay:${i*60}ms;border-color:#f44">
+      <div class="card-top">
+        <div class="card-title">${a.title}</div>
+        <div class="card-date">📅 ${a.date}</div>
+      </div>
+      <div class="card-summary" style="color:var(--tx3)">${a.summary}</div>
+      <div class="card-bottom"><span style="font-size:.68rem;color:#f44">已删除 — 点击恢复</span></div>
+    </div>`).join('') +
+    '<div style="margin-top:1rem"><span style="font-size:.82rem;color:var(--ac);cursor:pointer" onclick="showHome()">← 返回文章列表</span></div>';
+  requestAnimationFrame(() => el.querySelectorAll('.card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*60)));
+  curArt = null;
+  history.pushState({id:null}, '', location.pathname + '#/');
+}
 
 function showHome(noPush){
   curArt=null;
