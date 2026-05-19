@@ -194,7 +194,7 @@ function build() {
     articles.push({
       id: idx + 1,
       title: meta.title || basename.replace('.md', ''),
-      date: meta.date || new Date().toISOString().split('T')[0],
+      date: meta.date || new Date().toISOString().replace('Z','+00:00'),
       tags: Array.isArray(meta.tags) ? meta.tags : (meta.tags ? meta.tags.split(',').map(t => t.trim()) : []),
       summary: meta.summary || body.substring(0, 100).replace(/[#*>\-]/g, '').trim() + '...',
       content: content,
@@ -203,7 +203,7 @@ function build() {
     });
   });
 
-  articles.sort((a, b) => b.date.localeCompare(a.date));
+  articles.sort((a, b) => new Date(b.date) - new Date(a.date));
   articles.forEach((a, i) => a.id = i + 1);
 
   const articlesJs = articles.map(a => {
