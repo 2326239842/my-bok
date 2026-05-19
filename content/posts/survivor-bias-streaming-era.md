@@ -7,7 +7,7 @@ image: ""
 ---
 
 <video controls width="100%" style="max-width:800px;display:block;margin:0 auto 30px auto;border-radius:12px;" poster="">
-  <source src="/images/宇宙视频.mp4" type="video/mp4">
+  <source src="/images/cosmos-video.mp4" type="video/mp4">
   您的浏览器不支持视频播放
 </video>
 
