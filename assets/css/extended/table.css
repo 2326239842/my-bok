@@ -1,0 +1,70 @@
+/* ===== 表格美化 ===== */
+
+.post-content table,
+.entry-content table,
+.md-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95em;
+    overflow-x: auto;
+    display: block;
+}
+
+/* 表头 */
+.post-content table thead,
+.md-content table thead {
+    background: var(--primary);
+    color: var(--theme);
+}
+
+.post-content table th,
+.md-content table th {
+    padding: 10px 14px;
+    font-weight: 600;
+    text-align: left;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+/* 表体 */
+.post-content table td,
+.md-content table td {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+}
+
+/* 斑马纹 - 交替行背景 */
+.post-content table tbody tr:nth-child(even),
+.md-content table tbody tr:nth-child(even) {
+    background: rgba(128, 128, 128, 0.05);
+}
+
+/* 悬停高亮 */
+.post-content table tbody tr:hover,
+.md-content table tbody tr:hover {
+    background: rgba(var(--primary-rgb, 0, 120, 212), 0.08);
+}
+
+/* 代码块在表格中 */
+.post-content table td code,
+.md-content table td code {
+    white-space: nowrap;
+}
+
+/* 手机端响应式 - 表格可横向滚动 */
+@media (max-width: 768px) {
+    .post-content table,
+    .entry-content table,
+    .md-content table {
+        font-size: 0.85em;
+    }
+    
+    .post-content table th,
+    .post-content table td,
+    .md-content table th,
+    .md-content table td {
+        padding: 6px 10px;
+    }
+}
