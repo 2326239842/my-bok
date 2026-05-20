@@ -1,6 +1,6 @@
 ---
 title: "从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路"
-date: 2026-05-20
+date: 2026-05-20 21:48
 draft: false
 tags: ["Hermes", "OpenClaw", "AI Agent", "大模型", "DeepSeek", "Xiaomi", "NVIDIA", "自建工具链"]
 categories: ["技术"]
