@@ -56,7 +56,63 @@ function mdToHtml(md) {
     return `%%INLINECODE_${idx}%%`;
   });
 
-  // Step 3: Horizontal rules
+  // Step 3: Tables (convert markdown tables to HTML)
+  html = html.replace(/(?:^\|.+\|\s*(?:\n|$))+/gm, (tableBlock) => {
+    const lines = tableBlock.trim().split('\n').filter(l => l.trim().startsWith('|'));
+    if (lines.length < 2) return tableBlock; // need at least header + separator
+
+    // Check if second line is a separator
+    const sepLine = lines[1].trim();
+    if (!/^\|[-:| ]+\|$/.test(sepLine)) return tableBlock;
+
+    // Parse separator for alignment
+    const alignments = sepLine
+      .split('|')
+      .map(s => s.trim())
+      .filter(s => s.length > 0)
+      .map(s => {
+        if (s.startsWith(':') && s.endsWith(':')) return ' center';
+        if (s.endsWith(':')) return ' right';
+        return '';
+      });
+
+    // Parse header row (first line)
+    const headerRow = lines[0].trim();
+    const headers = headerRow
+      .split('|')
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+
+    // Parse data rows (remaining lines after separator)
+    const dataRows = lines.slice(2).filter(l => l.trim().startsWith('|'));
+
+    let table = '<table>\n<thead>\n<tr>';
+    headers.forEach((h, i) => {
+      const align = alignments[i] ? ` style="text-align:${alignments[i].trim()}"` : '';
+      // Convert inline markdown in header
+      let content = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+      table += `<th${align}>${content}</th>`;
+    });
+    table += '</tr>\n</thead>\n<tbody>\n';
+    dataRows.forEach(row => {
+      const cells = row
+        .split('|')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+      table += '<tr>';
+      cells.forEach((cell, i) => {
+        const align = alignments[i] ? ` style="text-align:${alignments[i].trim()}"` : '';
+        // Convert inline markdown in cell
+        let content = cell.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+        table += `<td${align}>${content}</td>`;
+      });
+      table += '</tr>\n';
+    });
+    table += '</tbody>\n</table>';
+    return table;
+  });
+
+  // Step 4: Horizontal rules
   html = html.replace(/^---\s*$/gm, '<hr>');
 
   // Step 4: Blockquotes - group consecutive lines
@@ -108,7 +164,7 @@ function mdToHtml(md) {
 
   // Step 13: Wrap remaining text in paragraphs
   // Split by block-level elements
-  const blockTagNames = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'blockquote', 'pre', 'hr'];
+  const blockTagNames = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'blockquote', 'pre', 'hr', 'table'];
   const blockRE = new RegExp(
     `(<(?:${blockTagNames.join('|')})(?:\\s[^>]*)?>[\\s\\S]*?<\\/(?:${blockTagNames.join('|')})>|<hr\\s*\\/?>)`,
     'gi'
