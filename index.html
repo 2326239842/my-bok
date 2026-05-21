@@ -101,9 +101,15 @@ a:hover{text-decoration:underline}
 .player-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
 .player-title{font-size:.9rem;font-weight:600;color:var(--tx)}
 .player-hint{font-size:.72rem;color:var(--ac);opacity:.7}
-.music-audio{width:100%;height:40px;border-radius:var(--r2);margin-top:.3rem}
-.music-audio::-webkit-media-controls-panel{background:var(--bg2)}
-.music-audio::-webkit-media-controls-enclosure{border-radius:var(--r2);background:var(--bg3);border:1px solid var(--bdr)}
+.music-audio{width:100%;height:44px;border-radius:var(--r2);margin-top:.3rem;color-scheme:dark}
+.music-audio::-webkit-media-controls-panel{background:var(--bg4);border-radius:var(--r2)}
+.music-audio::-webkit-media-controls-enclosure{border-radius:var(--r2);background:var(--bg4);border:1px solid var(--bdr2)}
+.music-audio::-webkit-media-controls-play-button,
+.music-audio::-webkit-media-controls-timeline,
+.music-audio::-webkit-media-controls-current-time-display,
+.music-audio::-webkit-media-controls-time-remaining-display,
+.music-audio::-webkit-media-controls-volume-slider,
+.music-audio::-webkit-media-controls-mute-button{filter:brightness(1.2)}
 
 /* Comments */
 .comments{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
@@ -162,11 +168,13 @@ a:hover{text-decoration:underline}
   .menu-btn{display:flex!important}
 }
 /* ───── Table ───── */
-.article-body table{width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.93em;overflow-x:auto;display:block}
+.article-body .table-wrap{overflow-x:auto;margin:1.2em 0;-webkit-overflow-scrolling:touch}
+.article-body table{width:100%;border-collapse:collapse;font-size:.93em}
 .article-body table thead{background:var(--ac);color:#fff}
 .article-body table th{padding:8px 14px;font-weight:600;text-align:left;border:1px solid var(--bdr2);white-space:nowrap}
 .article-body table td{padding:6px 14px;border:1px solid var(--bdr2);vertical-align:top}
 .article-body table td code,.article-body table th code{white-space:nowrap;font-size:.9em}
+@media(max-width:768px){.article-body .table-wrap{margin:.8em 0}}
 @media(max-width:768px){.article-body table{font-size:.85em}}
 @media(max-width:768px){.article-body table th,.article-body table td{padding:5px 8px}}
 
@@ -259,7 +267,7 @@ const articles=[
 <li><strong>自配 API</strong> — 绕过官方渠道，直接用自己的 Key</li></ul>
 <p>我花了点时间摸索配置，过程艰难但最终还是把基础搞定了。这感觉就像开了个隐藏关卡——原来还有这么多免费的"平民"路子可以走。</p><p><img src="/images/装配的模型.png" alt="装配的模型" loading="lazy"></p><p><em>Hermes 支持各类模型配置，自配 API + 厂商选项双管齐下，总算把模型跑起来了。</em></p>
 <h2>💸 四、三亿 Token 的教训</h2>
-<p>有了 Hermes，我终于可以清晰地看到 Token 的消耗情况。不看不知道，一看吓一跳：</p>
+<p>有了 Hermes，我终于可以清晰地看到 Token 的消耗情况。不看不知道，一看吓一跳：</p><p><div class="table-wrap"></p>
 <table>
 <thead>
 <tr><th>厂商</th><th>Token 消耗</th><th>用途</th></tr>
@@ -269,7 +277,7 @@ const articles=[
 <tr><td><strong>DeepSeek</strong></td><td><strong>1.3 亿</strong> Token</td><td>代码生成 + 复杂推理</td></tr>
 </tbody>
 </table>
-<p>为什么 Agent 这么费 Token？因为它不是简单的聊天——每个任务背后是模型调用 + 工具执行 + 结果处理的循环。一次"帮我抓取网页内容并整理成报告"的操作，背后可能消耗几十万 Token。</p>
+<p></div>为什么 Agent 这么费 Token？因为它不是简单的聊天——每个任务背后是模型调用 + 工具执行 + 结果处理的循环。一次"帮我抓取网页内容并整理成报告"的操作，背后可能消耗几十万 Token。</p>
 <blockquote>从 OpenClaw 到 Hermes，我学到的最重要一课是：<strong>选对模型和工具链，比单纯堆 Token 重要一百倍。</strong></blockquote>
 <h2>🛠️ 五、Hermes 满配化：从裸机到全模态</h2>
 <p>既然 Token 这么贵，那就要让每个 Token 都花在刀刃上。我花了一晚上给 Hermes 装了全套工具链，让它的能力从"只会打字"升级到"能抓能搜能读能听能画"：</p>
@@ -299,6 +307,7 @@ const articles=[
 <h3>③ Self-Evolution — AI 自己调教自己</h3>
 <p>最科幻的一个——基于 DSPy + GEPA 遗传进化算法，Hermes 能自动优化自己的 Skill、System Prompt 和工具描述。你不用手动改 prompt，AI 自己就会变得更好用。</p>
 <h2>📊 七、客观评价：从 OpenClaw 到 Hermes 的得与失</h2>
+<p><div class="table-wrap"></p>
 <table>
 <thead>
 <tr><th>维度</th><th>OpenClaw</th><th>Hermes</th></tr>
@@ -311,7 +320,7 @@ const articles=[
 <tr><td><strong>扩展性</strong></td><td>插件生态</td><td>技能系统 + 自定义更灵活</td></tr>
 </tbody>
 </table>
-<p><strong>OpenClaw 是最好的启蒙老师</strong>——它让我看到了 AI Agent 的可能性。而 <strong>Hermes 是我现在的选择</strong>——它让我花的每一分 Token 都物有所值。</p>
+<p></div><strong>OpenClaw 是最好的启蒙老师</strong>——它让我看到了 AI Agent 的可能性。而 <strong>Hermes 是我现在的选择</strong>——它让我花的每一分 Token 都物有所值。</p>
 <blockquote>从 OpenClaw 到 Hermes，追根到底不是二选一，而是从"学习使用 AI"到"掌控 AI"的成长过程。前者让我入了门，后者让我能自由发挥。</blockquote>
 <h2>🌟 写在最后：Agent 时代，省 Token 就是省钱</h2>
 <p>大模型时代不缺聪明的大脑，缺的是吃 Token 不眨眼的胃口。一亿九千万 Token烧完之后我明白了——未来的竞争优势不在于谁的模型更强，而在于谁能用更少的 Token 完成同样的任务。</p><p>从 OpenClaw 到 Hermes，我从"被 Token 牵着走"变成了"管着 Token 花"。这套工具链让我花的每一分钱都看得清清楚楚。</p><p><em>工具可以换，但省 Token 的直觉不能丢。</em></p>`,image:"",audio:""},
@@ -650,7 +659,7 @@ const articles=[
 <h2>现状：性别平等的“百年之遥”与认知分歧</h2>
 <p>这些由历史分工和制度演变带来的集体潜意识，是“父系社会长时间的弊端”，绝非一朝一夕可以改变。</p>
 <blockquote><strong>世界经济论坛发布的《2025年全球性别差距报告》</strong> 给出了一个客观的注脚：目前全球性别差距已缩小至68.8%，但按照当前的进步速度，实现完全平等仍需123年之久。</blockquote>
-<p>更值得关注的是认知层面的分歧。一份覆盖2万样本的《中国性别观念调查报告》显示，在18-35岁群体中，67%的女性认为性别平等仍需大力推进，而同年龄段男性持此观点的仅占39%。</p><p>职场数据同样印证了这种差异：调研显示54%的职场女性表示曾遭遇过性别歧视，而男性仅为6.6%。这种认知鸿沟正是历史惯性在当代的投射。</p>
+<p>更值得关注的是认知层面的分歧。一份覆盖2万样本的《中国性别观念调查报告》显示，在18-35岁群体中，67%的女性认为性别平等仍需大力推进，而同年龄段男性持此观点的仅占39%。</p><p>职场数据同样印证了这种差异：调研显示54%的职场女性表示曾遭遇过性别歧视，而男性仅为6.6%。这种认知鸿沟正是历史惯性在当代的投射。</p><p><div class="table-wrap"></p>
 <table>
 <thead>
 <tr><th>维度</th><th>女性</th><th>男性</th></tr>
@@ -660,7 +669,7 @@ const articles=[
 <tr><td>认为平等仍需大力推进</td><td>67%</td><td>39%</td></tr>
 </tbody>
 </table>
-<p>## 困境：当下网络性别对立的三点原因</p><p>然而，纵观整个互联网，当下的男女对立情绪却愈演愈烈。我认为根源在以下三点：</p>
+<p></div>## 困境：当下网络性别对立的三点原因</p><p>然而，纵观整个互联网，当下的男女对立情绪却愈演愈烈。我认为根源在以下三点：</p>
 <h3>脱离生产地位的权利追求</h3>
 <p>随着思想逐渐开放，一部分女性开始脱离实际的“生产地位”关系去追逐抽象的“绝对权利”，违背了“地位与能力相统一”的底层逻辑，引发了男性群体的反感和对立扩大化。</p>
 <h3>对男性贡献的全盘否定</h3>
@@ -755,7 +764,7 @@ openclaw onboard
 <blockquote>坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务执行。于是第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。</blockquote>
 <hr>
 <h2>🔄 五、再次归来：大模型时代的必然选择</h2>
-<p>第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是<strong>模型不够聪明</strong>和<strong>上下文不够长</strong>，但如今新一代大模型已经彻底改变了这个局面：</p>
+<p>第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是<strong>模型不够聪明</strong>和<strong>上下文不够长</strong>，但如今新一代大模型已经彻底改变了这个局面：</p><p><div class="table-wrap"></p>
 <table>
 <thead>
 <tr><th>模型</th><th>厂商</th><th>核心优势</th></tr>
@@ -770,7 +779,7 @@ openclaw onboard
 <tr><td><strong>MiMo V2.5</strong></td><td>小米</td><td>高性价比 Token Plan，编程助手友好</td></tr>
 </tbody>
 </table>
-<p>尤其是 <strong>DeepSeek</strong>，定价策略堪称"价格屠夫"——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p>
+<p></div>尤其是 <strong>DeepSeek</strong>，定价策略堪称"价格屠夫"——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p>
 <blockquote>✅ <strong>价格对比感受</strong><br>以前用免费 Token，100 万很快就用完还限速。现在用 DeepSeek，同样价格可以买到几百倍的 Token 量，再也不用小心翼翼地"省着用"了。这才是 Agent 能够真正跑起来的基础设施。</blockquote>
 <h2>🌐 六、实战体验：从零搭建个人网站</h2>
 <p>就我个人体验而言，OpenClaw 最直观的价值就是——<strong>打破知识壁垒</strong>。</p><p>我对网站搭建一窍不通。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像外星语言。但有了 OpenClaw，我只需要告诉它"我需要搭建一个个人网站"，它就会帮我处理几乎所有事情：</p>
@@ -794,7 +803,7 @@ openclaw onboard
 <p>搭建网站这几天，我的工作模式变成了：把需求告诉 OpenClaw → 喝着水刷着抖音等待 → 检查结果 → 提出修改意见 → 再次等待。这种模式更像是从<strong>"打工人"</strong>变成了<strong>"审核员"</strong>。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。</p>
 <blockquote>🔴 <strong>不可避免的冲击</strong><br>设计、编程、内容创作等职业会面临巨大市场冲击。尤其是以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。</blockquote>
 <h3>大模型能替代人类吗？</h3>
-<p>我的答案是：<strong>部分能，但不能全部</strong>。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p>
+<p>我的答案是：<strong>部分能，但不能全部</strong>。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p><p><div class="table-wrap"></p>
 <table>
 <thead>
 <tr><th>类别</th><th>被替代风险</th><th>原因</th></tr>
@@ -806,7 +815,7 @@ openclaw onboard
 <tr><td>依赖深度经验的工作</td><td>很低</td><td>复杂判断和人际互动难以被替代</td></tr>
 </tbody>
 </table>
-<p>### 失业问题的本质</p><p>未来的 AI 是"提出建议和执行建议的行为人"，而我们则是"审核员"和"监督员"。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p>
+<p></div>### 失业问题的本质</p><p>未来的 AI 是"提出建议和执行建议的行为人"，而我们则是"审核员"和"监督员"。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p>
 <blockquote>解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是<strong>增加需求、扩大消费</strong>，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。</blockquote>
 <p>不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场，对于普通生产生活还需要一段适配期。</p>
 <hr>
@@ -1068,6 +1077,8 @@ function showDetail(id,noPush){
     w.appendChild(b);
   });
   d.querySelectorAll('.d-content img').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openLB(img.src)});
+  // Audio: only one song at a time
+  d.querySelectorAll('.d-content audio').forEach(audio=>{audio.addEventListener('play',function(){d.querySelectorAll('.d-content audio').forEach(other=>{if(other!==this)other.pause()})})});
   buildTOC();
   scrollTo({top:0,behavior:'smooth'});
   if(!noPush) history.pushState({id:id},'',location.pathname+'#/post/'+id);

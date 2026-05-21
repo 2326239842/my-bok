@@ -109,7 +109,7 @@ function mdToHtml(md) {
       table += '</tr>\n';
     });
     table += '</tbody>\n</table>';
-    return table;
+    return '<div class="table-wrap">' + table + '</div>';
   });
 
   // Step 4: Horizontal rules
