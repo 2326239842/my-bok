@@ -1672,6 +1672,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   history.scrollRestoration='manual';window.scrollTo(0,0);
   renderCards();updateStats();initScroll();initQuote();initUptime();initArchives();
   if (_isAdmin) await loadDeletedArticles();
+  await loadPinned();
 });
 
 // ===== Render Cards =====
@@ -1685,11 +1686,22 @@ function renderCards(){
     const sOk=!q||a.title.toLowerCase().includes(q)||a.summary.toLowerCase().includes(q)||a.content.toLowerCase().includes(q);
     return monthOk&&sOk;
   });
-  const totalPages=Math.ceil(list.length/PER_PAGE)||1;
+  const pinned=list.filter(a=>_pinnedArticles.includes(a.title));
+  const regular=list.filter(a=>!_pinnedArticles.includes(a.title));
+  const totalPages=Math.ceil(regular.length/PER_PAGE)||1;
   if(curPage>totalPages)curPage=totalPages;
-  const paged=list.slice((curPage-1)*PER_PAGE,curPage*PER_PAGE);
+  const paged=regular.slice((curPage-1)*PER_PAGE,curPage*PER_PAGE);
   const el=document.getElementById('cards');
-  el.innerHTML=paged.map((a,i)=>{
+  var html='';
+  // 置顶文章区
+  if(pinned.length>0){
+    html+='<div style=\"font-size:.78rem;color:var(--ac);margin-bottom:.4rem;letter-spacing:.05em\">📌 置顶</div>';
+    html+=pinned.map((a,i)=>{
+      const cmts=_cmtCountCache[a.title]||0;
+      return '<div class=\"card pinned\" onclick=\"showDetail('+a.id+')\" style=\"animation-delay:'+(i*60)+'ms;border-color:var(--ac3);background:var(--ac2)\">\n      <div class=\"card-top\">\n        <div class=\"card-title\">📌 '+a.title+'</div>\n        <div class=\"card-date\">📅 '+a.date+'</div>\n      </div>\n      <div class=\"card-summary\">'+a.summary+'</div>\n      <div class=\"card-bottom\">\n        '+a.tags.map(function(t){return '<span class=\"card-tag\">'+t+'</span>'}).join('')+'\n        <span class=\"card-comments\">💬 '+cmts+'</span>\n      </div>\n    </div>';
+    }).join('');
+  }
+  html+=paged.map((a,i)=>{
     const cmts=_cmtCountCache[a.title]||0;
     return `<div class="card" onclick="showDetail(${a.id})" style="animation-delay:${i*60}ms">
       <div class="card-top">
@@ -1703,6 +1715,7 @@ function renderCards(){
       </div>
     </div>`;
   }).join('');
+  el.innerHTML=html;
   // Pagination
   let pag='';
   if(totalPages>1){
@@ -1735,7 +1748,7 @@ function showDetail(id,noPush){
     <div class="d-meta">
       <h1>${a.title}</h1>
       <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
-      ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span></div>` : ''}
+      ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#ffd700;cursor:pointer;border:1px solid #ffd700;border-radius:6px;padding:.2rem .6rem" onclick="togglePin(curArt)">📌 置顶</span><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span></div>` : ''}
     </div>
     <div class="d-content" id="dContent">${a.content}</div>
     <div class="comments">
@@ -1778,6 +1791,40 @@ function esc(s){const d=document.createElement('div');d.textContent=s;return d.i
 
 // ===== 文章管理（管理员） =====
 let _deletedArticles = [];
+let _pinnedArticles = [];
+
+async function loadPinned() {
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'get_pinned'}),
+    });
+    const d = await r.json();
+    if (d.ok) _pinnedArticles = d.pinned || [];
+  } catch(e) {}
+  renderCards();
+}
+
+async function togglePin(a) {
+  if (!_isAdmin) return;
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'toggle_pin', title: a.title, password: 'wyd73199254110'}),
+    });
+    const d = await r.json();
+    if (d.ok) {
+      _pinnedArticles = d.pinned || [];
+      renderCards();
+      if (curArt) showDetail(curArt.id, true);
+      alert(_pinnedArticles.includes(a.title) ? '✅ 已置顶' : '✅ 已取消置顶');
+    }
+  } catch(e) {
+    alert('操作失败');
+  }
+}
 
 async function loadDeletedArticles() {
   if (!_isAdmin) return;

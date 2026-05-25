@@ -69,6 +69,26 @@ export async function onRequest(context) {
       return Response.json({ ok: true, deleted }, { headers: CORS });
     }
 
+    // 获取置顶列表（公开）
+    if (body._action === 'get_pinned') {
+      const pinned = await env.KV.get('pinned_articles', 'json') || [];
+      return Response.json({ ok: true, pinned }, { headers: CORS });
+    }
+
+    // 切换置顶（管理员）
+    if (body._action === 'toggle_pin') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      let pinned = await env.KV.get('pinned_articles', 'json') || [];
+      const idx = pinned.indexOf(body.title);
+      if (idx >= 0) {
+        pinned.splice(idx, 1);
+      } else {
+        pinned.push(body.title);
+      }
+      await env.KV.put('pinned_articles', JSON.stringify(pinned));
+      return Response.json({ ok: true, pinned }, { headers: CORS });
+    }
+
     // 普通发表评论
     const { slug, name, content } = body;
     if (!slug || !content) return Response.json({ error: '缺少内容' }, { status: 400, headers: CORS });
