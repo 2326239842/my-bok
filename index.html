@@ -254,7 +254,311 @@ a:hover{text-decoration:underline}
 // ===== 数据 =====
 // ===== ARTICLES_START =====
 const articles=[
-{id:1,title:"宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑",date:"2026-05-25 23:30",tags:["思想实验","哲学","物理学","认知科学","量子力学","科普"],summary:"探索认知、逻辑与宇宙本质的极限——从忒修斯之船到玻尔兹曼大脑，十大改变人类思考方式的思想实验深度解读。",content:`<style>
+{id:1,title:"🎂 生日快乐！",date:"2026-05-26 10:00",tags:["生日","生活"],summary:"一岁一礼，一寸欢喜。送给自己的生日祝福页面，愿你眼里有光，心中有爱。",content:`<div class="bd-root">
+<style>
+.bd-root{position:relative;overflow:hidden;min-height:85vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#fbc2eb 0%,#a6c1ee 50%,#c2e9fb 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;border-radius:16px;margin:0}
+.bd-dots,.bd-clouds,.bd-stars,.bd-balloons,.bd-confetti-container{position:absolute;inset:0;pointer-events:none}
+.bd-dots{z-index:0}.bd-clouds{z-index:1}.bd-stars{z-index:2}.bd-balloons{z-index:3}.bd-confetti-container{z-index:100;overflow:hidden;border-radius:16px}
+.bd-dot{position:absolute;background:rgba(255,255,255,.4);border-radius:50%;animation:bdFloatDot linear infinite}
+@keyframes bdFloatDot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.8;transform:translateY(-30px)}}
+.bd-cloud{position:absolute;background:rgba(255,255,255,.7);border-radius:100px;animation:bdMoveCloud linear infinite;box-shadow:0 5px 20px rgba(0,0,0,.05)}
+.bd-cloud::before,.bd-cloud::after{content:'';position:absolute;background:inherit;border-radius:50%}
+.bd-cloud::before{width:50px;height:50px;top:-25px;left:20px}
+.bd-cloud::after{width:70px;height:70px;top:-35px;left:50px}
+@keyframes bdMoveCloud{0%{transform:translateX(-200px)}100%{transform:translateX(calc(100% + 200px))}}
+.bd-star{position:absolute;color:#ffd700;font-size:20px;animation:bdTwinkle linear infinite;text-shadow:0 0 5px rgba(255,215,0,.7)}
+@keyframes bdTwinkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.bd-balloon-wrapper{position:absolute;bottom:-200px;animation:bdFloatUp linear infinite}
+.bd-balloon-body{position:relative;width:60px;height:75px;border-radius:50% 50% 45% 45%;box-shadow:inset -8px -8px 20px rgba(0,0,0,.1),0 10px 20px rgba(0,0,0,.15)}
+.bd-balloon-body.pink{background:radial-gradient(circle at 30% 25%,#fff 5%,#ff9a9e 60%,#fecfef 100%)}
+.bd-balloon-body.purple{background:radial-gradient(circle at 30% 25%,#fff 5%,#d4a5ff 60%,#e8d5f5 100%)}
+.bd-balloon-body.blue{background:radial-gradient(circle at 30% 25%,#fff 5%,#a1c4fd 60%,#c2e9fb 100%)}
+.bd-balloon-body.gold{background:radial-gradient(circle at 30% 25%,#fff 5%,#f6d365 60%,#fda085 100%)}
+.bd-balloon-body.mint{background:radial-gradient(circle at 30% 25%,#fff 5%,#a8e6cf 60%,#dcedc1 100%)}
+.bd-string{position:absolute;bottom:-35px;left:50%;transform:translateX(-50%);width:2px;height:40px;background:rgba(255,255,255,.7);transform-origin:top center;animation:bdSwingString 2s ease-in-out infinite}
+@keyframes bdSwingString{0%,100%{transform:translateX(-50%) rotate(0deg)}25%{transform:translateX(-50%) rotate(8deg)}75%{transform:translateX(-50%) rotate(-8deg)}}
+@keyframes bdFloatUp{0%{transform:translateY(0) translateX(0);opacity:.9}25%{transform:translateY(-20vh) translateX(15px)}50%{transform:translateY(-40vh) translateX(-10px)}75%{transform:translateY(-60vh) translateX(10px)}100%{transform:translateY(-90vh) translateX(-15px);opacity:0}}
+.bd-card{position:relative;z-index:20;background:rgba(255,255,255,.25);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-radius:40px;padding:45px 35px;text-align:center;color:#4a3060;box-shadow:0 25px 45px rgba(0,0,0,.1),0 0 0 1px rgba(255,255,255,.3);max-width:480px;width:90%;border:1px solid rgba(255,255,255,.4);transition:opacity .5s}
+@supports not ((-webkit-backdrop-filter:blur(15px)) or (backdrop-filter:blur(15px))){.bd-card{background:rgba(255,255,255,.55)}}
+.bd-cake-area{position:relative;display:inline-block;margin-bottom:10px}
+.bd-cake{font-size:70px;transition:transform 1s ease,opacity .8s}
+.bd-candle{position:absolute;top:-25px;left:50%;transform:translateX(-50%);font-size:35px;line-height:1;pointer-events:none}
+.bd-flame{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:20px;transition:transform .4s ease,opacity .4s ease}
+.bd-card h1{font-size:2.8rem;margin:15px 0 8px;text-shadow:2px 2px 15px rgba(255,255,255,.8);font-weight:700;letter-spacing:2px;color:#4a3060;transition:opacity .4s}
+.bd-subtitle{font-size:1.3rem;margin-bottom:25px;font-weight:300;color:#5e4b6b;transition:opacity .4s}
+.bd-message{font-size:1.1rem;line-height:1.8;background:rgba(255,255,255,.3);border-radius:25px;padding:25px 20px;margin:20px 0;border:1px solid rgba(255,255,255,.5);color:#3d2e4e;transition:opacity .4s}
+.bd-btn{display:inline-block;background:linear-gradient(135deg,#fff 0%,#f0e6ff 100%);color:#6c5ce7;padding:12px 30px;border-radius:50px;font-weight:700;font-size:1.1rem;border:none;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.1);transition:all .3s;margin:10px 5px}
+.bd-btn:hover{box-shadow:0 8px 20px rgba(108,92,231,.2);transform:translateY(-2px)}
+.bd-btn:disabled{opacity:.6;cursor:not-allowed}
+.bd-countdown{font-size:1rem;margin-top:20px;opacity:.8;color:#5e4b6b}
+.bd-quote-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:50;display:none;justify-content:center;align-items:center;border-radius:16px}
+.bd-quote-text{font-size:2.4rem;color:#fff;text-align:center;padding:20px 40px;text-shadow:0 2px 10px rgba(0,0,0,.3);font-weight:600}
+.bd-cake-particle{position:absolute;font-size:30px;z-index:30;pointer-events:none;transition:all 1s cubic-bezier(.25,.46,.45,.94)}
+.bd-confetti{position:absolute;width:12px;height:12px;top:-20px;animation:bdConfettiFall linear forwards}
+@keyframes bdConfettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@media(max-width:768px){.bd-root{min-height:70vh}.bd-card{padding:30px 20px;border-radius:30px}.bd-card h1{font-size:2rem}.bd-subtitle{font-size:1rem}.bd-message{font-size:.95rem;padding:18px 15px}.bd-quote-text{font-size:1.5rem;padding:15px 25px}.bd-cake{font-size:50px}.bd-candle{font-size:28px;top:-20px}.bd-flame{font-size:16px;top:-14px}}
+</style>
+
+<!-- 背景：柔光点 -->
+<div class="bd-dots" id="bdDots">
+<div class="bd-dot" style="left:7%;top:12%;width:6px;height:6px;animation-duration:5.2s;animation-delay:0.8s"></div>
+<div class="bd-dot" style="left:23%;top:34%;width:8px;height:8px;animation-duration:7.1s;animation-delay:2.1s"></div>
+<div class="bd-dot" style="left:41%;top:8%;width:5px;height:5px;animation-duration:6.3s;animation-delay:3.5s"></div>
+<div class="bd-dot" style="left:58%;top:22%;width:10px;height:10px;animation-duration:8.5s;animation-delay:1.2s"></div>
+<div class="bd-dot" style="left:72%;top:15%;width:6px;height:6px;animation-duration:5.8s;animation-delay:4.1s"></div>
+<div class="bd-dot" style="left:89%;top:40%;width:7px;height:7px;animation-duration:6.7s;animation-delay:0.3s"></div>
+<div class="bd-dot" style="left:15%;top:55%;width:9px;height:9px;animation-duration:7.9s;animation-delay:2.8s"></div>
+<div class="bd-dot" style="left:35%;top:68%;width:5px;height:5px;animation-duration:4.9s;animation-delay:3.9s"></div>
+<div class="bd-dot" style="left:52%;top:45%;width:8px;height:8px;animation-duration:6.1s;animation-delay:1.7s"></div>
+<div class="bd-dot" style="left:65%;top:72%;width:7px;height:7px;animation-duration:7.3s;animation-delay:0.5s"></div>
+<div class="bd-dot" style="left:80%;top:58%;width:6px;height:6px;animation-duration:5.5s;animation-delay:4.5s"></div>
+<div class="bd-dot" style="left:10%;top:78%;width:9px;height:9px;animation-duration:8.2s;animation-delay:3.2s"></div>
+<div class="bd-dot" style="left:28%;top:85%;width:7px;height:7px;animation-duration:6.4s;animation-delay:2.4s"></div>
+<div class="bd-dot" style="left:45%;top:90%;width:11px;height:11px;animation-duration:9.1s;animation-delay:0.1s"></div>
+<div class="bd-dot" style="left:68%;top:82%;width:6px;height:6px;animation-duration:5.9s;animation-delay:4.2s"></div>
+<div class="bd-dot" style="left:85%;top:75%;width:8px;height:8px;animation-duration:7.6s;animation-delay:1.9s"></div>
+<div class="bd-dot" style="left:5%;top:42%;width:7px;height:7px;animation-duration:6.8s;animation-delay:3.3s"></div>
+<div class="bd-dot" style="left:38%;top:30%;width:10px;height:10px;animation-duration:8.8s;animation-delay:0.7s"></div>
+<div class="bd-dot" style="left:55%;top:5%;width:5px;height:5px;animation-duration:4.7s;animation-delay:2.5s"></div>
+<div class="bd-dot" style="left:75%;top:50%;width:9px;height:9px;animation-duration:7.4s;animation-delay:3.7s"></div>
+</div>
+
+<!-- 背景：云朵 -->
+<div class="bd-clouds" id="bdClouds">
+<div class="bd-cloud" style="width:140px;height:35px;top:8%;animation-duration:45s;animation-delay:0s;opacity:.6"></div>
+<div class="bd-cloud" style="width:180px;height:42px;top:25%;animation-duration:55s;animation-delay:12s;opacity:.5"></div>
+<div class="bd-cloud" style="width:130px;height:30px;top:48%;animation-duration:50s;animation-delay:8s;opacity:.55"></div>
+<div class="bd-cloud" style="width:160px;height:38px;top:18%;animation-duration:60s;animation-delay:18s;opacity:.48"></div>
+<div class="bd-cloud" style="width:200px;height:45px;top:38%;animation-duration:42s;animation-delay:5s;opacity:.62"></div>
+</div>
+
+<!-- 背景：星星 -->
+<div class="bd-stars" id="bdStars">
+<div class="bd-star" style="left:5%;top:8%;font-size:14px;animation-duration:2.5s;animation-delay:.3s">✨</div>
+<div class="bd-star" style="left:18%;top:22%;font-size:18px;animation-duration:3.2s;animation-delay:1.5s">✨</div>
+<div class="bd-star" style="left:30%;top:5%;font-size:12px;animation-duration:2.8s;animation-delay:.8s">✨</div>
+<div class="bd-star" style="left:48%;top:15%;font-size:20px;animation-duration:3.5s;animation-delay:2.1s">✨</div>
+<div class="bd-star" style="left:62%;top:8%;font-size:15px;animation-duration:2.6s;animation-delay:1.2s">✨</div>
+<div class="bd-star" style="left:75%;top:25%;font-size:17px;animation-duration:3.0s;animation-delay:.5s">✨</div>
+<div class="bd-star" style="left:90%;top:12%;font-size:13px;animation-duration:2.9s;animation-delay:2.5s">✨</div>
+<div class="bd-star" style="left:12%;top:45%;font-size:16px;animation-duration:3.3s;animation-delay:1.8s">✨</div>
+<div class="bd-star" style="left:35%;top:38%;font-size:19px;animation-duration:3.1s;animation-delay:.2s">✨</div>
+<div class="bd-star" style="left:55%;top:42%;font-size:14px;animation-duration:2.4s;animation-delay:2.8s">✨</div>
+<div class="bd-star" style="left:70%;top:35%;font-size:21px;animation-duration:3.7s;animation-delay:1.0s">✨</div>
+<div class="bd-star" style="left:82%;top:48%;font-size:13px;animation-duration:2.7s;animation-delay:3.2s">✨</div>
+<div class="bd-star" style="left:8%;top:65%;font-size:15px;animation-duration:3.0s;animation-delay:2.2s">✨</div>
+<div class="bd-star" style="left:42%;top:58%;font-size:18px;animation-duration:3.4s;animation-delay:.9s">✨</div>
+<div class="bd-star" style="left:60%;top:62%;font-size:12px;animation-duration:2.3s;animation-delay:3.5s">✨</div>
+</div>
+
+<!-- 背景：气球（18个） -->
+<div class="bd-balloons" id="bdBalloons">
+<div class="bd-balloon-wrapper" style="left:3%;animation-duration:11s;animation-delay:0s"><div class="bd-balloon-body pink" style="width:55px;height:69px"></div><div class="bd-string" style="animation-duration:1.8s;animation-delay:.2s"></div></div>
+<div class="bd-balloon-wrapper" style="left:9%;animation-duration:13s;animation-delay:3s"><div class="bd-balloon-body purple" style="width:60px;height:75px"></div><div class="bd-string" style="animation-duration:2.2s;animation-delay:.8s"></div></div>
+<div class="bd-balloon-wrapper" style="left:16%;animation-duration:10s;animation-delay:6s"><div class="bd-balloon-body blue" style="width:50px;height:63px"></div><div class="bd-string" style="animation-duration:1.6s;animation-delay:.3s"></div></div>
+<div class="bd-balloon-wrapper" style="left:22%;animation-duration:14s;animation-delay:1s"><div class="bd-balloon-body gold" style="width:65px;height:81px"></div><div class="bd-string" style="animation-duration:2.0s;animation-delay:.5s"></div></div>
+<div class="bd-balloon-wrapper" style="left:28%;animation-duration:12s;animation-delay:5s"><div class="bd-balloon-body mint" style="width:57px;height:72px"></div><div class="bd-string" style="animation-duration:1.9s;animation-delay:.1s"></div></div>
+<div class="bd-balloon-wrapper" style="left:35%;animation-duration:15s;animation-delay:2s"><div class="bd-balloon-body pink" style="width:62px;height:78px"></div><div class="bd-string" style="animation-duration:2.4s;animation-delay:.7s"></div></div>
+<div class="bd-balloon-wrapper" style="left:41%;animation-duration:11s;animation-delay:7s"><div class="bd-balloon-body purple" style="width:53px;height:66px"></div><div class="bd-string" style="animation-duration:1.7s;animation-delay:.4s"></div></div>
+<div class="bd-balloon-wrapper" style="left:48%;animation-duration:13s;animation-delay:4s"><div class="bd-balloon-body blue" style="width:58px;height:73px"></div><div class="bd-string" style="animation-duration:2.1s;animation-delay:.6s"></div></div>
+<div class="bd-balloon-wrapper" style="left:54%;animation-duration:10s;animation-delay:0.5s"><div class="bd-balloon-body gold" style="width:51px;height:64px"></div><div class="bd-string" style="animation-duration:1.5s;animation-delay:.9s"></div></div>
+<div class="bd-balloon-wrapper" style="left:61%;animation-duration:14s;animation-delay:3.5s"><div class="bd-balloon-body mint" style="width:64px;height:80px"></div><div class="bd-string" style="animation-duration:2.3s;animation-delay:.2s"></div></div>
+<div class="bd-balloon-wrapper" style="left:67%;animation-duration:12s;animation-delay:6.5s"><div class="bd-balloon-body pink" style="width:56px;height:70px"></div><div class="bd-string" style="animation-duration:1.8s;animation-delay:.3s"></div></div>
+<div class="bd-balloon-wrapper" style="left:74%;animation-duration:15s;animation-delay:1.5s"><div class="bd-balloon-body purple" style="width:68px;height:85px"></div><div class="bd-string" style="animation-duration:2.5s;animation-delay:.8s"></div></div>
+<div class="bd-balloon-wrapper" style="left:80%;animation-duration:11s;animation-delay:8s"><div class="bd-balloon-body blue" style="width:52px;height:65px"></div><div class="bd-string" style="animation-duration:1.6s;animation-delay:.4s"></div></div>
+<div class="bd-balloon-wrapper" style="left:87%;animation-duration:13s;animation-delay:2.5s"><div class="bd-balloon-body gold" style="width:59px;height:74px"></div><div class="bd-string" style="animation-duration:2.0s;animation-delay:.6s"></div></div>
+<div class="bd-balloon-wrapper" style="left:93%;animation-duration:10s;animation-delay:5.5s"><div class="bd-balloon-body mint" style="width:54px;height:68px"></div><div class="bd-string" style="animation-duration:1.7s;animation-delay:.1s"></div></div>
+<div class="bd-balloon-wrapper" style="left:12%;animation-duration:14s;animation-delay:9s"><div class="bd-balloon-body pink" style="width:63px;height:79px"></div><div class="bd-string" style="animation-duration:2.2s;animation-delay:.5s"></div></div>
+<div class="bd-balloon-wrapper" style="left:45%;animation-duration:12s;animation-delay:7.5s"><div class="bd-balloon-body purple" style="width:55px;height:69px"></div><div class="bd-string" style="animation-duration:1.9s;animation-delay:.7s"></div></div>
+<div class="bd-balloon-wrapper" style="left:70%;animation-duration:13s;animation-delay:4.5s"><div class="bd-balloon-body gold" style="width:61px;height:76px"></div><div class="bd-string" style="animation-duration:2.1s;animation-delay:.3s"></div></div>
+</div>
+
+<!-- 彩纸容器 -->
+<div class="bd-confetti-container" id="bdConfetti"></div>
+
+<!-- 语录覆盖层 -->
+<div class="bd-quote-overlay" id="bdQuoteOverlay">
+  <div class="bd-quote-text" id="bdQuoteText"></div>
+</div>
+
+<!-- 卡片 -->
+<div class="bd-card" id="bdCard">
+  <div class="bd-cake-area">
+    <div class="bd-cake" id="bdCake">🎂</div>
+    <div class="bd-candle" id="bdCandle">🕯️</div>
+    <div class="bd-flame" id="bdFlame">🔥</div>
+  </div>
+  <h1 id="bdTitle">生日快乐！</h1>
+  <p class="bd-subtitle" id="bdSubtitle">✨ 愿你的每一天都闪闪发光 ✨</p>
+  <div class="bd-message" id="bdMessage">
+    🎈 新的一岁，愿你<br>
+    眼里有光，心中有爱<br>
+    所求皆如愿，所行化坦途<br>
+    🎁 所有美好都如期而至
+  </div>
+  <button class="bd-btn" id="bdSurpriseBtn" onclick="if(window._bdRunning)return;window._bdRunning=1;var t=this;t.disabled=!!1;if(t.textContent.indexOf('再玩一次')!==-1){bdResetCard();t.disabled=!!1;setTimeout(function(){t.disabled=!!1;bdStartSurprise()},300)}else{bdStartSurprise()}">🎉 点我有惊喜</button>
+  <div class="bd-countdown" id="bdCountdown"></div>
+</div>
+
+<!-- JS 执行桥：innerHTML 不执行 script，但 onerror 会触发 -->
+<img src="x" style="display:none" onerror="
+(function(){
+var R=document.querySelector('.bd-root');
+var C=document.getElementById('bdConfetti');
+var QO=document.getElementById('bdQuoteOverlay');
+var QT=document.getElementById('bdQuoteText');
+var running=false;
+
+// 撒彩纸
+window.bdCreateConfetti=function(n){
+  var cl=['#ff9a9e','#d4a5ff','#a1c4fd','#ffd700','#ffb347','#ff6b6b','#48dbfb'];
+  for(var i=0;i<n;i++){
+    var cf=document.createElement('div');
+    cf.className='bd-confetti';
+    cf.style.left=Math.random()*100+'%';
+    cf.style.background=cl[Math.floor(Math.random()*cl.length)];
+    cf.style.width=(Math.random()*10+6)+'px';
+    cf.style.height=(Math.random()*10+6)+'px';
+    cf.style.animationDuration=(Math.random()*3+2)+'s';
+    cf.style.animationDelay=Math.random()*0.5+'s';
+    C.appendChild(cf);
+    setTimeout(function(){cf.remove()},4000);
+  }
+};
+
+// 蛋糕爆炸
+function explodeCake(){
+  var cake=document.getElementById('bdCake');
+  var rect=cake.getBoundingClientRect();
+  var rr=R.getBoundingClientRect();
+  var cx=rect.left-rr.left+rect.width/2;
+  var cy=rect.top-rr.top+rect.height/2;
+  var ps=[];
+  for(var i=0;i<15;i++){
+    var p=document.createElement('div');
+    p.className='bd-cake-particle';
+    p.textContent='🎂';
+    p.style.left=cx+'px';
+    p.style.top=cy+'px';
+    p.style.transform='translate(-50%,-50%) scale(1)';
+    p.style.opacity='1';
+    R.appendChild(p);
+    ps.push(p);
+  }
+  cake.style.transform='scale(0)';
+  cake.style.opacity='0';
+  setTimeout(function(){
+    for(var j=0;j<ps.length;j++){
+      var a=Math.random()*2*Math.PI;
+      var d=150+Math.random()*400;
+      ps[j].style.transform='translate('+(Math.cos(a)*d)+'px,'+(Math.sin(a)*d-100)+'px) scale(0.2)';
+      ps[j].style.opacity='0';
+    }
+    setTimeout(function(){for(var k=0;k<ps.length;k++)ps[k].remove()},1000);
+  },100);
+}
+
+// 语录
+var quotes=[
+  '你比自己想象的更强大 ✨',
+  '每一步都算数 🚶',
+  '今天是你余生中最年轻的一天 🌱',
+  '世界因你而美好 💖',
+  '勇敢不是不害怕，而是害怕依然向前 🌟',
+  '做自己的太阳，无需凭借谁的光 ☀️',
+  '你值得世间所有温柔 🕊️',
+  '继续奔跑，星光会为你铺路 🌌'
+];
+
+function showQuotes(cb){
+  QO.style.display='flex';
+  QO.style.opacity='1';
+  var idx=0;
+  function nx(){
+    if(idx>=quotes.length){
+      QT.style.opacity='0';
+      setTimeout(function(){
+        QO.style.opacity='0';
+        setTimeout(function(){QO.style.display='none';if(cb)cb()},600);
+      },600);
+      return;
+    }
+    QT.textContent=quotes[idx];
+    QT.style.opacity='1';
+    idx++;
+    setTimeout(function(){QT.style.opacity='0';setTimeout(nx,600)},1800);
+  }
+  nx();
+}
+
+function updateCard(){
+  document.getElementById('bdTitle').textContent='继续闪耀吧！';
+  document.getElementById('bdSubtitle').textContent='🌟 所有愿望都已启程 🌟';
+  document.getElementById('bdMessage').innerHTML='🌷 愿你永远忠于自己<br>活得丰盛且自由<br>所有努力都不被辜负<br>✨ 这一年，光芒万丈';
+  document.getElementById('bdSurpriseBtn').textContent='🎁 再玩一次';
+}
+
+window.bdResetCard=function(){
+  document.getElementById('bdTitle').textContent='生日快乐！';
+  document.getElementById('bdSubtitle').textContent='✨ 愿你的每一天都闪闪发光 ✨';
+  document.getElementById('bdMessage').innerHTML='🎈 新的一岁，愿你<br>眼里有光，心中有爱<br>所求皆如愿，所行化坦途<br>🎁 所有美好都如期而至';
+  document.getElementById('bdSurpriseBtn').textContent='🎉 点我有惊喜';
+  var cake=document.getElementById('bdCake');
+  cake.style.transform='';cake.style.opacity='';
+  document.getElementById('bdCandle').style.display='';
+  document.getElementById('bdFlame').style.display='';
+  document.getElementById('bdFlame').style.opacity='';
+  document.getElementById('bdFlame').style.transform='';
+};
+
+window.bdStartSurprise=function(){
+  var flame=document.getElementById('bdFlame');
+  var candle=document.getElementById('bdCandle');
+  flame.style.transition='transform 0.5s ease,opacity 0.5s';
+  flame.style.transform='scale(0)';
+  flame.style.opacity='0';
+  setTimeout(function(){candle.style.display='none';flame.style.display='none'},500);
+  setTimeout(explodeCake,600);
+  setTimeout(function(){bdCreateConfetti(80)},700);
+  setTimeout(function(){
+    showQuotes(function(){
+      updateCard();
+      var cake=document.getElementById('bdCake');
+      cake.style.transform='scale(0.8)';
+      cake.style.opacity='1';
+      var btn=document.getElementById('bdSurpriseBtn');
+      btn.disabled=false;
+      window._bdRunning=0;
+    });
+  },1800);
+};
+
+// 倒计时
+function updateCountdown(){
+  var now=new Date();
+  var bd=new Date(now.getFullYear(),4,26);
+  if(now>bd)bd=new Date(now.getFullYear()+1,4,26);
+  var diff=bd-now;
+  var el=document.getElementById('bdCountdown');
+  if(diff<=0){
+    el.innerHTML='🎂 就是今天！尽情享受吧！';
+  }else{
+    var d=Math.floor(diff/86400000);
+    var h=Math.floor((diff%86400000)/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    el.innerHTML='距离生日还有 '+d+' 天 '+h+' 时 '+m+' 分 '+s+' 秒';
+  }
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+// 初始彩纸
+setTimeout(function(){bdCreateConfetti(25)},800);
+})();
+">
+</div>`,image:"",audio:""},
+{id:2,title:"宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑",date:"2026-05-25 23:30",tags:["思想实验","哲学","物理学","认知科学","量子力学","科普"],summary:"探索认知、逻辑与宇宙本质的极限——从忒修斯之船到玻尔兹曼大脑，十大改变人类思考方式的思想实验深度解读。",content:`<style>
 /* ===== 思想实验交互容器 ===== */
 .te-wrap {
   background: var(--bg2);
@@ -594,7 +898,7 @@ render();
     我们正在做人类最擅长的事：<strong>用思想的实验，触及现实的边界。</strong>
   </p>
 </div>`,image:"",audio:""},
-{id:2,title:"时代的风口：Token 中转，一门被低估的生意",date:"2026-05-21 21:22",tags:["Token中转","AI Agent","大模型","API聚合","创业思考"],summary:"每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。",content:`<blockquote>用了半年 AI Agent，最大的感受不是 AI 多聪明，而是——交电费真是一件让人头疼的事。</blockquote>
+{id:3,title:"时代的风口：Token 中转，一门被低估的生意",date:"2026-05-21 21:22",tags:["Token中转","AI Agent","大模型","API聚合","创业思考"],summary:"每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。",content:`<blockquote>用了半年 AI Agent，最大的感受不是 AI 多聪明，而是——交电费真是一件让人头疼的事。</blockquote>
 <h2>💸 一、我的 Token 账单</h2>
 <p>先说说我自己的情况。</p><p>我现在每天都在用 AI Agent。不是那种偶尔问一句"今天天气怎么样"的用法，而是把 Agent 当成真正的生产力工具——写代码、改文章、做调研、搭系统。DeepSeek、小米 MiMo、NVIDIA NIM……各种模型轮着用。</p><p>一天下来，<strong>2 到 3 块钱</strong>就没了。</p><p>听起来不多对吧？但请注意，这只是<strong>简单任务</strong>——问个问题、改段文字、查个资料。当我跑复杂任务的时候，比如让 Agent 分析整个代码库、批量处理数据、多轮迭代调试，Token 消耗就像开了水龙头一样往下流，<strong>根本是个无底洞</strong>。</p><p>为了省钱，我试过用 Ollama 跑本地模型。免费是免费了，但那体验——Qwen2.5:7b 跑个小任务都能卡半天，复杂一点的逻辑直接超时甚至挂死。省了钱，废了命。</p><p>就在这种"用付费 API 心疼钱，用免费本地模型心累"的纠结中，一个念头冒了出来——<strong>Token 能不能像自来水一样，有人专门做供应和分发？</strong></p>
 <h2>🔍 二、需求从哪来？</h2>
@@ -632,7 +936,7 @@ render();
 <h2>🎯 六、写在最后</h2>
 <p>我不是在怂恿谁去创业做 Token 中转站。这个赛道已经有巨头入场了（亚马逊、阿里云都在做），个人玩家很难正面硬刚。</p><p>但我的意思是：<strong>当一个新资源出现的时候，它周围的生态会催生无数机会。</strong> 就像云计算催生了云原生、SaaS、Serverless，Token 经济也会催生出我们现在想不到的东西。</p><p>至于那些靠暗改倍率、卖数据赚钱的人——走不远的。真正的机会，永远在那些让生态更透明、让用户少操心的方向上。</p>
 <blockquote>Token 不是新时代的电力。但围绕着 Token 流通的那些生意，可能会是。</blockquote>`,image:"",audio:""},
-{id:3,title:"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路",date:"2026-05-20 21:48",tags:["Hermes","OpenClaw","AI Agent","大模型","DeepSeek","Xiaomi","NVIDIA","自建工具链"],summary:"一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录",content:`<blockquote>如果不是 OpenClaw 让我看见了 AI Agent 的潜力，我也不会走上这条折腾之路。但潜力归潜力，一亿九千万 Token 烧下去的账单不会说谎——是时候换个玩法了。</blockquote>
+{id:4,title:"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路",date:"2026-05-20 21:48",tags:["Hermes","OpenClaw","AI Agent","大模型","DeepSeek","Xiaomi","NVIDIA","自建工具链"],summary:"一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录",content:`<blockquote>如果不是 OpenClaw 让我看见了 AI Agent 的潜力，我也不会走上这条折腾之路。但潜力归潜力，一亿九千万 Token 烧下去的账单不会说谎——是时候换个玩法了。</blockquote>
 <h2>🔥 一、从「能用」到「好用」——为什么要换</h2>
 <p>OpenClaw 带我入门了 AI Agent 的世界。我不能说它不好——没有它，我可能到现在还不知道 AI 能自动写代码、搭网站、操作浏览器。但用久了，痛点就像鞋里的沙子，一步两步不觉得，走远了就硌得慌。</p><p><strong>第一个痛点：Token 烧得太快了。</strong></p><p>OpenClaw 默认依赖付费 API，而我当时选的是小米 MiMo 的 Token Plan。一开始觉得"一亿 Token 够用了吧"，结果 AI Agent 跑起来才知道——这玩意儿就是个 Token 粉碎机。对话、代码、工具调用……每个动作都在烧 Token。最终一看账单：<strong>小米用了一亿九千万 Token，DeepSeek 用了一亿三千万 Token</strong>。加起来三亿多 Token 打水漂。</p><p><em>不算不知道，一算吓一跳。Agent 时代的 Token 消耗，远超你聊天时的体感。</em></p><p><strong>第二个痛点：UI 不友好，很多东西难以使用。</strong></p><p>OpenClaw 的功能很强大，但它的界面和操作逻辑对普通用户来说确实有门槛。配置项藏得深，文档分散，很多功能需要自己摸索。对于一个只想用 AI 干活的人来说，学习成本有点高了。</p><p>于是我动了换工具的心思——直到我发现 Hermes Agent。</p>
 <h2>🌊 二、第一次碰壁：NVIDIA 免费 API 的诱惑与绝望</h2>
@@ -702,7 +1006,7 @@ render();
 <blockquote>从 OpenClaw 到 Hermes，追根到底不是二选一，而是从"学习使用 AI"到"掌控 AI"的成长过程。前者让我入了门，后者让我能自由发挥。</blockquote>
 <h2>🌟 写在最后：Agent 时代，省 Token 就是省钱</h2>
 <p>大模型时代不缺聪明的大脑，缺的是吃 Token 不眨眼的胃口。一亿九千万 Token烧完之后我明白了——未来的竞争优势不在于谁的模型更强，而在于谁能用更少的 Token 完成同样的任务。</p><p>从 OpenClaw 到 Hermes，我从"被 Token 牵着走"变成了"管着 Token 花"。这套工具链让我花的每一分钱都看得清清楚楚。</p><p><em>工具可以换，但省 Token 的直觉不能丢。</em></p>`,image:"",audio:""},
-{id:4,title:"你看到的，未必是真相",date:"2026-05-19 20:41",tags:["思考","流媒体","幸存者偏差","社会观察"],summary:"流媒体时代，关于「幸存者视角」的沉思",content:`<video controls width="100%" style="max-width:800px;display:block;margin:0 auto 25px auto;border-radius:12px;">
+{id:5,title:"你看到的，未必是真相",date:"2026-05-19 20:41",tags:["思考","流媒体","幸存者偏差","社会观察"],summary:"流媒体时代，关于「幸存者视角」的沉思",content:`<video controls width="100%" style="max-width:800px;display:block;margin:0 auto 25px auto;border-radius:12px;">
   <source src="/images/cosmos-video.mp4" type="video/mp4">
 </video>
 
@@ -907,7 +1211,7 @@ render();
 <p style="text-align:center;color:var(--tx3);font-size:0.85rem;margin-top:1.5rem;">
 这，才是幸存者视角带给我们的，最值得被记取的提醒。
 </p>`,image:"",audio:""},
-{id:5,title:"AI生成的手账：春日樱花漫步",date:"2026-05-19 19:19",tags:["手账","AI","生活"],summary:"用AI为照片添加手绘风注解，记录美好的春日时光",content:`<h2>AI生成的手账 ✨</h2>
+{id:6,title:"AI生成的手账：春日樱花漫步",date:"2026-05-19 19:19",tags:["手账","AI","生活"],summary:"用AI为照片添加手绘风注解，记录美好的春日时光",content:`<h2>AI生成的手账 ✨</h2>
 <p>今天用AI工具为春日漫步的照片添加了手绘风注解，效果真的很治愈！让我们一起来看看这张充满生活气息的图片吧~</p>
 <h3>图片欣赏</h3>
 <p><img src="/images/花朵.png" alt="春日樱花手账" loading="lazy"></p><p><img src="/images/整齐的书桌.png" alt="整齐的书桌" loading="lazy"></p><p><img src="/images/饭菜彩虹小路.png" alt="饭菜彩虹小路" loading="lazy"></p>
@@ -943,7 +1247,7 @@ render();
 - 像Instagram限时动态或杂志上的灵感随笔
 </code></pre>
 <p>试试看吧，为你的照片增添一份手绘的温暖！ 🎨</p>`,image:"",audio:""},
-{id:6,title:"最近在听的歌 —— 一份私藏歌单 🎵",date:"2026-05-19 10:18",tags:["音乐","生活","歌单推荐"],summary:"整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。",content:`<h2>🎶 写在前面</h2>
+{id:7,title:"最近在听的歌 —— 一份私藏歌单 🎵",date:"2026-05-19 10:18",tags:["音乐","生活","歌单推荐"],summary:"整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。",content:`<h2>🎶 写在前面</h2>
 
 <p>最近整理了一下在循环播放的歌曲，挑出几首分享给你。有老歌新听，也有一直躺在收藏夹的宝藏曲目。每首歌点开就能听，希望你能找到喜欢的。</p>
 
@@ -1026,7 +1330,7 @@ render();
 <p>歌单这种东西其实很私人，但分享出来感觉也不错。如果你也有喜欢的歌，欢迎在评论区留言推荐给我 🎧</p>
 
 <blockquote>音乐是生活中最好的背景音。<br>无论开心还是难过，总有首歌适合你。</blockquote>`,image:"",audio:""},
-{id:7,title:"从历史分工到现代对立：两性议题的深层溯源",date:"2026-05-18",tags:["性别研究","社会观察","进化心理学"],summary:"最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。",content:`<h2>开篇：问题的起点</h2>
+{id:8,title:"从历史分工到现代对立：两性议题的深层溯源",date:"2026-05-18",tags:["性别研究","社会观察","进化心理学"],summary:"最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。",content:`<h2>开篇：问题的起点</h2>
 <p>最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。</p><p>我认为，理解这一现象的核心，在于正视从古至今男女生产地位、生产职能及所扮演角色的本质差异。父系社会的长期延续，直接塑造了我们在性别互动上的集体潜意识。</p>
 <h2>溯源：狩猎协作与采集精算</h2>
 <p>远古时期，社会分工的雏形便已深植于两性的生存策略之中。</p>
@@ -1056,14 +1360,14 @@ render();
 <p>我们必须警惕消费主义对两性关系的扭曲。多年前，部分资本力量利用女性心理，大幅拉高男性在物质层面的供养标准，制造出虚幻的性别提升感，使多数人背离了朴素的生活本质。</p><p>男性对此的不适，本质上是一种对资本强行绑架生活方式的集体反抗。</p>
 <h2>总结：在争辩中走向理性</h2>
 <p>男女在思维和角色上的这些现象，是父系社会长期弊端导致的必然结果，短时间的确难以根除。但我并不认为这种讨论是不正确的，恰恰相反，只有在客观的讨论与争辩中，我们才能寻找到真正正确的方向。</p><p>最后我们需要警醒：不能犯矫枉过正的错误。一味片面地追求脱离现实的“绝对平等”，只会违背了自然演化和生产实践所赋予两性的自然规律与协作美感。承认差异、尊重历史、警惕资本，这才是修复两性关系、达成良好布局的正确路径。</p>`,image:"",audio:""},
-{id:8,title:"自动部署测试文章",date:"2026-05-18",tags:["测试","部署"],summary:"测试 GitHub Actions 自动部署到 Cloudflare Pages",content:`<p>这是一篇用于测试自动部署功能的文章。</p>
+{id:9,title:"自动部署测试文章",date:"2026-05-18",tags:["测试","部署"],summary:"测试 GitHub Actions 自动部署到 Cloudflare Pages",content:`<p>这是一篇用于测试自动部署功能的文章。</p>
 <h2>测试内容</h2>
 <ul><li>✅ GitHub Actions 触发</li>
 <li>✅ Cloudflare Pages 部署</li>
 <li>✅ 网站自动更新</li></ul>
 <h2>当前时间</h2>
 <p>这篇文章生成于：2026-05-18</p><p>如果你能看到这篇文章，说明自动部署流程工作正常！</p>`,image:"",audio:""},
-{id:9,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",content:`<h2>前言 🚀</h2>
+{id:10,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",content:`<h2>前言 🚀</h2>
 <p>最近在AI工具的使用上经历了不少折腾，从最初的云端API调用，到后来尝试本地部署，这段经历让我对AI的使用成本和技术选型有了更深的理解。今天就来记录一下我的整个探索过程。</p>
 <h2>小米平台API的消耗困境 📊</h2>
 <p>事情要从我的小米平台API说起。最近发现我的API调用量已经消耗了<strong>70%</strong>，这个消耗速度确实让我有些意外。</p><p>说实话，云端API的使用成本比我想象的要高得多。每次调用都需要消耗token，而现在的AI模型动辄就是几K甚至几M的上下文窗口，累积下来的消耗确实不容小觑。</p>
@@ -1097,7 +1401,7 @@ render();
 <p>未来的AI使用之路还很长，且用且探索吧！</p>
 <hr>
 <blockquote>技术在进步，成本在变化，保持学习和探索的心态最重要 🌟</blockquote>`,image:"",audio:""},
-{id:10,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",content:`<h2>疲惫的一天 ☕</h2>
+{id:11,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",content:`<h2>疲惫的一天 ☕</h2>
 <p>今天真的是疲惫的一天，从早上忙到晚上，感觉身体被掏空了。但想想，好像也做了不少事情。</p>
 <h3>上午的忙碌</h3>
 <p>一大早起来就开始处理各种事情，感觉时间过得特别快。连喝口水的时间都差点没有。</p>
@@ -1105,7 +1409,7 @@ render();
 <p>下午一直在折腾那个博客的自动化部署。先是尝试配置webhook，遇到了一些问题，后来又换用了定时轮询的方式。</p><p>不过好在现在有了 blog-poller，每 2 分钟检查一次，以后再写文章就方便多了！</p>
 <h3>晚上的放松</h3>
 <p>终于到了晚上，可以稍微放松一下了。准备泡杯茶，看看书，早点休息。</p><p>明天又是新的一天！加油！💪</p>`,image:"",audio:""},
-{id:11,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16 21:30",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<blockquote>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</blockquote>
+{id:12,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16 21:30",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<blockquote>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</blockquote>
 <h2>🚀 一、初识 OpenClaw：满怀期待的第一次</h2>
 <p>去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。</p>
 <blockquote>⚠️ <strong>当时的困境</strong><br>安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。</blockquote>
@@ -1200,7 +1504,7 @@ openclaw onboard
 <h2>🌟 九、写在最后：未来已来</h2>
 <p>回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会"说话"就行。</p><p>未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个"审核员"和"监督员"。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p>
 <blockquote>💡 <strong>写在最后的话</strong><br>这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。</blockquote>`,image:"",audio:""},
-{id:12,title:"周末的一天",date:"2026-05-16",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2>
+{id:13,title:"周末的一天",date:"2026-05-16",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2>
 <p>周末的早晨总是醒得比工作日早。拉开窗帘，阳光洒进来，又是新的一天。</p>
 <h2>上午</h2>
 <p>泡了一杯咖啡，打开电脑看了会代码。最近在研究 Three.js，想做个3D小岛的互动页面。</p>
@@ -1214,7 +1518,7 @@ openclaw onboard
 <pre><code>const articles = [{ id: 1, title: "周末的一天" }];
 </code></pre>
 <p>这就是我的周末，平淡但充实。</p>`,image:"",audio:""},
-{id:13,title:"Hello World - 我的第一篇博客",date:"2026-05-15",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2>
+{id:14,title:"Hello World - 我的第一篇博客",date:"2026-05-15",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2>
 <p>一直想有个自己的博客，记录学习和生活。之前用过 WordPress、Hugo，这次想试试最纯粹的方式：纯静态 HTML，一个文件搞定一切。</p>
 <h2>技术选型</h2>
 <p>最终选择了：</p>
