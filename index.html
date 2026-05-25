@@ -1459,6 +1459,13 @@ function showDetail(id,noPush){
   d.querySelectorAll('.d-content audio').forEach(audio=>{audio.addEventListener('play',function(){d.querySelectorAll('.d-content audio').forEach(other=>{if(other!==this)other.pause()})})});
   buildTOC();
   scrollTo({top:0,behavior:'smooth'});
+  // 重新执行文章内的 <script> 标签（innerHTML 不会自动执行）
+  d.querySelectorAll('script').forEach(function(s){
+    var ns=document.createElement('script');
+    if(s.src)ns.src=s.src;
+    else ns.textContent=s.textContent;
+    s.parentNode.replaceChild(ns,s);
+  });
   if(!noPush) history.pushState({id:id},'',location.pathname+'#/post/'+id);
 }
 
