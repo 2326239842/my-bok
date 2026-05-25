@@ -287,6 +287,7 @@ function teNav(dir) {
     setTimeout(function(){ switching = false; }, 500);
   }, 400);
 }
+window.teNav = teNav;
 
 window.teGo = function(i) {
   if (switching || i === idx) return;
