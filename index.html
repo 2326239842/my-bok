@@ -254,7 +254,385 @@ a:hover{text-decoration:underline}
 // ===== 数据 =====
 // ===== ARTICLES_START =====
 const articles=[
-{id:1,title:"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路",date:"2026-05-20 21:48",tags:["Hermes","OpenClaw","AI Agent","大模型","DeepSeek","Xiaomi","NVIDIA","自建工具链"],summary:"一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录",content:`<blockquote>如果不是 OpenClaw 让我看见了 AI Agent 的潜力，我也不会走上这条折腾之路。但潜力归潜力，一亿九千万 Token 烧下去的账单不会说谎——是时候换个玩法了。</blockquote>
+{id:1,title:"宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑",date:"2026-05-25 23:30",tags:["思想实验","哲学","物理学","认知科学","量子力学","科普"],summary:"探索认知、逻辑与宇宙本质的极限——从忒修斯之船到玻尔兹曼大脑，十大改变人类思考方式的思想实验深度解读。",content:`<style>
+/* ===== 思想实验交互容器 ===== */
+.te-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 1.5rem 0 2rem;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+}
+.te-progress {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ac), #7c6aef);
+  z-index: 10;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+.te-scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1.5rem 1rem;
+  min-height: 320px;
+  transition: opacity .5s, transform .5s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+.te-scene svg {
+  max-width: 100%;
+  height: auto;
+}
+.te-info {
+  padding: 0 1.5rem 1.8rem;
+  text-align: center;
+  position: relative;
+}
+.te-info h3 {
+  margin: 0 0 .25rem !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  color: var(--tx) !important;
+}
+.te-subtitle {
+  font-size: .88rem;
+  color: var(--tx3);
+  font-style: italic;
+  margin-bottom: .8rem;
+}
+.te-desc {
+  font-size: .92rem;
+  color: var(--tx2);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 0 auto .6rem;
+}
+.te-deep {
+  font-size: .84rem;
+  color: var(--tx2);
+  line-height: 1.75;
+  max-width: 640px;
+  margin: 0 auto;
+  display: none;
+  background: var(--bg3);
+  border: 1px solid var(--bdr2);
+  border-radius: 10px;
+  padding: .9rem 1.1rem;
+  text-align: left;
+}
+.te-deep.open { display: block; }
+.te-deep-toggle {
+  display: inline-block;
+  font-size: .78rem;
+  color: var(--ac);
+  cursor: pointer;
+  margin-top: .3rem;
+  padding: .25rem .7rem;
+  border-radius: 999px;
+  border: 1px solid var(--ac3);
+  background: var(--ac2);
+  transition: all .2s;
+}
+.te-deep-toggle:hover { background: var(--ac3); }
+/* Nav */
+.te-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  margin: 1rem 0 .8rem;
+}
+.te-nav-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 1px solid var(--bdr2);
+  color: var(--tx2);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  font-family: var(--font);
+  -webkit-tap-highlight-color: transparent;
+}
+.te-nav-btn:hover { border-color: var(--ac); color: var(--ac); }
+.te-dots { display: flex; gap: .5rem; align-items: center; }
+.te-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--bdr2);
+  cursor: pointer;
+  transition: all .3s;
+  -webkit-tap-highlight-color: transparent;
+}
+.te-dot.active { background: var(--ac); width: 20px; border-radius: 4px; }
+.te-dot:hover { background: var(--tx3); }
+/* Keyboard hint */
+.te-hint {
+  font-size: .72rem;
+  color: var(--tx3);
+  margin-top: .3rem;
+}
+@media(max-width:768px){
+  .te-scene { min-height: 260px; padding: 1.5rem .8rem .5rem; }
+  .te-info { padding: 0 1rem 1.2rem; }
+  .te-info h3 { font-size: 1.15rem !important; }
+  .te-desc { font-size: .82rem; }
+  .te-deep { font-size: .78rem; padding: .7rem .9rem; }
+  .te-nav-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+}
+</style>
+
+<div class="te-wrap" id="teWrap">
+  <div class="te-progress" id="teProgress"></div>
+  <div class="te-scene" id="teScene"></div>
+  <div class="te-info">
+    <h3 id="teTitle"></h3>
+    <div class="te-subtitle" id="teSubtitle"></div>
+    <div class="te-desc" id="teDesc"></div>
+    <div class="te-deep" id="teDeep"></div>
+    <span class="te-deep-toggle" id="teToggle" onclick="toggleDeep()">📖 展开深度解读</span>
+    <div class="te-nav">
+      <button class="te-nav-btn" onclick="teNav(-1)" title="上一个">◀</button>
+      <div class="te-dots" id="teDots"></div>
+      <button class="te-nav-btn" onclick="teNav(1)" title="下一个">▶</button>
+    </div>
+    <div class="te-hint">🖱️ 鼠标滚轮 / ⌨️ 键盘 ← → / 📱 触屏滑动</div>
+  </div>
+</div>
+
+<script>
+(function(){
+var data = [
+  {
+    cn: "忒修斯之船", en: "The Ship of Theseus",
+    desc: "如果一艘船在航行中，每一块木板都被逐渐替换，直到所有的木板都不是原来的材料——那它还是原来的那艘船吗？这个问题触及了「身份同一性」的核心：是什么让一个事物成为「它自己」？",
+    deep: "<b>⚓ 历史溯源</b><br>这个思想实验最早由古希腊作家普鲁塔克在《希腊罗马名人传》中记载。忒修斯是雅典神话中的英雄，他杀死弥诺陶洛斯后乘坐的那艘船被雅典人保存了数百年，期间腐烂的木板被陆续替换。<br><br><b>🔬 现代回响</b><br>这个问题在今天远比古代更锋利——人体细胞每7~10年全部更新一轮，7年后的你还是7年前的你吗？如果把你大脑的状态完整上传到计算机，那个数字副本是你吗？自动驾驶汽车在更换了全部零件后还是「同一辆车」吗？<br><br><b>💡 核心困境</b><br>忒修斯之船揭示了两种对立观点：<b>物质同一性</b>（相同材料=相同事物）vs <b>模式同一性</b>（相同结构=相同事物）。至今没有定论，因为这个问题触及的是我们如何定义「存在」本身。"
+  },
+  {
+    cn: "薛定谔的猫", en: "Schrödinger's Cat",
+    desc: "把一只猫和一个有50%概率释放毒气的装置一起放进密封盒子。根据量子力学，在打开盒子观察之前，猫处于「既死又活」的叠加状态。问题来了：观察真的能决定现实吗？",
+    deep: "<b>🐱 诞生背景</b><br>这个实验是奥地利物理学家薛定谔在1935年提出的——但他真正的目的不是支持量子力学，而是<b>讽刺</b>它。他想指出哥本哈根诠释的荒谬：一个宏观物体（猫）怎么可能处于叠加态？<br><br><b>⚛️ 量子启示</b><br>讽刺归讽刺，这个思想实验却成了量子力学最出名的教学工具。它引出了「测量问题」：量子世界和经典世界之间的边界在哪？什么时候波函数会「坍缩」？近年来的量子计算和量子通信技术，本质上就是在操控这些叠加态。<br><br><b>🎯 真正的震撼</b><br>如果哥本哈根诠释是对的，那意味着在观察之前，现实本身是不确定的。不是「我们不知道猫是死是活」，而是「猫本身不存在确定状态」。这彻底撼动了经典物理的实在论世界观。"
+  },
+  {
+    cn: "缸中之脑", en: "Brain in a Vat",
+    desc: "假设你的大脑被一位疯狂科学家取出，放在装满营养液的缸中，连接到一台超级计算机。计算机完美模拟出视觉、听觉、触觉等一切感知——你如何证明你现在不是「缸中之脑」？",
+    deep: "<b>🧠 哲学渊源</b><br>这个思想实验是现代版的笛卡尔「恶魔论证」——笛卡尔在17世纪就提出：如果一个全能的恶魔欺骗了我所有的感官，我怎么能确定任何事是真实的？他的答案是「我思故我在」：即使一切都是假的，那个正在被欺骗的「我」至少是存在的。<br><br><b>🎬 流行文化</b><br>《黑客帝国》（The Matrix）就是缸中之脑的电影版本：红色药丸让你看到真实世界（废墟中的破败现实），蓝色药丸让你继续留在舒适的模拟中。电影抛出的问题是：如果模拟世界足够美好，你还愿意醒来吗？<br><br><b>🤖 AI 时代的回响</b><br>随着 VR/AR 技术和脑机接口的发展，缸中之脑不再是纯粹的哲学思辨。当AI可以生成以假乱真的视频、音频甚至触觉反馈时，「什么是真实」这个问题从未如此紧迫。"
+  },
+  {
+    cn: "麦克斯韦妖", en: "Maxwell's Demon",
+    desc: "一个想象中的小妖精控制着两个气体容器之间的小门，它只让运动快的分子通过左边，运动慢的分子通过右边。这样左边越来越热、右边越来越冷——在不消耗能量的情况下创造了温差。这是否推翻了热力学第二定律？",
+    deep: "<b>📐 科学背景</b><br>麦克斯韦在1867年提出了这个思想实验来挑战热力学第二定律（熵增定律：孤立系统的熵永不减少）。如果小妖真的能区分分子速度，它就能在不做功的情况下降低系统熵。<br><br><b>💾 信息物理学的诞生</b><br>这个问题困扰了物理学家一个多世纪，直到1961年兰道尔（Rolf Landauer）给出了答案：小妖要区分分子速度，就必须获取信息；而<b>擦除信息本身需要消耗能量</b>，产生熵。兰道尔原理将「信息」和「热力学」统一了起来——每擦除1比特信息，至少产生 kT·ln2 的热量。<br><br><b>🧬 今天的意义</b><br>这个原理奠定了信息物理学的基石，直接关联到今天的计算能耗极限。每当你删除一个文件，宇宙的熵就增加了一点点——你无法抗拒。"
+  },
+  {
+    cn: "中文房间", en: "The Chinese Room",
+    desc: "一个完全不懂中文的人被关在房间里，手里有一本完美的规则手册。外面的人塞进中文纸条，他按照手册找到对应的中文回答塞出去。外面的人以为他懂中文——但他真的理解中文吗？",
+    deep: "<b>🤖 提出者</b><br>哲学家约翰·塞尔（John Searle）在1980年提出这个思想实验来反驳「强人工智能」假说：即使一台计算机完美通过了图灵测试，它真的「理解」它处理的内容吗？还只是按照规则（程序）机械地操作符号？<br><br><b>⚔️ 关键区分</b><br>塞尔区分了<b>强AI</b>（计算机可以有真正的理解和意识）和<b>弱AI</b>（计算机只是模拟智能的工具）。中文房间论证说：句法（符号操作规则）不足以产生语义（真正的理解和意义）。<br><br><b>💬 与 ChatGPT 时代对话</b><br>今天的大语言模型正在重演这场辩论。GPT-4 能写出感人至深的诗歌、进行深度哲学讨论——但它是在「理解」还是在进行极其复杂的模式匹配？塞尔会说：它只是中文房间的终极版本——计算力大了一亿倍，但本质没变。你同意吗？"
+  },
+  {
+    cn: "无限猴子定理", en: "Infinite Monkey Theorem",
+    desc: "给一只猴子一台打字机和无限的时间，它随机敲击键盘，最终会打出莎士比亚全集。这听起来荒谬，但在数学上却是必然的——只要时间足够长，任何概率不为零的事件都必然发生。",
+    deep: "<b>🎲 概率的本质</b><br>这个思想实验来自概率论中的「波莱尔-坎泰利引理」：如果给足够多次独立尝试，任何概率大于零的事件几乎必然发生。莎士比亚全集大约500万个字符，猴子一次性敲对的概率是 1/26^5000000 ——但在无限时间面前，这个天文数字趋近于零。<br><br><b>📚 博尔赫斯的巴别图书馆</b><br>阿根廷作家博尔赫斯写过一篇小说「巴别图书馆」：一个无限大的图书馆包含了所有可能的字母排列组合。这意味着那个图书馆里有全世界所有已经写出和将要写出的一切书——但也意味着<b>绝大部分是毫无意义的噪音</b>。<br><br><b>🌌 宇宙学启示</b><br>这个定理通向一个令人眩晕的推论：如果宇宙是无限的，那么任何满足物理规律的事件都会发生无数次。在宇宙的某个角落，确实有一个和你一模一样的人在读着同样一句话——这既是概率的必然，也是关于「意义」的终极拷问：如果连莎士比亚都可以被随机生成，我们创造的东西真的有意义吗？"
+  },
+  {
+    cn: "玛丽房间", en: "Mary's Room",
+    desc: "玛丽是一位顶尖的神经科学家，她从小被关在一个只有黑白色的房间里，但她通过黑白书籍掌握了关于色彩的一切物理知识——波长、视锥细胞、神经信号传导。当她有一天走出房间第一次真正看到红色时，她学到了新东西吗？",
+    deep: "<b>🎨 哲学家杰克逊的挑战</b><br>澳大利亚哲学家弗兰克·杰克逊在1982年提出这个思想实验来反驳物理主义（认为世界上的一切都可以用物理知识解释）。他的论证是：如果玛丽学到了新东西（「红色看起来是这样的！」），那么物理知识就是不完整的——因为有一种知识（<b>感受质 qualia</b>）无法通过物理描述获得。<br><br><b>🧬 意识科学的核心</b><br>感受质指的是主观体验的「质感」：红色的「红」是什么感觉？疼痛的「痛」是什么滋味？即使我们把大脑的神经活动描述得一清二楚，这些描述似乎永远无法传达「正在经历」的感觉本身。这被称为意识的「困难问题」。<br><br><b>🔄 反方观点</b><br>能力假说反驳说：玛丽没有学到新的「事实」，而是获得了新的「能力」——比如能够分辨、想象和回忆红色。知识和能力是两回事。但无论哪一方，玛丽房间都精准地指出了物理描述和主观体验之间的鸿沟。"
+  },
+  {
+    cn: "孪生子佯谬", en: "Twin Paradox",
+    desc: "一对双胞胎，一个留在地球，另一个乘坐接近光速的飞船去太空旅行。当旅行者返回地球时，他比留在地球的兄弟年轻得多——这就是爱因斯坦相对论预言的「时间膨胀」效应。但它为什么是一个「佯谬」？",
+    deep: "<b>⏱️ 佯谬在哪</b><br>表面上看，运动是相对的——从旅行者的角度看，是地球在高速运动。那为什么不是地球上的兄弟更年轻？这里的关键是<b>不对称性</b>：旅行者经历了加速、减速和掉头，而地球上的兄弟始终在惯性系中。正是这些加速过程打破了对称性。<br><br><b>🛰️ 日常验证</b><br>这不是纯理论——GPS 卫星每天都要校正时间膨胀效应。GPS 卫星以约14000 km/h 的速度运行，每天会比地面时钟慢约7微秒。如果不校正，GPS 定位误差每天会累积约10公里。你手机上的导航能准确定位，靠的就是相对论。<br><br><b>🌠 更深层的含义</b><br>孪生子佯谬告诉我们：<b>时间不是绝对的、统一的背景</b>——它是可以被拉伸和压缩的。你的「现在」和别人的「现在」可能并不重合。这个发现比任何科幻小说都更深刻地改变了我们对宇宙结构的理解。"
+  },
+  {
+    cn: "祖父悖论", en: "Grandfather Paradox",
+    desc: "你发明了时间机器回到过去，在你父亲出生之前杀死了你的祖父。如果祖父死了，你就不会出生；如果你没有出生，你就不能回到过去杀死祖父；如果你不能回去，祖父就不会死……这个逻辑循环会把因果关系撕成碎片。",
+    deep: "<b>🕳️ 时间旅行的逻辑炸弹</b><br>祖父悖论是最著名的时间旅行悖论之一，由科幻作家 René Barjavel 在1943年的小说中首次明确提出。它揭示了一个根本问题：如果时间旅行允许改变过去，那么因果关系（原因必须在前，结果必须在后）就会崩塌。<br><br><b>🔬 物理学的三种解答</b><br><b>① 诺维科夫自洽原则</b>：任何时间旅行者回到过去后，无论如何尝试，都不可能改变历史——某种物理约束会迫使事件保持一致性。你可能想杀祖父，但枪会卡壳，或你会心软。<br><b>② 多世界诠释</b>：你杀死的「祖父」是另一个平行宇宙的祖父。在那个宇宙里你没有出生，但在你原来的宇宙里你依然活着。时间旅行其实是跳到了另一个分支。<br><b>③ 时序保护猜想</b>：霍金认为，物理定律会主动阻止时间的闭环——也许在时间机器启动的那一刻，量子涨落就会将它摧毁。<br><br><b>🎬 文化影响</b><br>《回到未来》、《终结者》、《暗黑》……无数影视作品都在探索祖父悖论的变体。它之所以迷人，是因为它不仅是一个物理问题，更是一个关于自由意志的问题：如果过去是固定的，我们真的有选择吗？"
+  },
+  {
+    cn: "玻尔兹曼大脑", en: "Boltzmann Brain",
+    desc: "在无限的时间中，由于量子涨落，一个完全成型的、带着虚假记忆的大脑从虚空中随机产生，远比一个完整的宇宙更加「省材料」。如果这是可能的，那么你凭什么确定自己不是一个刚刚随机涨落出来的「玻尔兹曼大脑」，所有的记忆和生活经历都只是错觉？",
+    deep: "<b>🔬 熵与宇宙</b><br>物理学家玻尔兹曼在19世纪末思考：为什么宇宙的熵如此之低（即高度有序）？如果宇宙本质上是随机的，那么一个高度有序的宇宙出现的概率极低。但如果我们接受「人择原理」——正是因为宇宙有序，我们才能在这里思考这个问题——那问题又变成了：为什么不是更低概率的情况？<br><br><b>🧠 最恐怖的推论</b><br>在现代宇宙学中，这个思想实验得到了一个令人不安的升级：在永恒的宇宙膨胀过程中，随机涨落创造出一个孤立的、自意识的大脑的概率，<b>远远高于</b>创造出一个包含数十亿星系、数十亿行星的完整宇宙的概率。因为一个大脑只需要很少的粒子排列正确，而整个宇宙需要天文数字的粒子都恰好正确。<br><br><b>💭 存在主义困境</b><br>你如何证明自己不是玻尔兹曼大脑？你记忆中所有的生活经历、你看过的每一篇文章（包括这一篇）、你爱过的每一个人——都可能是一场刚刚开始的、持续了不到一秒的随机幻觉。哲学家和物理学家至今没有满意的答案。也许唯一的回应是：即使我是一个玻尔兹曼大脑，此刻的思考、感受和好奇，本身就已经构成了我的意义。</b>"
+  }
+];
+
+var idx = 0;
+var switching = false;
+
+var elScene = document.getElementById('teScene');
+var elTitle = document.getElementById('teTitle');
+var elSub = document.getElementById('teSubtitle');
+var elDesc = document.getElementById('teDesc');
+var elDeep = document.getElementById('teDeep');
+var elToggle = document.getElementById('teToggle');
+var elProgress = document.getElementById('teProgress');
+var elDots = document.getElementById('teDots');
+var elWrap = document.getElementById('teWrap');
+
+var svgs = [
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00e89d" stop-opacity="0.4"/><stop offset="100%" stop-color="#00e89d" stop-opacity="0.05"/></linearGradient></defs><path d="M100 300 L500 300 L550 200 L50 200 Z" fill="none" stroke="#999" stroke-width="3"/><rect x="250" y="100" width="8" height="100" fill="#aaa" rx="2"/><path d="M258 110 L350 155 L258 200 Z" fill="#00e89d" opacity="0.5"/><rect x="120" y="215" width="36" height="75" fill="url(#g1)" rx="2"><animate attributeName="opacity" values="1;0.15;1" dur="2.2s" repeatCount="indefinite"/></rect><rect x="176" y="215" width="36" height="75" fill="url(#g1)" rx="2"><animate attributeName="opacity" values="1;0.15;1" dur="2.2s" begin=".55s" repeatCount="indefinite"/></rect><rect x="232" y="215" width="36" height="75" fill="url(#g1)" rx="2"><animate attributeName="opacity" values="1;0.15;1" dur="2.2s" begin="1.1s" repeatCount="indefinite"/></rect><rect x="288" y="215" width="36" height="75" fill="#00e89d" opacity=".15" rx="2"/><rect x="344" y="215" width="36" height="75" fill="#00e89d" opacity=".15" rx="2"/><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">所有木板都换过之后，这还是那艘船吗？</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><radialGradient id="g2"><stop offset="0%" stop-color="#00e89d" stop-opacity="0.3"/><stop offset="100%" stop-color="#00e89d" stop-opacity="0"/></radialGradient></defs><rect x="150" y="80" width="300" height="220" fill="none" stroke="#666" stroke-width="3" stroke-dasharray="12 6" rx="8"><animate attributeName="stroke" values="#666;#00e89d;#666" dur="4s" repeatCount="indefinite"/></rect><g transform="translate(300,190)"><text x="-28" y="8" font-size="42" text-anchor="middle" opacity="0.9">🐱</text><text x="28" y="8" font-size="42" text-anchor="middle" opacity="0.5">💀</text><circle cx="0" cy="0" r="55" fill="url(#g2)"><animate attributeName="r" values="45;65;45" dur="3s" repeatCount="indefinite"/></circle></g><text x="300" y="350" text-anchor="middle" fill="#666" font-size="13">在打开盒子之前，猫处于生与死的叠加态</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse cx="300" cy="170" rx="110" ry="90" fill="none" stroke="#00e89d" stroke-width="3" opacity="0.6"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.5s" repeatCount="indefinite"/></ellipse><path d="M220 200 Q220 160 300 150 Q380 140 380 200 Q380 280 300 280 Q220 280 220 200" fill="none" stroke="#999" stroke-width="3"/><circle cx="300" cy="180" r="35" fill="#00e89d" opacity="0.5" filter="url(#glow)"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="2s" repeatCount="indefinite"/></circle><rect x="260" y="270" width="80" height="30" fill="#555" rx="4"/><line x1="300" y1="150" x2="300" y2="270" stroke="#555" stroke-width="2" stroke-dasharray="6 4"/><text x="130" y="360" fill="#666" font-size="13">你如何证明此刻的一切不是计算机模拟？</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><linearGradient id="g4a" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ff6b6b"/><stop offset="100%" stop-color="#ff6b6b" stop-opacity="0"/></linearGradient><linearGradient id="g4b" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="#00e89d"/><stop offset="100%" stop-color="#00e89d" stop-opacity="0"/></linearGradient></defs><line x1="300" y1="100" x2="300" y2="320" stroke="#555" stroke-width="4"/><rect x="288" y="200" width="24" height="40" fill="#ff8c00" rx="3"><animate attributeName="opacity" values="1;0.4;1" dur="0.6s" repeatCount="indefinite"/></rect><rect x="100" y="100" width="190" height="220" fill="url(#g4a)" opacity="0.15" rx="8"/><text x="195" y="210" text-anchor="middle" fill="#ff6b6b" font-size="15" opacity="0.7">热 🔴 快分子</text><rect x="310" y="100" width="190" height="220" fill="url(#g4b)" opacity="0.15" rx="8"/><text x="405" y="210" text-anchor="middle" fill="#00e89d" font-size="15" opacity="0.7">冷 🟢 慢分子</text><circle cx="180" cy="170" r="6" fill="#ff6b6b"><animate attributeName="cx" values="180;270;180" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="160" cy="230" r="5" fill="#ff6b6b"><animate attributeName="cx" values="160;270;160" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="410" cy="200" r="5" fill="#00e89d"><animate attributeName="cx" values="410;330;410" dur="2s" repeatCount="indefinite"/></circle><circle cx="440" cy="280" r="6" fill="#00e89d"><animate attributeName="cx" values="440;330;440" dur="1.5s" repeatCount="indefinite"/></circle><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">小妖分拣分子，不消耗能量就能创造温差？</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><rect x="100" y="80" width="400" height="240" fill="none" stroke="#666" stroke-width="3" rx="6"/><text x="120" y="115" fill="#00e89d" font-size="18">「月亮是什么？」</text><line x1="60" y1="105" x2="100" y2="105" stroke="#00e89d" stroke-width="2"/><text x="460" y="285" fill="#00e89d" font-size="18">「The moon is a<br/>natural satellite<br/>of Earth.」</text><line x1="500" y1="275" x2="540" y2="275" stroke="#00e89d" stroke-width="2"/><rect x="200" y="170" width="200" height="50" fill="#333" rx="8" stroke="#555"/><text x="300" y="200" text-anchor="middle" fill="#aaa" font-size="14">📖 规则手册 / Rule Book</text><text x="300" y="365" text-anchor="middle" fill="#666" font-size="13">按规则操作 ≠ 真正理解</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><rect x="120" y="240" width="360" height="100" fill="#333" rx="6" stroke="#555"/><rect x="140" y="255" width="320" height="30" fill="#1a1a25" rx="3"/><text x="150" y="274" fill="#00e89d" font-size="12" font-family="monospace">To be, or not to be: that is the question...</text><ellipse cx="300" cy="110" rx="70" ry="55" fill="#333" stroke="#555"/><circle cx="300" cy="200" r="35" fill="#00e89d" opacity="0.25"><animate attributeName="r" values="30;42;30" dur="0.15s" repeatCount="indefinite"/></circle><text x="268" y="210" font-size="36">🐒</text><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">在无限的时间面前，概率为零的事也会变为必然</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><rect x="30" y="40" width="250" height="300" fill="#333" rx="6"/><rect x="320" y="40" width="250" height="300" fill="#1a2a1a" rx="6"/><text x="155" y="90" text-anchor="middle" fill="#999" font-size="14">⬛ ⬜ 黑白世界</text><text x="155" y="180" text-anchor="middle" fill="#666" font-size="12">掌握一切关于</text><text x="155" y="200" text-anchor="middle" fill="#666" font-size="12">色彩的科学知识</text><text x="445" y="90" text-anchor="middle" fill="#00e89d" font-size="14">🌈 第一次看到颜色</text><circle cx="445" cy="220" r="40" fill="red"><animate attributeName="r" values="30;50;30" dur="2s" repeatCount="indefinite"/></circle><text x="445" y="340" text-anchor="middle" fill="#aaa" font-size="12">她学到了新东西吗？</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><circle cx="120" cy="200" r="50" fill="#333" stroke="#555"/><text x="85" y="215" font-size="36">🏠</text><text x="60" y="280" fill="#aaa" font-size="13">地球 10年</text><g><text x="420" y="215" font-size="36">🚀</text><animateTransform attributeName="transform" type="translate" values="0,0;80,0;0,0" dur="2s" repeatCount="indefinite"/></g><text x="420" y="280" fill="#aaa" font-size="13">太空 1年</text><path d="M120 200 Q300 80 500 200" fill="none" stroke="#555" stroke-width="2" stroke-dasharray="8 4"/><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">速度越快，时间越慢——相对论的真实预言</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><marker id="arr9" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#ff6b6b"/></marker></defs><line x1="60" y1="200" x2="540" y2="200" stroke="#555" stroke-width="3" stroke-dasharray="10 6"/><text x="35" y="190" fill="#aaa" font-size="12" text-anchor="end">过去</text><text x="565" y="190" fill="#aaa" font-size="12">现在</text><circle cx="130" cy="200" r="12" fill="#00e89d"/><text x="130" y="225" text-anchor="middle" fill="#aaa" font-size="12">祖父</text><path d="M500 200 Q300 40 130 190" fill="none" stroke="#ff6b6b" stroke-width="3" marker-end="url(#arr9)" stroke-dasharray="8 3"><animate attributeName="stroke-dashoffset" values="0;-22" dur="1s" repeatCount="indefinite"/></path><text x="315" y="55" fill="#ff6b6b" font-size="12" text-anchor="middle">⏪ 时间旅行</text><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">杀死祖父 = 你从未出生 — 但你回来了</text></svg>',
+  '<svg width="520" height="320" viewBox="0 0 600 400"><defs><radialGradient id="g10"><stop offset="0%" stop-color="#00e89d" stop-opacity="0.3"/><stop offset="100%" stop-color="#00e89d" stop-opacity="0"/></radialGradient></defs><circle cx="100" cy="100" r="2" fill="#00e89d"><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="480" cy="300" r="2" fill="#00e89d"><animate attributeName="opacity" values="0;1;0" dur="1.6s" repeatCount="indefinite"/></circle><circle cx="200" cy="320" r="2" fill="#00e89d"><animate attributeName="opacity" values="0;1;0" dur="0.9s" repeatCount="indefinite"/></circle><circle cx="500" cy="80" r="2" fill="#00e89d"><animate attributeName="opacity" values="0;1;0" dur="1.4s" repeatCount="indefinite"/></circle><circle cx="50" cy="280" r="2" fill="#00e89d"><animate attributeName="opacity" values="0;1;0" dur="1.1s" repeatCount="indefinite"/></circle><ellipse cx="300" cy="180" rx="140" ry="100" fill="#333" stroke="#555" stroke-dasharray="4 2"/><path d="M300 240 Q240 170 300 120 Q360 170 300 240" fill="url(#g10)" opacity="0.8"><animate attributeName="transform" values="scale(1);scale(1.06);scale(1)" dur="3.5s" repeatCount="indefinite"/></path><text x="270" y="190" font-size="38">🧠</text><text x="300" y="370" text-anchor="middle" fill="#666" font-size="13">一个大脑从虚空中随机出现，比你存在的概率还高</text></svg>'
+];
+
+var deepOpen = false;
+
+function render() {
+  var d = data[idx];
+  elScene.innerHTML = svgs[idx];
+  elTitle.textContent = (idx+1) + '. ' + d.cn;
+  elSub.textContent = d.en;
+  elDesc.innerHTML = d.desc;
+  elDeep.innerHTML = d.deep;
+  elDeep.className = 'te-deep' + (deepOpen ? ' open' : '');
+  elToggle.textContent = deepOpen ? '📖 收起深度解读' : '📖 展开深度解读';
+  elToggle.style.display = 'inline-block';
+  elProgress.style.width = ((idx+1)/data.length*100) + '%';
+
+  elDots.innerHTML = data.map(function(_,i){
+    return '<span class="te-dot' + (i===idx?' active':'') + '" onclick="teGo('+i+')" title="第'+(i+1)+'个"></span>';
+  }).join('');
+}
+
+function teNav(dir) {
+  if (switching) return;
+  switching = true;
+  idx += dir;
+  if (idx >= data.length) idx = 0;
+  if (idx < 0) idx = data.length - 1;
+  deepOpen = false;
+  elScene.style.opacity = '0';
+  elScene.style.transform = 'scale(0.95)';
+  setTimeout(function(){
+    render();
+    elScene.style.opacity = '1';
+    elScene.style.transform = 'scale(1)';
+    setTimeout(function(){ switching = false; }, 500);
+  }, 400);
+}
+
+window.teGo = function(i) {
+  if (switching || i === idx) return;
+  switching = true;
+  idx = i;
+  deepOpen = false;
+  elScene.style.opacity = '0';
+  elScene.style.transform = 'scale(0.95)';
+  setTimeout(function(){
+    render();
+    elScene.style.opacity = '1';
+    elScene.style.transform = 'scale(1)';
+    setTimeout(function(){ switching = false; }, 500);
+  }, 400);
+};
+
+window.toggleDeep = function() {
+  deepOpen = !deepOpen;
+  elDeep.className = 'te-deep' + (deepOpen ? ' open' : '');
+  elToggle.textContent = deepOpen ? '📖 收起深度解读' : '📖 展开深度解读';
+};
+
+// Wheel
+elWrap.addEventListener('wheel', function(e) {
+  if (switching) return;
+  if (Math.abs(e.deltaY) < 30) return;
+  teNav(e.deltaY > 0 ? 1 : -1);
+}, {passive: true});
+
+// Touch
+var touchY = 0;
+elWrap.addEventListener('touchstart', function(e) { touchY = e.touches[0].clientY; }, {passive: true});
+elWrap.addEventListener('touchend', function(e) {
+  var dy = e.changedTouches[0].clientY - touchY;
+  if (Math.abs(dy) > 40) teNav(dy < 0 ? 1 : -1);
+});
+
+// Keyboard
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); teNav(-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); teNav(1); }
+});
+
+render();
+})();
+<\/script>
+
+---
+
+<style>
+.te-outro {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg3);
+  border: 1px solid var(--bdr2);
+  border-radius: 12px;
+  text-align: center;
+}
+.te-outro p { color: var(--tx2); font-size: .9rem; line-height: 1.8; margin: 0; }
+.te-outro strong { color: var(--ac); }
+</style>
+
+<div class="te-outro">
+  <p>
+    这十个思想实验跨越了<b>两千五百年</b>，从古希腊的港口到量子物理的实验室，从笛卡尔的壁炉到硅谷的机房。<br>
+    它们没有标准答案——而这正是它们的价值所在。<br><br>
+    每一个思想实验都是一扇<b>重新认识世界</b>的窗户。<br>
+    当我们追问「我是谁」「什么是真实的」「时间是什么」「意识从何而来」的时候，<br>
+    我们正在做人类最擅长的事：<strong>用思想的实验，触及现实的边界。</strong>
+  </p>
+</div>`,image:"",audio:""},
+{id:2,title:"时代的风口：Token 中转，一门被低估的生意",date:"2026-05-21 21:22",tags:["Token中转","AI Agent","大模型","API聚合","创业思考"],summary:"每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。",content:`<blockquote>用了半年 AI Agent，最大的感受不是 AI 多聪明，而是——交电费真是一件让人头疼的事。</blockquote>
+<h2>💸 一、我的 Token 账单</h2>
+<p>先说说我自己的情况。</p><p>我现在每天都在用 AI Agent。不是那种偶尔问一句"今天天气怎么样"的用法，而是把 Agent 当成真正的生产力工具——写代码、改文章、做调研、搭系统。DeepSeek、小米 MiMo、NVIDIA NIM……各种模型轮着用。</p><p>一天下来，<strong>2 到 3 块钱</strong>就没了。</p><p>听起来不多对吧？但请注意，这只是<strong>简单任务</strong>——问个问题、改段文字、查个资料。当我跑复杂任务的时候，比如让 Agent 分析整个代码库、批量处理数据、多轮迭代调试，Token 消耗就像开了水龙头一样往下流，<strong>根本是个无底洞</strong>。</p><p>为了省钱，我试过用 Ollama 跑本地模型。免费是免费了，但那体验——Qwen2.5:7b 跑个小任务都能卡半天，复杂一点的逻辑直接超时甚至挂死。省了钱，废了命。</p><p>就在这种"用付费 API 心疼钱，用免费本地模型心累"的纠结中，一个念头冒了出来——<strong>Token 能不能像自来水一样，有人专门做供应和分发？</strong></p>
+<h2>🔍 二、需求从哪来？</h2>
+<p>这个生意不是凭空想出来的。看看现在的 Token 市场有多分裂：</p><p><div class="table-wrap"></p>
+<table>
+<thead>
+<tr><th>维度</th><th>现状</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>厂商多</strong></td><td>OpenAI、Anthropic、Google、DeepSeek、小米、智谱、阿里 Qwen……几十家</td></tr>
+<tr><td><strong>计价乱</strong></td><td>按 Token 计费、按请求计费、按 Token 类型分别计价、按时间段计费</td></tr>
+<tr><td><strong>价格差距大</strong></td><td>DeepSeek 输出约 ¥0.7/百万 Token，GPT-4o 输出 ¥70+/百万 Token，<strong>相差近百倍</strong></td></tr>
+<tr><td><strong>无统一入口</strong></td><td>每家 SDK 不同，认证方式不同，结算货币不同</td></tr>
+<tr><td><strong>Pay-as-you-go 的痛点</strong></td><td>每月跑量稳定了想包月？不存在的，每家用完都要手动充值</td></tr>
+</tbody>
+</table>
+<p></div>简单问题用便宜模型（比如 DeepSeek）就够了，复杂编程任务必须上 GPT-4o 或 Claude Sonnet。如果你只用一种模型，要么浪费钱（杀鸡用牛刀），要么解决不了问题（杀牛用鸡刀）。</p><p>开发者真正需要的是这样的东西：<strong>一个地方充钱，一个接口调用，系统自动根据任务难度分配最合适的模型</strong>。</p><p>这就是 Token 中转站的核心价值——<strong>做模型和用户之间的"路由器"</strong>。</p>
+<h2>📖 三、这个市场上已经有什么？</h2>
+<p>我对这个领域做过一些调研，简单总结一下目前看到的几个方向：</p><p><strong>① OneAPI 开源项目（GitHub：songquanpeng/one-api）</strong><br>这是目前最流行的 API 聚合开源方案，Star 数超过 2 万。它本质上是做一个反向代理层：把各家模型的 API 统一成 OpenAI 的格式，管理员在后端配置多个渠道的 Key，然后分发出去。很多小团队和个人都基于它搭建了自己的"小水管"。它的 GitHub Issues 里你能看到各种真实需求——"如何控制用户额度"、"如何做路由分发"、"如何统计 Token 消耗"。</p><p><strong>② API2D 等商业化平台</strong><br>API2D 是国内较早开始做 Token 转售的平台之一。它们的做法挺聪明：搭建一个接入层，兼容 OpenAI 格式，然后后端接了多个模型来源。用户不用关心我用的是 DeepSeek 还是 GPT，反正接口一样，充钱一样。不过要注意的是，这种平台大多是"灰色"的——你很难确认它后端跑的是不是真模型。</p><p><strong>③ 企业级方案：Model-as-a-Service</strong><br>像 Amazon Bedrock、阿里云百炼这类平台，严格意义上也是 Token 中转站——它们自己不生产模型，而是把各个厂商的模型包装成统一服务提供给企业客户。区别在于，它们有合规通道，有 SLA 保障，稳定性也高得多。</p><p><strong>④ 灰色地带的各种"野路子"</strong><br>说实话，这才是市面上最常见的形态：</p>
+<ul><li><strong>暗改倍率</strong>：首页写 0.7 倍计费，后台悄悄设 3 倍，用户不知情</li>
+<li><strong>偷梁换柱</strong>：你付了 GPT-4o 的钱，实际调的是 DeepSeek 或者某个开源模型</li>
+<li><strong>卖用户数据</strong>：把你的对话数据打包卖给模型厂商做训练</li>
+<li><strong>白嫖号</strong>：批量注册大厂免费额度，风控一封就换号，用户体验间歇性瘫痪</li></ul>
+<p>这些乱象说明一个道理——<strong>市场上行的时候，什么妖魔鬼怪都会冒出来。</strong> 但也反过来证明了一件事：需求是真实的，利润空间是存在的。</p>
+<h2>📊 四、这个市场到底有多大？</h2>
+<p>我不做预测，只说几个我看到的真实数据点：</p>
+<ul><li><strong>OpenAI 2025 年 API 收入预计破 100 亿美元</strong>——这仅仅是 API 调用的直接收入，不包含下游增值服务</li>
+<li><strong>DeepSeek R1 发布后，API 调用成本下降了约 90%</strong>——但调用量增长了不止 10 倍，总支出反而上升了。这就是杰文斯悖论在 AI 领域的重现：越便宜，用得越多，总花费越高</li>
+<li><strong>一个典型 Agent 任务的 Token 消耗是普通聊天的 50-100 倍</strong>——我自己的账单就是证据</li>
+<li><strong>OneAPI 项目的 GitHub Star 增速在过去半年翻了一倍</strong>——越来越多人开始自建 API 中转</li></ul>
+<p>其实不用看数据，看看你周围有多少人在用 ChatGPT、Cursor、Claude 就知道了。<strong>每个 AI 用户背后，都有 Token 在流动。</strong></p>
+<h2>🧭 五、未来会怎样？</h2>
+<p>说到未来，我不想画大饼，说几个已经在发生的事：</p><p><strong>1. 模型路由会成为标配</strong><br>就像 CDN 会自动选择最近的节点给你提供服务一样，未来的 API 调用也会自动匹配最合适的模型。简单问题走小模型（快、便宜），复杂问题走大模型（强、贵），系统根据任务复杂度动态分配。这不是科幻，OneAPI 的社区版已经有人在做了。</p><p><strong>2. 合规中转会是蓝海</strong><br>现在的灰色地带之所以存在，是因为合规通道太少了。但大企业客户不可能用"暗改倍率"的平台。如果出现一个透明、合规、有 SLA 的 Token 分发平台，企业是愿意付溢价的——就像企业愿意买正版 Windows 而不是盗版一样。</p><p><strong>3. Token 会成为一种可计量的资源</strong><br>今天的 Token 是"用多少付多少"，未来的 Token 可能有更多形态：包月套餐、预付费折扣、高峰/低谷差价、批发与零售……这些在电力市场、云计算市场都已经验证过的商业模式，会在 Token 市场重演一遍。</p><p><strong>4. 从"卖模型"到"卖服务"</strong><br>真正赚钱的不是在 Token 上赚差价，而是基于 Token 构建增值服务。模型路由、用量监控、成本分析、异常告警、多租户管理……这些才是有护城河的生意。</p>
+<blockquote>我不认为 Token 中转站会成为"下一个电力公司"。电力公司的故事是关于基础设施的垄断，而 AI 模型市场天然是多元竞争的。但 Token 流通的中间环节，确实是一块被低估的蛋糕。</blockquote>
+<h2>🎯 六、写在最后</h2>
+<p>我不是在怂恿谁去创业做 Token 中转站。这个赛道已经有巨头入场了（亚马逊、阿里云都在做），个人玩家很难正面硬刚。</p><p>但我的意思是：<strong>当一个新资源出现的时候，它周围的生态会催生无数机会。</strong> 就像云计算催生了云原生、SaaS、Serverless，Token 经济也会催生出我们现在想不到的东西。</p><p>至于那些靠暗改倍率、卖数据赚钱的人——走不远的。真正的机会，永远在那些让生态更透明、让用户少操心的方向上。</p>
+<blockquote>Token 不是新时代的电力。但围绕着 Token 流通的那些生意，可能会是。</blockquote>`,image:"",audio:""},
+{id:3,title:"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路",date:"2026-05-20 21:48",tags:["Hermes","OpenClaw","AI Agent","大模型","DeepSeek","Xiaomi","NVIDIA","自建工具链"],summary:"一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录",content:`<blockquote>如果不是 OpenClaw 让我看见了 AI Agent 的潜力，我也不会走上这条折腾之路。但潜力归潜力，一亿九千万 Token 烧下去的账单不会说谎——是时候换个玩法了。</blockquote>
 <h2>🔥 一、从「能用」到「好用」——为什么要换</h2>
 <p>OpenClaw 带我入门了 AI Agent 的世界。我不能说它不好——没有它，我可能到现在还不知道 AI 能自动写代码、搭网站、操作浏览器。但用久了，痛点就像鞋里的沙子，一步两步不觉得，走远了就硌得慌。</p><p><strong>第一个痛点：Token 烧得太快了。</strong></p><p>OpenClaw 默认依赖付费 API，而我当时选的是小米 MiMo 的 Token Plan。一开始觉得"一亿 Token 够用了吧"，结果 AI Agent 跑起来才知道——这玩意儿就是个 Token 粉碎机。对话、代码、工具调用……每个动作都在烧 Token。最终一看账单：<strong>小米用了一亿九千万 Token，DeepSeek 用了一亿三千万 Token</strong>。加起来三亿多 Token 打水漂。</p><p><em>不算不知道，一算吓一跳。Agent 时代的 Token 消耗，远超你聊天时的体感。</em></p><p><strong>第二个痛点：UI 不友好，很多东西难以使用。</strong></p><p>OpenClaw 的功能很强大，但它的界面和操作逻辑对普通用户来说确实有门槛。配置项藏得深，文档分散，很多功能需要自己摸索。对于一个只想用 AI 干活的人来说，学习成本有点高了。</p><p>于是我动了换工具的心思——直到我发现 Hermes Agent。</p>
 <h2>🌊 二、第一次碰壁：NVIDIA 免费 API 的诱惑与绝望</h2>
@@ -324,7 +702,7 @@ const articles=[
 <blockquote>从 OpenClaw 到 Hermes，追根到底不是二选一，而是从"学习使用 AI"到"掌控 AI"的成长过程。前者让我入了门，后者让我能自由发挥。</blockquote>
 <h2>🌟 写在最后：Agent 时代，省 Token 就是省钱</h2>
 <p>大模型时代不缺聪明的大脑，缺的是吃 Token 不眨眼的胃口。一亿九千万 Token烧完之后我明白了——未来的竞争优势不在于谁的模型更强，而在于谁能用更少的 Token 完成同样的任务。</p><p>从 OpenClaw 到 Hermes，我从"被 Token 牵着走"变成了"管着 Token 花"。这套工具链让我花的每一分钱都看得清清楚楚。</p><p><em>工具可以换，但省 Token 的直觉不能丢。</em></p>`,image:"",audio:""},
-{id:2,title:"你看到的，未必是真相",date:"2026-05-19 20:41",tags:["思考","流媒体","幸存者偏差","社会观察"],summary:"流媒体时代，关于「幸存者视角」的沉思",content:`<video controls width="100%" style="max-width:800px;display:block;margin:0 auto 25px auto;border-radius:12px;">
+{id:4,title:"你看到的，未必是真相",date:"2026-05-19 20:41",tags:["思考","流媒体","幸存者偏差","社会观察"],summary:"流媒体时代，关于「幸存者视角」的沉思",content:`<video controls width="100%" style="max-width:800px;display:block;margin:0 auto 25px auto;border-radius:12px;">
   <source src="/images/cosmos-video.mp4" type="video/mp4">
 </video>
 
@@ -529,7 +907,7 @@ const articles=[
 <p style="text-align:center;color:var(--tx3);font-size:0.85rem;margin-top:1.5rem;">
 这，才是幸存者视角带给我们的，最值得被记取的提醒。
 </p>`,image:"",audio:""},
-{id:3,title:"AI生成的手账：春日樱花漫步",date:"2026-05-19 19:19",tags:["手账","AI","生活"],summary:"用AI为照片添加手绘风注解，记录美好的春日时光",content:`<h2>AI生成的手账 ✨</h2>
+{id:5,title:"AI生成的手账：春日樱花漫步",date:"2026-05-19 19:19",tags:["手账","AI","生活"],summary:"用AI为照片添加手绘风注解，记录美好的春日时光",content:`<h2>AI生成的手账 ✨</h2>
 <p>今天用AI工具为春日漫步的照片添加了手绘风注解，效果真的很治愈！让我们一起来看看这张充满生活气息的图片吧~</p>
 <h3>图片欣赏</h3>
 <p><img src="/images/花朵.png" alt="春日樱花手账" loading="lazy"></p><p><img src="/images/整齐的书桌.png" alt="整齐的书桌" loading="lazy"></p><p><img src="/images/饭菜彩虹小路.png" alt="饭菜彩虹小路" loading="lazy"></p>
@@ -565,7 +943,7 @@ const articles=[
 - 像Instagram限时动态或杂志上的灵感随笔
 </code></pre>
 <p>试试看吧，为你的照片增添一份手绘的温暖！ 🎨</p>`,image:"",audio:""},
-{id:4,title:"最近在听的歌 —— 一份私藏歌单 🎵",date:"2026-05-19 10:18",tags:["音乐","生活","歌单推荐"],summary:"整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。",content:`<h2>🎶 写在前面</h2>
+{id:6,title:"最近在听的歌 —— 一份私藏歌单 🎵",date:"2026-05-19 10:18",tags:["音乐","生活","歌单推荐"],summary:"整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。",content:`<h2>🎶 写在前面</h2>
 
 <p>最近整理了一下在循环播放的歌曲，挑出几首分享给你。有老歌新听，也有一直躺在收藏夹的宝藏曲目。每首歌点开就能听，希望你能找到喜欢的。</p>
 
@@ -648,7 +1026,7 @@ const articles=[
 <p>歌单这种东西其实很私人，但分享出来感觉也不错。如果你也有喜欢的歌，欢迎在评论区留言推荐给我 🎧</p>
 
 <blockquote>音乐是生活中最好的背景音。<br>无论开心还是难过，总有首歌适合你。</blockquote>`,image:"",audio:""},
-{id:5,title:"从历史分工到现代对立：两性议题的深层溯源",date:"2026-05-18",tags:["性别研究","社会观察","进化心理学"],summary:"最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。",content:`<h2>开篇：问题的起点</h2>
+{id:7,title:"从历史分工到现代对立：两性议题的深层溯源",date:"2026-05-18",tags:["性别研究","社会观察","进化心理学"],summary:"最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。",content:`<h2>开篇：问题的起点</h2>
 <p>最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。</p><p>我认为，理解这一现象的核心，在于正视从古至今男女生产地位、生产职能及所扮演角色的本质差异。父系社会的长期延续，直接塑造了我们在性别互动上的集体潜意识。</p>
 <h2>溯源：狩猎协作与采集精算</h2>
 <p>远古时期，社会分工的雏形便已深植于两性的生存策略之中。</p>
@@ -678,14 +1056,14 @@ const articles=[
 <p>我们必须警惕消费主义对两性关系的扭曲。多年前，部分资本力量利用女性心理，大幅拉高男性在物质层面的供养标准，制造出虚幻的性别提升感，使多数人背离了朴素的生活本质。</p><p>男性对此的不适，本质上是一种对资本强行绑架生活方式的集体反抗。</p>
 <h2>总结：在争辩中走向理性</h2>
 <p>男女在思维和角色上的这些现象，是父系社会长期弊端导致的必然结果，短时间的确难以根除。但我并不认为这种讨论是不正确的，恰恰相反，只有在客观的讨论与争辩中，我们才能寻找到真正正确的方向。</p><p>最后我们需要警醒：不能犯矫枉过正的错误。一味片面地追求脱离现实的“绝对平等”，只会违背了自然演化和生产实践所赋予两性的自然规律与协作美感。承认差异、尊重历史、警惕资本，这才是修复两性关系、达成良好布局的正确路径。</p>`,image:"",audio:""},
-{id:6,title:"自动部署测试文章",date:"2026-05-18",tags:["测试","部署"],summary:"测试 GitHub Actions 自动部署到 Cloudflare Pages",content:`<p>这是一篇用于测试自动部署功能的文章。</p>
+{id:8,title:"自动部署测试文章",date:"2026-05-18",tags:["测试","部署"],summary:"测试 GitHub Actions 自动部署到 Cloudflare Pages",content:`<p>这是一篇用于测试自动部署功能的文章。</p>
 <h2>测试内容</h2>
 <ul><li>✅ GitHub Actions 触发</li>
 <li>✅ Cloudflare Pages 部署</li>
 <li>✅ 网站自动更新</li></ul>
 <h2>当前时间</h2>
 <p>这篇文章生成于：2026-05-18</p><p>如果你能看到这篇文章，说明自动部署流程工作正常！</p>`,image:"",audio:""},
-{id:7,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",content:`<h2>前言 🚀</h2>
+{id:9,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",content:`<h2>前言 🚀</h2>
 <p>最近在AI工具的使用上经历了不少折腾，从最初的云端API调用，到后来尝试本地部署，这段经历让我对AI的使用成本和技术选型有了更深的理解。今天就来记录一下我的整个探索过程。</p>
 <h2>小米平台API的消耗困境 📊</h2>
 <p>事情要从我的小米平台API说起。最近发现我的API调用量已经消耗了<strong>70%</strong>，这个消耗速度确实让我有些意外。</p><p>说实话，云端API的使用成本比我想象的要高得多。每次调用都需要消耗token，而现在的AI模型动辄就是几K甚至几M的上下文窗口，累积下来的消耗确实不容小觑。</p>
@@ -719,7 +1097,7 @@ const articles=[
 <p>未来的AI使用之路还很长，且用且探索吧！</p>
 <hr>
 <blockquote>技术在进步，成本在变化，保持学习和探索的心态最重要 🌟</blockquote>`,image:"",audio:""},
-{id:8,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",content:`<h2>疲惫的一天 ☕</h2>
+{id:10,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",content:`<h2>疲惫的一天 ☕</h2>
 <p>今天真的是疲惫的一天，从早上忙到晚上，感觉身体被掏空了。但想想，好像也做了不少事情。</p>
 <h3>上午的忙碌</h3>
 <p>一大早起来就开始处理各种事情，感觉时间过得特别快。连喝口水的时间都差点没有。</p>
@@ -727,7 +1105,7 @@ const articles=[
 <p>下午一直在折腾那个博客的自动化部署。先是尝试配置webhook，遇到了一些问题，后来又换用了定时轮询的方式。</p><p>不过好在现在有了 blog-poller，每 2 分钟检查一次，以后再写文章就方便多了！</p>
 <h3>晚上的放松</h3>
 <p>终于到了晚上，可以稍微放松一下了。准备泡杯茶，看看书，早点休息。</p><p>明天又是新的一天！加油！💪</p>`,image:"",audio:""},
-{id:9,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16 21:30",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<blockquote>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</blockquote>
+{id:11,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16 21:30",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",content:`<blockquote>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</blockquote>
 <h2>🚀 一、初识 OpenClaw：满怀期待的第一次</h2>
 <p>去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。</p>
 <blockquote>⚠️ <strong>当时的困境</strong><br>安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。</blockquote>
@@ -822,7 +1200,7 @@ openclaw onboard
 <h2>🌟 九、写在最后：未来已来</h2>
 <p>回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会"说话"就行。</p><p>未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个"审核员"和"监督员"。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p>
 <blockquote>💡 <strong>写在最后的话</strong><br>这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。</blockquote>`,image:"",audio:""},
-{id:10,title:"周末的一天",date:"2026-05-16",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2>
+{id:12,title:"周末的一天",date:"2026-05-16",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",content:`<h2>清晨</h2>
 <p>周末的早晨总是醒得比工作日早。拉开窗帘，阳光洒进来，又是新的一天。</p>
 <h2>上午</h2>
 <p>泡了一杯咖啡，打开电脑看了会代码。最近在研究 Three.js，想做个3D小岛的互动页面。</p>
@@ -836,7 +1214,7 @@ openclaw onboard
 <pre><code>const articles = [{ id: 1, title: "周末的一天" }];
 </code></pre>
 <p>这就是我的周末，平淡但充实。</p>`,image:"",audio:""},
-{id:11,title:"Hello World - 我的第一篇博客",date:"2026-05-15",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2>
+{id:13,title:"Hello World - 我的第一篇博客",date:"2026-05-15",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",content:`<h2>为什么写博客</h2>
 <p>一直想有个自己的博客，记录学习和生活。之前用过 WordPress、Hugo，这次想试试最纯粹的方式：纯静态 HTML，一个文件搞定一切。</p>
 <h2>技术选型</h2>
 <p>最终选择了：</p>
