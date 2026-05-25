@@ -1,6 +1,6 @@
 ---
 title: "🎂 生日快乐！"
-date: 2026-05-26 10:00
+date: 2026-05-25 23:59
 tags: ["生日", "生活"]
 summary: "一岁一礼，一寸欢喜。送给自己的生日祝福页面，愿你眼里有光，心中有爱。"
 ---
@@ -284,22 +284,31 @@ window.bdStartSurprise=function(){
   },1800);
 };
 
-// 倒计时
+// 倒计时（农历四月初十）
 function updateCountdown(){
+  // 农历四月初十对应的公历日期（近似值，有闰月会偏移）
+  var lunarDates=[
+    [2026,4,25],[2027,4,15],[2028,5,3],[2029,4,23],[2030,4,13]
+  ];
   var now=new Date();
-  var bd=new Date(now.getFullYear(),4,26);
-  if(now>bd)bd=new Date(now.getFullYear()+1,4,26);
-  var diff=bd-now;
   var el=document.getElementById('bdCountdown');
-  if(diff<=0){
-    el.innerHTML='🎂 就是今天！尽情享受吧！';
-  }else{
-    var d=Math.floor(diff/86400000);
-    var h=Math.floor((diff%86400000)/3600000);
-    var m=Math.floor((diff%3600000)/60000);
-    var s=Math.floor((diff%60000)/1000);
-    el.innerHTML='距离生日还有 '+d+' 天 '+h+' 时 '+m+' 分 '+s+' 秒';
+  for(var i=0;i<lunarDates.length;i++){
+    var bd=new Date(lunarDates[i][0],lunarDates[i][1],lunarDates[i][2]);
+    if(bd.toDateString()===now.toDateString()){
+      el.innerHTML='🎂 就是今天！农历四月初十，尽情享受吧！';
+      return;
+    }
+    if(bd>now){
+      var diff=bd-now;
+      var d=Math.floor(diff/86400000);
+      var h=Math.floor((diff%86400000)/3600000);
+      var m=Math.floor((diff%3600000)/60000);
+      var s=Math.floor((diff%60000)/1000);
+      el.innerHTML='距农历四月初十还有 '+d+' 天 '+h+' 时 '+m+' 分 '+s+' 秒';
+      return;
+    }
   }
+  el.innerHTML='🎂 农历四月初十 · 岁岁常欢愉';
 }
 updateCountdown();
 setInterval(updateCountdown,1000);
