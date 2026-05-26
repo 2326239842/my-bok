@@ -1,0 +1,103 @@
+{{- /* 一键复制文章链接功能 */ -}}
+<div class="copy-permalink-container">
+    <button class="copy-permalink-btn" onclick="copyPermalink()" data-url="{{ .Permalink }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+        </svg>
+        <span class="btn-text">复制链接</span>
+    </button>
+</div>
+
+<style>
+.copy-permalink-container {
+    display: inline-block;
+    margin-left: 12px;
+}
+
+.copy-permalink-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    color: #374151;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.copy-permalink-btn:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+    color: #1f2937;
+}
+
+.copy-permalink-btn:active {
+    transform: scale(0.98);
+}
+
+.copy-permalink-btn.copied {
+    background: #10b981;
+    border-color: #059669;
+    color: white;
+}
+
+.btn-text {
+    transition: opacity 0.2s ease;
+}
+
+@media (max-width: 640px) {
+    .copy-permalink-container {
+        margin-left: 8px;
+        margin-top: 8px;
+        display: block;
+    }
+    
+    .copy-permalink-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+function copyPermalink() {
+    const button = event.currentTarget;
+    const url = button.dataset.url;
+    const btnText = button.querySelector('.btn-text');
+    
+    // 尝试复制链接
+    navigator.clipboard.writeText(url).then(function() {
+        // 复制成功
+        const originalText = btnText.textContent;
+        btnText.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        // 2秒后恢复原状
+        setTimeout(function() {
+            btnText.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    }).catch(function(err) {
+        // 如果剪贴板API不可用，使用传统方法
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        const originalText = btnText.textContent;
+        btnText.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        setTimeout(function() {
+            btnText.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>

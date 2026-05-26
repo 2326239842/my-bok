@@ -1,31 +1,752 @@
-<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅 | Yadong's Blog</title><meta name=keywords content="OpenClaw,AI Agent,大模型,DeepSeek,个人博客,Cloudflare,GitHub Pages,AI 思考"><meta name=description content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事"><meta name=author content="Yadong"><link rel=canonical href=https://yadongw118.dpdns.org/posts/openclaw-review/><link crossorigin=anonymous href=/assets/css/stylesheet.d2bd01a2e21f5f446f18faca44a9f93a04a108b22a966ae63e551dac48085d74.css integrity="sha256-0r0BouIfX0RvGPrKRKn5OgShCLIqlmrmPlUdrEgIXXQ=" rel="preload stylesheet" as=style><link rel=icon href=https://yadongw118.dpdns.org/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://yadongw118.dpdns.org/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://yadongw118.dpdns.org/favicon-32x32.png><link rel=apple-touch-icon href=https://yadongw118.dpdns.org/apple-touch-icon.png><link rel=mask-icon href=https://yadongw118.dpdns.org/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://yadongw118.dpdns.org/posts/openclaw-review/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://yadongw118.dpdns.org/posts/openclaw-review/"><meta property="og:site_name" content="Yadong's Blog"><meta property="og:title" content="OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅"><meta property="og:description" content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-05-16T21:30:00+00:00"><meta property="article:modified_time" content="2026-05-16T21:30:00+00:00"><meta property="article:tag" content="OpenClaw"><meta property="article:tag" content="AI Agent"><meta property="article:tag" content="大模型"><meta property="article:tag" content="DeepSeek"><meta property="article:tag" content="个人博客"><meta property="article:tag" content="Cloudflare"><meta name=twitter:card content="summary"><meta name=twitter:title content="OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅"><meta name=twitter:description content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://yadongw118.dpdns.org/posts/"},{"@type":"ListItem","position":2,"name":"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅","item":"https://yadongw118.dpdns.org/posts/openclaw-review/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅","name":"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅","description":"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事","keywords":["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],"articleBody":" 如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。\n🚀 一、初识 OpenClaw：满怀期待的第一次 去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。\n⚠️ 当时的困境 安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。\n🔧 二、Windows 上的艰难安装之路 第一次安装时我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档后我才明白，Windows 上使用 OpenClaw 需要先装两个关键依赖：\nNode.js — JS 运行时环境，OpenClaw 核心依赖 Git — 版本控制工具，拉取和更新代码 装好依赖后，还需要在 PowerShell 中解除脚本执行限制，然后运行一键安装脚本：\n# 解除脚本执行限制 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser # 一键安装 iwr -useb https://openclaw.ai/install.ps1 | iex 终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——\n🚫 初始化配置缺失 安装完成后并没有出现教程里提到的配置向导。后来才了解到，这是 Windows 适配问题，需要手动启动 Gateway 服务后才能进行配置。\n⚙️ 三、第一次配置：手忙脚乱中摸索 找到更详细的教程后，我按步骤依次执行了以下命令：\n# 1. 健康检查（推荐第一步执行） openclaw doctor # 2. 启动 Gateway 网关服务 openclaw gateway start # 3. 执行初始化配置 openclaw onboard 第一步：openclaw doctor\n第一次运行就报错说没有安装相关服务组件。Windows 兼容性问题开始显现——很多在 macOS/Linux 上默认就有的东西，Windows 上需要手动处理。\n第二步：openclaw gateway start\n成功启动 Gateway 服务。它是 OpenClaw 的核心运行时，相当于控制入口和路由层，所有会话、渠道和工具都通过它连接。\n第三步：openclaw onboard\n终于进入配置向导！首次配置时很多地方出错，好在后来找到了详细的教学视频，跟着一步步操作，最终顺利完成了配置。\n第一次使用时我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token——每个模型赠送 100 万 Token，对初次体验来说足够了。\n💡 浏览器界面打不开？ 选择使用 UI 时页面显示\"无法连接\"，排查很久才发现——我把 openclaw gateway start 的服务窗口给关了！Gateway 必须保持运行，浏览器界面才能正常访问。这个低级错误让我哭笑不得。\n💸 四、免费 Token 的甜蜜与苦涩 配置完成后我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便。然而甜蜜期很快就结束了——免费模型的 Token 开始限速，每分钟只能处理很少的请求，稍微复杂一点的任务就要等很久。\n我试着自己配置 Token，但作为纯小白，连配置在哪里都不知道。好在阿里云每个模型都提供了 100 万免费额度，我就用免费额度让 OpenClaw 自己帮我配置——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。\n坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务执行。于是第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。\n🔄 五、再次归来：大模型时代的必然选择 第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是模型不够聪明和上下文不够长，但如今新一代大模型已经彻底改变了这个局面：\n模型 厂商 核心优势 GPT-5.5 OpenAI 综合能力之王，逻辑推理全面领先 Claude Opus 4.6 Anthropic 代码工程能力 SWE-bench 80.8% Gemini 3.1 Pro Google 多模态与搜索整合，长上下文处理 DeepSeek V4 深度求索 国产性价比之王，百万 Token 仅 0.02 元 Grok 4 xAI 实时信息获取与联网能力 通义千问 Qwen3 阿里云 中文理解能力出色，生态完善 MiMo V2.5 小米 高性价比 Token Plan，编程助手友好 尤其是 DeepSeek，定价策略堪称\"价格屠夫\"——V4-Flash 版本缓存命中场景下，百万 Token 低至 0.02 元，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。\n✅ 价格对比感受 以前用免费 Token，100 万很快就用完还限速。现在用 DeepSeek，同样价格可以买到几百倍的 Token 量，再也不用小心翼翼地\"省着用\"了。这才是 Agent 能够真正跑起来的基础设施。\n🌐 六、实战体验：从零搭建个人网站 就我个人体验而言，OpenClaw 最直观的价值就是——打破知识壁垒。\n我对网站搭建一窍不通。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像外星语言。但有了 OpenClaw，我只需要告诉它\"我需要搭建一个个人网站\"，它就会帮我处理几乎所有事情：\n需求沟通 — 告诉 OpenClaw 我想要什么样的网站，包括页面设计和功能需求 前端开发 — 自动生成 HTML/CSS/JS 代码，包括 3D 樱花浮岛、粒子效果等复杂交互 DNS 配置 — 帮我解决域名解析和 Cloudflare 上的 DNS 设置 GitHub 部署 — 通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署 上线运行 — 网站成功上线，包括个人介绍站和博客站 全程我只需要少量基础知识。页面设计、代码编写、文件上传，OpenClaw 都能很好地完成。虽然有时结果不够完美需要精雕细琢，但三四天时间就可以完成网站的搭建、运行和各种配置。对于一个普通人而言，这在以前是无法想象的。\n📊 七、客观评价：打破知识壁垒的利器 使用 OpenClaw 期间，我查看了它的使用数据：\n317 条消息总数 14.1M Token 消耗 202 次工具调用 97.6% 缓存命中率 这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中网站的过程。OpenClaw 调用了 140 次 exec（命令执行）、38 次 process（进程管理）、7 次 write（文件写入）和 7 次 edit（文件编辑）——这些原本需要手动完成的操作，全部由 AI Agent 自动执行了。\n大模型加持下的全自动工程，最主要的优点是可以打破知识壁垒，加速普通人对于新事物的学习和使用。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让\"想法\"到\"实现\"之间的距离，缩短到了前所未有的程度。\n🤔 八、大模型的问题与冲击 但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。\n劳动方式的转变：从打工人到审核员 搭建网站这几天，我的工作模式变成了：把需求告诉 OpenClaw → 喝着水刷着抖音等待 → 检查结果 → 提出修改意见 → 再次等待。这种模式更像是从**“打工人”变成了“审核员”**。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。\n🔴 不可避免的冲击 设计、编程、内容创作等职业会面临巨大市场冲击。尤其是以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。\n大模型能替代人类吗？ 我的答案是：部分能，但不能全部。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，越依赖经验、越需要承担责任的行业，被替代率越低。\n类别 被替代风险 原因 机械重复型工作 极高 AI 擅长模式化和标准化任务 设计 / 编程 / 内容创作 较高 AI 效率远超个人，但顶级创意仍需人类 需要承担责任的工作 较低 法律、医疗决策等需要人类担责 依赖深度经验的工作 很低 复杂判断和人际互动难以被替代 失业问题的本质 未来的 AI 是\"提出建议和执行建议的行为人\"，而我们则是\"审核员\"和\"监督员\"。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因不是大模型在代替人类，而是生产力和需求的长期不平衡——需求少于生产力引起的结构性失业。\n解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是增加需求、扩大消费，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。\n不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场，对于普通生产生活还需要一段适配期。\n🌟 九、写在最后：未来已来 回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会\"说话\"就行。\n未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个\"审核员\"和\"监督员\"。毕竟，淘汰你的不是 AI，而是会用 AI 的人。\n💡 写在最后的话 这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。\n","wordCount":"370","inLanguage":"en","datePublished":"2026-05-16T21:30:00Z","dateModified":"2026-05-16T21:30:00Z","author":{"@type":"Person","name":"Yadong"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://yadongw118.dpdns.org/posts/openclaw-review/"},"publisher":{"@type":"Organization","name":"Yadong's Blog","logo":{"@type":"ImageObject","url":"https://yadongw118.dpdns.org/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://yadongw118.dpdns.org/ accesskey=h title="Yadong's Blog (Alt + H)">Yadong's Blog</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/posts/>Posts</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅</h1><div class=post-meta><span title='2026-05-16 21:30:00 +0000 UTC'>May 16, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>370 words</span>&nbsp;·&nbsp;<span>Yadong</span></div></header><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#-一初识-openclaw满怀期待的第一次>🚀 一、初识 OpenClaw：满怀期待的第一次</a></li><li><a href=#-二windows-上的艰难安装之路>🔧 二、Windows 上的艰难安装之路</a></li><li><a href=#-三第一次配置手忙脚乱中摸索>⚙️ 三、第一次配置：手忙脚乱中摸索</a></li><li><a href=#-四免费-token-的甜蜜与苦涩>💸 四、免费 Token 的甜蜜与苦涩</a></li><li><a href=#-五再次归来大模型时代的必然选择>🔄 五、再次归来：大模型时代的必然选择</a></li><li><a href=#-六实战体验从零搭建个人网站>🌐 六、实战体验：从零搭建个人网站</a></li><li><a href=#-七客观评价打破知识壁垒的利器>📊 七、客观评价：打破知识壁垒的利器</a></li><li><a href=#-八大模型的问题与冲击>🤔 八、大模型的问题与冲击</a><ul><li><a href=#劳动方式的转变从打工人到审核员>劳动方式的转变：从打工人到审核员</a></li><li><a href=#大模型能替代人类吗>大模型能替代人类吗？</a></li><li><a href=#失业问题的本质>失业问题的本质</a></li></ul></li><li><a href=#-九写在最后未来已来>🌟 九、写在最后：未来已来</a></li></ul></nav></div></details><div class="post-content md-content"><blockquote><p>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</p></blockquote><h2 id=-一初识-openclaw满怀期待的第一次>🚀 一、初识 OpenClaw：满怀期待的第一次<a hidden class=anchor aria-hidden=true href=#-一初识-openclaw满怀期待的第一次>#</a></h2><p>去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。</p><blockquote><p>⚠️ <strong>当时的困境</strong>
-安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。</p></blockquote><h2 id=-二windows-上的艰难安装之路>🔧 二、Windows 上的艰难安装之路<a hidden class=anchor aria-hidden=true href=#-二windows-上的艰难安装之路>#</a></h2><p>第一次安装时我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档后我才明白，Windows 上使用 OpenClaw 需要先装两个关键依赖：</p><ul><li><strong>Node.js</strong> — JS 运行时环境，OpenClaw 核心依赖</li><li><strong>Git</strong> — 版本控制工具，拉取和更新代码</li></ul><p>装好依赖后，还需要在 PowerShell 中解除脚本执行限制，然后运行一键安装脚本：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell><span style=display:flex><span><span style=color:#75715e># 解除脚本执行限制</span>
-</span></span><span style=display:flex><span>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 一键安装</span>
-</span></span><span style=display:flex><span>iwr -useb https<span style=color:#960050;background-color:#1e0010>:</span>//openclaw.ai/install.ps1 | iex
-</span></span></code></pre></div><p>终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——</p><blockquote><p>🚫 <strong>初始化配置缺失</strong>
-安装完成后并没有出现教程里提到的配置向导。后来才了解到，这是 Windows 适配问题，需要手动启动 Gateway 服务后才能进行配置。</p></blockquote><h2 id=-三第一次配置手忙脚乱中摸索>⚙️ 三、第一次配置：手忙脚乱中摸索<a hidden class=anchor aria-hidden=true href=#-三第一次配置手忙脚乱中摸索>#</a></h2><p>找到更详细的教程后，我按步骤依次执行了以下命令：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 1. 健康检查（推荐第一步执行）</span>
-</span></span><span style=display:flex><span>openclaw doctor
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 2. 启动 Gateway 网关服务</span>
-</span></span><span style=display:flex><span>openclaw gateway start
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 3. 执行初始化配置</span>
-</span></span><span style=display:flex><span>openclaw onboard
-</span></span></code></pre></div><p><strong>第一步：openclaw doctor</strong></p><p>第一次运行就报错说没有安装相关服务组件。Windows 兼容性问题开始显现——很多在 macOS/Linux 上默认就有的东西，Windows 上需要手动处理。</p><p><strong>第二步：openclaw gateway start</strong></p><p>成功启动 Gateway 服务。它是 OpenClaw 的核心运行时，相当于控制入口和路由层，所有会话、渠道和工具都通过它连接。</p><p><strong>第三步：openclaw onboard</strong></p><p>终于进入配置向导！首次配置时很多地方出错，好在后来找到了详细的教学视频，跟着一步步操作，最终顺利完成了配置。</p><p>第一次使用时我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token——每个模型赠送 100 万 Token，对初次体验来说足够了。</p><p><img alt=阿里云百炼大模型平台 loading=lazy src=/images/aliyun-bailian.png></p><blockquote><p>💡 <strong>浏览器界面打不开？</strong>
-选择使用 UI 时页面显示"无法连接"，排查很久才发现——我把 <code>openclaw gateway start</code> 的服务窗口给关了！Gateway 必须保持运行，浏览器界面才能正常访问。这个低级错误让我哭笑不得。</p></blockquote><h2 id=-四免费-token-的甜蜜与苦涩>💸 四、免费 Token 的甜蜜与苦涩<a hidden class=anchor aria-hidden=true href=#-四免费-token-的甜蜜与苦涩>#</a></h2><p>配置完成后我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便。然而甜蜜期很快就结束了——免费模型的 Token 开始限速，每分钟只能处理很少的请求，稍微复杂一点的任务就要等很久。</p><p><img alt="小米百亿 Token 计划" loading=lazy src=/images/xiaomi-mimo.png></p><p>我试着自己配置 Token，但作为纯小白，连配置在哪里都不知道。好在阿里云每个模型都提供了 100 万免费额度，我就用免费额度让 OpenClaw 自己帮我配置——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。</p><blockquote><p>坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务执行。于是第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。</p></blockquote><hr><h2 id=-五再次归来大模型时代的必然选择>🔄 五、再次归来：大模型时代的必然选择<a hidden class=anchor aria-hidden=true href=#-五再次归来大模型时代的必然选择>#</a></h2><p>第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是<strong>模型不够聪明</strong>和<strong>上下文不够长</strong>，但如今新一代大模型已经彻底改变了这个局面：</p><table><thead><tr><th>模型</th><th>厂商</th><th>核心优势</th></tr></thead><tbody><tr><td><strong>GPT-5.5</strong></td><td>OpenAI</td><td>综合能力之王，逻辑推理全面领先</td></tr><tr><td><strong>Claude Opus 4.6</strong></td><td>Anthropic</td><td>代码工程能力 SWE-bench 80.8%</td></tr><tr><td><strong>Gemini 3.1 Pro</strong></td><td>Google</td><td>多模态与搜索整合，长上下文处理</td></tr><tr><td><strong>DeepSeek V4</strong></td><td>深度求索</td><td>国产性价比之王，百万 Token 仅 0.02 元</td></tr><tr><td><strong>Grok 4</strong></td><td>xAI</td><td>实时信息获取与联网能力</td></tr><tr><td><strong>通义千问 Qwen3</strong></td><td>阿里云</td><td>中文理解能力出色，生态完善</td></tr><tr><td><strong>MiMo V2.5</strong></td><td>小米</td><td>高性价比 Token Plan，编程助手友好</td></tr></tbody></table><p>尤其是 <strong>DeepSeek</strong>，定价策略堪称"价格屠夫"——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p><blockquote><p>✅ <strong>价格对比感受</strong>
-以前用免费 Token，100 万很快就用完还限速。现在用 DeepSeek，同样价格可以买到几百倍的 Token 量，再也不用小心翼翼地"省着用"了。这才是 Agent 能够真正跑起来的基础设施。</p></blockquote><h2 id=-六实战体验从零搭建个人网站>🌐 六、实战体验：从零搭建个人网站<a hidden class=anchor aria-hidden=true href=#-六实战体验从零搭建个人网站>#</a></h2><p>就我个人体验而言，OpenClaw 最直观的价值就是——<strong>打破知识壁垒</strong>。</p><p>我对网站搭建一窍不通。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像外星语言。但有了 OpenClaw，我只需要告诉它"我需要搭建一个个人网站"，它就会帮我处理几乎所有事情：</p><ul><li><strong>需求沟通</strong> — 告诉 OpenClaw 我想要什么样的网站，包括页面设计和功能需求</li><li><strong>前端开发</strong> — 自动生成 HTML/CSS/JS 代码，包括 3D 樱花浮岛、粒子效果等复杂交互</li><li><strong>DNS 配置</strong> — 帮我解决域名解析和 Cloudflare 上的 DNS 设置</li><li><strong>GitHub 部署</strong> — 通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署</li><li><strong>上线运行</strong> — 网站成功上线，包括个人介绍站和博客站</li></ul><p><img alt="OpenClaw 实际使用截图" loading=lazy src=/images/openclaw-usage.png></p><p><img alt="Cloudflare 配置截图" loading=lazy src=/images/cloudflare-dashboard.png></p><p><img alt="GitHub 项目截图" loading=lazy src=/images/github-projects.png></p><p>全程我只需要少量基础知识。页面设计、代码编写、文件上传，OpenClaw 都能很好地完成。虽然有时结果不够完美需要精雕细琢，但<strong>三四天时间就可以完成网站的搭建、运行和各种配置</strong>。对于一个普通人而言，这在以前是无法想象的。</p><h2 id=-七客观评价打破知识壁垒的利器>📊 七、客观评价：打破知识壁垒的利器<a hidden class=anchor aria-hidden=true href=#-七客观评价打破知识壁垒的利器>#</a></h2><p>使用 OpenClaw 期间，我查看了它的使用数据：</p><p><img alt="OpenClaw 使用统计" loading=lazy src=/images/openclaw-stats.png></p><ul><li><strong>317</strong> 条消息总数</li><li><strong>14.1M</strong> Token 消耗</li><li><strong>202</strong> 次工具调用</li><li><strong>97.6%</strong> 缓存命中率</li></ul><p>这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中网站的过程。OpenClaw 调用了 140 次 <code>exec</code>（命令执行）、38 次 <code>process</code>（进程管理）、7 次 <code>write</code>（文件写入）和 7 次 <code>edit</code>（文件编辑）——这些原本需要手动完成的操作，全部由 AI Agent 自动执行了。</p><blockquote><p>大模型加持下的全自动工程，最主要的优点是可以<strong>打破知识壁垒，加速普通人对于新事物的学习和使用</strong>。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让"想法"到"实现"之间的距离，缩短到了前所未有的程度。</p></blockquote><h2 id=-八大模型的问题与冲击>🤔 八、大模型的问题与冲击<a hidden class=anchor aria-hidden=true href=#-八大模型的问题与冲击>#</a></h2><p>但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。</p><h3 id=劳动方式的转变从打工人到审核员>劳动方式的转变：从打工人到审核员<a hidden class=anchor aria-hidden=true href=#劳动方式的转变从打工人到审核员>#</a></h3><p>搭建网站这几天，我的工作模式变成了：把需求告诉 OpenClaw → 喝着水刷着抖音等待 → 检查结果 → 提出修改意见 → 再次等待。这种模式更像是从**&ldquo;打工人&rdquo;<strong>变成了</strong>&ldquo;审核员&rdquo;**。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。</p><blockquote><p>🔴 <strong>不可避免的冲击</strong>
-设计、编程、内容创作等职业会面临巨大市场冲击。尤其是以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。</p></blockquote><h3 id=大模型能替代人类吗>大模型能替代人类吗？<a hidden class=anchor aria-hidden=true href=#大模型能替代人类吗>#</a></h3><p>我的答案是：<strong>部分能，但不能全部</strong>。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p><table><thead><tr><th>类别</th><th>被替代风险</th><th>原因</th></tr></thead><tbody><tr><td>机械重复型工作</td><td>极高</td><td>AI 擅长模式化和标准化任务</td></tr><tr><td>设计 / 编程 / 内容创作</td><td>较高</td><td>AI 效率远超个人，但顶级创意仍需人类</td></tr><tr><td>需要承担责任的工作</td><td>较低</td><td>法律、医疗决策等需要人类担责</td></tr><tr><td>依赖深度经验的工作</td><td>很低</td><td>复杂判断和人际互动难以被替代</td></tr></tbody></table><h3 id=失业问题的本质>失业问题的本质<a hidden class=anchor aria-hidden=true href=#失业问题的本质>#</a></h3><p>未来的 AI 是"提出建议和执行建议的行为人"，而我们则是"审核员"和"监督员"。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p><blockquote><p>解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是<strong>增加需求、扩大消费</strong>，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。</p></blockquote><p>不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场，对于普通生产生活还需要一段适配期。</p><hr><h2 id=-九写在最后未来已来>🌟 九、写在最后：未来已来<a hidden class=anchor aria-hidden=true href=#-九写在最后未来已来>#</a></h2><p>回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会"说话"就行。</p><p>未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个"审核员"和"监督员"。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p><blockquote><p>💡 <strong>写在最后的话</strong>
-这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://yadongw118.dpdns.org/tags/openclaw/>OpenClaw</a></li><li><a href=https://yadongw118.dpdns.org/tags/ai-agent/>AI Agent</a></li><li><a href=https://yadongw118.dpdns.org/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/>大模型</a></li><li><a href=https://yadongw118.dpdns.org/tags/deepseek/>DeepSeek</a></li><li><a href=https://yadongw118.dpdns.org/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/>个人博客</a></li><li><a href=https://yadongw118.dpdns.org/tags/cloudflare/>Cloudflare</a></li><li><a href=https://yadongw118.dpdns.org/tags/github-pages/>GitHub Pages</a></li><li><a href=https://yadongw118.dpdns.org/tags/ai-%E6%80%9D%E8%80%83/>AI 思考</a></li></ul><nav class=paginav><a class=prev href=https://yadongw118.dpdns.org/posts/tired-day/><span class=title>« Prev</span>
-<span>疲惫的一天</span></a></nav></footer><section class=comments style=margin-top:2rem;padding:1.5rem;background:var(--entry-content-bg,#f8f9fa);border-radius:8px><h2 style=font-size:1.2rem;margin-bottom:.5rem>💬 评论区</h2><p style=color:var(--entry-content-color,#666);font-size:.85rem;margin-bottom:1rem>欢迎留言交流，支持匿名评论</p><div id=cmtList style=margin-bottom:1.2rem></div><div style="background:var(--entry-content-bg,#fff);border:1px solid #e0e0e0;border-radius:8px;padding:1rem"><textarea id=cmtContent placeholder=写下你的评论... style="width:100%;min-height:80px;padding:.6rem;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:.9rem;resize:vertical;outline:none;background:#fff;color:#333" onfocus='this.style.borderColor="#4a90d9"' onblur='this.style.borderColor="#ddd"'></textarea><div style=display:flex;gap:.5rem;margin-top:.6rem;align-items:center><input id=cmtName placeholder=你的名字（选填） style="flex:1;padding:.45rem .6rem;border:1px solid #ddd;border-radius:6px;font-size:.85rem;outline:none;background:#fff;color:#333" onfocus='this.style.borderColor="#4a90d9"' onblur='this.style.borderColor="#ddd"'>
-<button onclick=postComment() style="padding:.45rem 1rem;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit" onmouseover='this.style.background="#3a7bc8"' onmouseout='this.style.background="#4a90d9"'>发表</button></div></div><script>(function(){const e="openclaw-review",t="/api/comments";fetch(t+"?slug="+e).then(e=>e.json()).then(e=>{e.ok&&e.comments.length>0?n(e.comments):document.getElementById("cmtList").innerHTML='<p style="color:#999;font-size:.85rem">暂无评论，来说点什么吧 ✍️</p>'});function n(e){const t=document.getElementById("cmtList");t.innerHTML=e.map(e=>{const t=new Date(e.time),n=t.toLocaleDateString("zh-CN")+" "+t.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"}),o=(e.name||"匿名")[0];return'<div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:.8rem 1rem;margin-bottom:.6rem"><div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem"><div style="width:28px;height:28px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#4a90d9;font-weight:600">'+o+'</div><span style="font-size:.85rem;font-weight:600;color:#333">'+s(e.name||"匿名")+'</span><span style="font-size:.72rem;color:#999;margin-left:auto">'+n+'</span></div><div style="font-size:.88rem;color:#555;line-height:1.6;padding-left:2.1rem">'+s(e.content)+"</div></div>"}).join("")}window.postComment=function(){var s=document.getElementById("cmtContent").value.trim(),o=document.getElementById("cmtName").value.trim();if(!s)return alert("请输入评论内容");fetch(t,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:e,name:o||"匿名",content:s})}).then(e=>e.json()).then(n=>{if(n.ok)return document.getElementById("cmtContent").value="",fetch(t+"?slug="+e).then(e=>e.json())}).then(e=>{e&&e.ok&&n(e.comments)})};function s(e){var t=document.createElement("div");return t.textContent=e,t.innerHTML}})()</script></section></article></main><footer class=footer><span>&copy; 2026 <a href=https://yadongw118.dpdns.org/>Yadong's Blog</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅 | Yadong&#39;s Blog</title>
+<meta name="keywords" content="OpenClaw, AI Agent, 大模型, DeepSeek, 个人博客, Cloudflare, GitHub Pages, AI 思考">
+<meta name="description" content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事">
+<meta name="author" content="Yadong">
+<link rel="canonical" href="https://yadongw118.dpdns.org/posts/openclaw-review/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d2bd01a2e21f5f446f18faca44a9f93a04a108b22a966ae63e551dac48085d74.css" integrity="sha256-0r0BouIfX0RvGPrKRKn5OgShCLIqlmrmPlUdrEgIXXQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://yadongw118.dpdns.org/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yadongw118.dpdns.org/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yadongw118.dpdns.org/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://yadongw118.dpdns.org/apple-touch-icon.png">
+<link rel="mask-icon" href="https://yadongw118.dpdns.org/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://yadongw118.dpdns.org/posts/openclaw-review/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://yadongw118.dpdns.org/posts/openclaw-review/">
+  <meta property="og:site_name" content="Yadong&#39;s Blog">
+  <meta property="og:title" content="OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅">
+  <meta property="og:description" content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-16T00:00:00+00:00">
+    <meta property="article:tag" content="OpenClaw">
+    <meta property="article:tag" content="AI Agent">
+    <meta property="article:tag" content="大模型">
+    <meta property="article:tag" content="DeepSeek">
+    <meta property="article:tag" content="个人博客">
+    <meta property="article:tag" content="Cloudflare">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅">
+  <meta name="twitter:description" content="从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://yadongw118.dpdns.org/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",
+      "item": "https://yadongw118.dpdns.org/posts/openclaw-review/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",
+  "name": "OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",
+  "description": "从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",
+  "keywords": [
+    "OpenClaw", "AI Agent", "大模型", "DeepSeek", "个人博客", "Cloudflare", "GitHub Pages", "AI 思考"
+  ],
+  "articleBody": " 如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。\n🚀 一、初识 OpenClaw：满怀期待的第一次 去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。\n⚠️ 当时的困境 安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。\n🔧 二、Windows 上的艰难安装之路 第一次安装时我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档后我才明白，Windows 上使用 OpenClaw 需要先装两个关键依赖：\nNode.js — JS 运行时环境，OpenClaw 核心依赖 Git — 版本控制工具，拉取和更新代码 装好依赖后，还需要在 PowerShell 中解除脚本执行限制，然后运行一键安装脚本：\n# 解除脚本执行限制 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser # 一键安装 iwr -useb https://openclaw.ai/install.ps1 | iex 终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——\n🚫 初始化配置缺失 安装完成后并没有出现教程里提到的配置向导。后来才了解到，这是 Windows 适配问题，需要手动启动 Gateway 服务后才能进行配置。\n⚙️ 三、第一次配置：手忙脚乱中摸索 找到更详细的教程后，我按步骤依次执行了以下命令：\n# 1. 健康检查（推荐第一步执行） openclaw doctor # 2. 启动 Gateway 网关服务 openclaw gateway start # 3. 执行初始化配置 openclaw onboard 第一步：openclaw doctor\n第一次运行就报错说没有安装相关服务组件。Windows 兼容性问题开始显现——很多在 macOS/Linux 上默认就有的东西，Windows 上需要手动处理。\n第二步：openclaw gateway start\n成功启动 Gateway 服务。它是 OpenClaw 的核心运行时，相当于控制入口和路由层，所有会话、渠道和工具都通过它连接。\n第三步：openclaw onboard\n终于进入配置向导！首次配置时很多地方出错，好在后来找到了详细的教学视频，跟着一步步操作，最终顺利完成了配置。\n第一次使用时我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token——每个模型赠送 100 万 Token，对初次体验来说足够了。\n💡 浏览器界面打不开？ 选择使用 UI 时页面显示\"无法连接\"，排查很久才发现——我把 openclaw gateway start 的服务窗口给关了！Gateway 必须保持运行，浏览器界面才能正常访问。这个低级错误让我哭笑不得。\n💸 四、免费 Token 的甜蜜与苦涩 配置完成后我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便。然而甜蜜期很快就结束了——免费模型的 Token 开始限速，每分钟只能处理很少的请求，稍微复杂一点的任务就要等很久。\n我试着自己配置 Token，但作为纯小白，连配置在哪里都不知道。好在阿里云每个模型都提供了 100 万免费额度，我就用免费额度让 OpenClaw 自己帮我配置——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。\n坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务执行。于是第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。\n🔄 五、再次归来：大模型时代的必然选择 第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是模型不够聪明和上下文不够长，但如今新一代大模型已经彻底改变了这个局面：\n模型 厂商 核心优势 GPT-5.5 OpenAI 综合能力之王，逻辑推理全面领先 Claude Opus 4.6 Anthropic 代码工程能力 SWE-bench 80.8% Gemini 3.1 Pro Google 多模态与搜索整合，长上下文处理 DeepSeek V4 深度求索 国产性价比之王，百万 Token 仅 0.02 元 Grok 4 xAI 实时信息获取与联网能力 通义千问 Qwen3 阿里云 中文理解能力出色，生态完善 MiMo V2.5 小米 高性价比 Token Plan，编程助手友好 尤其是 DeepSeek，定价策略堪称\"价格屠夫\"——V4-Flash 版本缓存命中场景下，百万 Token 低至 0.02 元，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。\n✅ 价格对比感受 以前用免费 Token，100 万很快就用完还限速。现在用 DeepSeek，同样价格可以买到几百倍的 Token 量，再也不用小心翼翼地\"省着用\"了。这才是 Agent 能够真正跑起来的基础设施。\n🌐 六、实战体验：从零搭建个人网站 就我个人体验而言，OpenClaw 最直观的价值就是——打破知识壁垒。\n我对网站搭建一窍不通。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像外星语言。但有了 OpenClaw，我只需要告诉它\"我需要搭建一个个人网站\"，它就会帮我处理几乎所有事情：\n需求沟通 — 告诉 OpenClaw 我想要什么样的网站，包括页面设计和功能需求 前端开发 — 自动生成 HTML/CSS/JS 代码，包括 3D 樱花浮岛、粒子效果等复杂交互 DNS 配置 — 帮我解决域名解析和 Cloudflare 上的 DNS 设置 GitHub 部署 — 通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署 上线运行 — 网站成功上线，包括个人介绍站和博客站 全程我只需要少量基础知识。页面设计、代码编写、文件上传，OpenClaw 都能很好地完成。虽然有时结果不够完美需要精雕细琢，但三四天时间就可以完成网站的搭建、运行和各种配置。对于一个普通人而言，这在以前是无法想象的。\n📊 七、客观评价：打破知识壁垒的利器 使用 OpenClaw 期间，我查看了它的使用数据：\n317 条消息总数 14.1M Token 消耗 202 次工具调用 97.6% 缓存命中率 这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中网站的过程。OpenClaw 调用了 140 次 exec（命令执行）、38 次 process（进程管理）、7 次 write（文件写入）和 7 次 edit（文件编辑）——这些原本需要手动完成的操作，全部由 AI Agent 自动执行了。\n大模型加持下的全自动工程，最主要的优点是可以打破知识壁垒，加速普通人对于新事物的学习和使用。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让\"想法\"到\"实现\"之间的距离，缩短到了前所未有的程度。\n🤔 八、大模型的问题与冲击 但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。\n劳动方式的转变：从打工人到审核员 搭建网站这几天，我的工作模式变成了：把需求告诉 OpenClaw → 喝着水刷着抖音等待 → 检查结果 → 提出修改意见 → 再次等待。这种模式更像是从**“打工人”变成了“审核员”**。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。\n🔴 不可避免的冲击 设计、编程、内容创作等职业会面临巨大市场冲击。尤其是以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。\n大模型能替代人类吗？ 我的答案是：部分能，但不能全部。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，越依赖经验、越需要承担责任的行业，被替代率越低。\n类别 被替代风险 原因 机械重复型工作 极高 AI 擅长模式化和标准化任务 设计 / 编程 / 内容创作 较高 AI 效率远超个人，但顶级创意仍需人类 需要承担责任的工作 较低 法律、医疗决策等需要人类担责 依赖深度经验的工作 很低 复杂判断和人际互动难以被替代 失业问题的本质 未来的 AI 是\"提出建议和执行建议的行为人\"，而我们则是\"审核员\"和\"监督员\"。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因不是大模型在代替人类，而是生产力和需求的长期不平衡——需求少于生产力引起的结构性失业。\n解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是增加需求、扩大消费，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。\n不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场，对于普通生产生活还需要一段适配期。\n🌟 九、写在最后：未来已来 回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会\"说话\"就行。\n未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个\"审核员\"和\"监督员\"。毕竟，淘汰你的不是 AI，而是会用 AI 的人。\n💡 写在最后的话 这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。\n",
+  "wordCount" : "370",
+  "inLanguage": "en",
+  "datePublished": "2026-05-16T00:00:00Z",
+  "dateModified": "2026-05-16T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Yadong"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://yadongw118.dpdns.org/posts/openclaw-review/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Yadong's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://yadongw118.dpdns.org/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://yadongw118.dpdns.org/" accesskey="h" title="Yadong&#39;s Blog (Alt + H)">Yadong&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅
+    </h1><div class="copy-permalink-container">
+    <button class="copy-permalink-btn" onclick="copyPermalink()" data-url="https://yadongw118.dpdns.org/posts/openclaw-review/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+        </svg>
+        <span class="btn-text">复制链接</span>
+    </button>
+</div>
+
+<style>
+.copy-permalink-container {
+    display: inline-block;
+    margin-left: 12px;
+}
+
+.copy-permalink-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    color: #374151;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.copy-permalink-btn:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+    color: #1f2937;
+}
+
+.copy-permalink-btn:active {
+    transform: scale(0.98);
+}
+
+.copy-permalink-btn.copied {
+    background: #10b981;
+    border-color: #059669;
+    color: white;
+}
+
+.btn-text {
+    transition: opacity 0.2s ease;
+}
+
+@media (max-width: 640px) {
+    .copy-permalink-container {
+        margin-left: 8px;
+        margin-top: 8px;
+        display: block;
+    }
+    
+    .copy-permalink-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+function copyPermalink() {
+    const button = event.currentTarget;
+    const url = button.dataset.url;
+    const btnText = button.querySelector('.btn-text');
+    
+    
+    navigator.clipboard.writeText(url).then(function() {
+        
+        const originalText = btnText.textContent;
+        btnText.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        
+        setTimeout(function() {
+            btnText.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    }).catch(function(err) {
+        
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        const originalText = btnText.textContent;
+        btnText.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        setTimeout(function() {
+            btnText.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
+    <div class="post-meta">
+
+<span title='2026-05-16 00:00:00 +0000 UTC'>May 16, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>370 words</span>&nbsp;·&nbsp;<span>Yadong</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#-一初识-openclaw满怀期待的第一次">🚀 一、初识 OpenClaw：满怀期待的第一次</a></li>
+    <li><a href="#-二windows-上的艰难安装之路">🔧 二、Windows 上的艰难安装之路</a></li>
+    <li><a href="#-三第一次配置手忙脚乱中摸索">⚙️ 三、第一次配置：手忙脚乱中摸索</a></li>
+    <li><a href="#-四免费-token-的甜蜜与苦涩">💸 四、免费 Token 的甜蜜与苦涩</a></li>
+    <li><a href="#-五再次归来大模型时代的必然选择">🔄 五、再次归来：大模型时代的必然选择</a></li>
+    <li><a href="#-六实战体验从零搭建个人网站">🌐 六、实战体验：从零搭建个人网站</a></li>
+    <li><a href="#-七客观评价打破知识壁垒的利器">📊 七、客观评价：打破知识壁垒的利器</a></li>
+    <li><a href="#-八大模型的问题与冲击">🤔 八、大模型的问题与冲击</a>
+      <ul>
+        <li><a href="#劳动方式的转变从打工人到审核员">劳动方式的转变：从打工人到审核员</a></li>
+        <li><a href="#大模型能替代人类吗">大模型能替代人类吗？</a></li>
+        <li><a href="#失业问题的本质">失业问题的本质</a></li>
+      </ul>
+    </li>
+    <li><a href="#-九写在最后未来已来">🌟 九、写在最后：未来已来</a></li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><blockquote>
+<p>如果说 2024 年是 AI 大模型的元年，那么 2026 年就是 AI Agent 真正走入普通人生活的拐点。作为一名技术小白，我想聊聊我与 OpenClaw 的故事——从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具的真实体验。</p>
+</blockquote>
+<h2 id="-一初识-openclaw满怀期待的第一次">🚀 一、初识 OpenClaw：满怀期待的第一次<a hidden class="anchor" aria-hidden="true" href="#-一初识-openclaw满怀期待的第一次">#</a></h2>
+<p>去年 OpenClaw 刚发布时，我在社交平台刷到了它的介绍——一个可以完全自主执行任务的 AI Agent，能写代码、管理文件、操作浏览器。对于一个对技术充满好奇但毫无基础的人来说，这简直是致命的吸引力。我第一时间就去下载了，然而现实很快给了我一记闷棍。</p>
+<blockquote>
+<p>⚠️ <strong>当时的困境</strong>
+安装教程寥寥无几，OpenClaw 优先适配 macOS 和 Linux。作为 Windows 用户，我几乎找不到针对自己系统的详细指引，网上教程大多一笔带过，仿佛 Windows 用户不配使用。</p>
+</blockquote>
+<h2 id="-二windows-上的艰难安装之路">🔧 二、Windows 上的艰难安装之路<a hidden class="anchor" aria-hidden="true" href="#-二windows-上的艰难安装之路">#</a></h2>
+<p>第一次安装时我连命令行都输错了——是的，作为一个纯小白，我对终端的认知还停留在电影里黑客敲键盘的画面。通读文档后我才明白，Windows 上使用 OpenClaw 需要先装两个关键依赖：</p>
+<ul>
+<li><strong>Node.js</strong> — JS 运行时环境，OpenClaw 核心依赖</li>
+<li><strong>Git</strong> — 版本控制工具，拉取和更新代码</li>
+</ul>
+<p>装好依赖后，还需要在 PowerShell 中解除脚本执行限制，然后运行一键安装脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 解除脚本执行限制</span>
+</span></span><span style="display:flex;"><span>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 一键安装</span>
+</span></span><span style="display:flex;"><span>iwr -useb https<span style="color:#960050;background-color:#1e0010">:</span>//openclaw.ai/install.ps1 | iex
+</span></span></code></pre></div><p>终端里终于出现安装成功的提示时，我几乎要从椅子上跳起来。但兴奋还没持续多久，新的问题就来了——</p>
+<blockquote>
+<p>🚫 <strong>初始化配置缺失</strong>
+安装完成后并没有出现教程里提到的配置向导。后来才了解到，这是 Windows 适配问题，需要手动启动 Gateway 服务后才能进行配置。</p>
+</blockquote>
+<h2 id="-三第一次配置手忙脚乱中摸索">⚙️ 三、第一次配置：手忙脚乱中摸索<a hidden class="anchor" aria-hidden="true" href="#-三第一次配置手忙脚乱中摸索">#</a></h2>
+<p>找到更详细的教程后，我按步骤依次执行了以下命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. 健康检查（推荐第一步执行）</span>
+</span></span><span style="display:flex;"><span>openclaw doctor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 启动 Gateway 网关服务</span>
+</span></span><span style="display:flex;"><span>openclaw gateway start
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 执行初始化配置</span>
+</span></span><span style="display:flex;"><span>openclaw onboard
+</span></span></code></pre></div><p><strong>第一步：openclaw doctor</strong></p>
+<p>第一次运行就报错说没有安装相关服务组件。Windows 兼容性问题开始显现——很多在 macOS/Linux 上默认就有的东西，Windows 上需要手动处理。</p>
+<p><strong>第二步：openclaw gateway start</strong></p>
+<p>成功启动 Gateway 服务。它是 OpenClaw 的核心运行时，相当于控制入口和路由层，所有会话、渠道和工具都通过它连接。</p>
+<p><strong>第三步：openclaw onboard</strong></p>
+<p>终于进入配置向导！首次配置时很多地方出错，好在后来找到了详细的教学视频，跟着一步步操作，最终顺利完成了配置。</p>
+<p>第一次使用时我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token——每个模型赠送 100 万 Token，对初次体验来说足够了。</p>
+<p><img alt="阿里云百炼大模型平台" loading="lazy" src="/images/aliyun-bailian.png"></p>
+<blockquote>
+<p>💡 <strong>浏览器界面打不开？</strong>
+选择使用 UI 时页面显示&quot;无法连接&quot;，排查很久才发现——我把 <code>openclaw gateway start</code> 的服务窗口给关了！Gateway 必须保持运行，浏览器界面才能正常访问。这个低级错误让我哭笑不得。</p>
+</blockquote>
+<h2 id="-四免费-token-的甜蜜与苦涩">💸 四、免费 Token 的甜蜜与苦涩<a hidden class="anchor" aria-hidden="true" href="#-四免费-token-的甜蜜与苦涩">#</a></h2>
+<p>配置完成后我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便。然而甜蜜期很快就结束了——免费模型的 Token 开始限速，每分钟只能处理很少的请求，稍微复杂一点的任务就要等很久。</p>
+<p><img alt="小米百亿 Token 计划" loading="lazy" src="/images/xiaomi-mimo.png"></p>
+<p>我试着自己配置 Token，但作为纯小白，连配置在哪里都不知道。好在阿里云每个模型都提供了 100 万免费额度，我就用免费额度让 OpenClaw 自己帮我配置——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。</p>
+<blockquote>
+<p>坏处也很明显：每个模型只有 100 万 Token，很快就用完了。这点额度只够聊聊天、做做简单任务，完全无法支撑长任务执行。于是第一次的 OpenClaw 体验就这样不了了之，我最终选择了卸载。</p>
+</blockquote>
+<hr>
+<h2 id="-五再次归来大模型时代的必然选择">🔄 五、再次归来：大模型时代的必然选择<a hidden class="anchor" aria-hidden="true" href="#-五再次归来大模型时代的必然选择">#</a></h2>
+<p>第二次开始使用 OpenClaw 是最近。短短一年间，AI 的发展速度远超我的想象。之前最大的痛点是<strong>模型不够聪明</strong>和<strong>上下文不够长</strong>，但如今新一代大模型已经彻底改变了这个局面：</p>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>厂商</th>
+          <th>核心优势</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>GPT-5.5</strong></td>
+          <td>OpenAI</td>
+          <td>综合能力之王，逻辑推理全面领先</td>
+      </tr>
+      <tr>
+          <td><strong>Claude Opus 4.6</strong></td>
+          <td>Anthropic</td>
+          <td>代码工程能力 SWE-bench 80.8%</td>
+      </tr>
+      <tr>
+          <td><strong>Gemini 3.1 Pro</strong></td>
+          <td>Google</td>
+          <td>多模态与搜索整合，长上下文处理</td>
+      </tr>
+      <tr>
+          <td><strong>DeepSeek V4</strong></td>
+          <td>深度求索</td>
+          <td>国产性价比之王，百万 Token 仅 0.02 元</td>
+      </tr>
+      <tr>
+          <td><strong>Grok 4</strong></td>
+          <td>xAI</td>
+          <td>实时信息获取与联网能力</td>
+      </tr>
+      <tr>
+          <td><strong>通义千问 Qwen3</strong></td>
+          <td>阿里云</td>
+          <td>中文理解能力出色，生态完善</td>
+      </tr>
+      <tr>
+          <td><strong>MiMo V2.5</strong></td>
+          <td>小米</td>
+          <td>高性价比 Token Plan，编程助手友好</td>
+      </tr>
+  </tbody>
+</table>
+<p>尤其是 <strong>DeepSeek</strong>，定价策略堪称&quot;价格屠夫&quot;——V4-Flash 版本缓存命中场景下，百万 Token 低至 <strong>0.02 元</strong>，一亿 Token 才两块钱左右。这种极致性价比，完美适配了 AI Agent 的发展需求。</p>
+<blockquote>
+<p>✅ <strong>价格对比感受</strong>
+以前用免费 Token，100 万很快就用完还限速。现在用 DeepSeek，同样价格可以买到几百倍的 Token 量，再也不用小心翼翼地&quot;省着用&quot;了。这才是 Agent 能够真正跑起来的基础设施。</p>
+</blockquote>
+<h2 id="-六实战体验从零搭建个人网站">🌐 六、实战体验：从零搭建个人网站<a hidden class="anchor" aria-hidden="true" href="#-六实战体验从零搭建个人网站">#</a></h2>
+<p>就我个人体验而言，OpenClaw 最直观的价值就是——<strong>打破知识壁垒</strong>。</p>
+<p>我对网站搭建一窍不通。DNS 解析、前端代码、GitHub 部署、Cloudflare 配置……这些名词对我来说就像外星语言。但有了 OpenClaw，我只需要告诉它&quot;我需要搭建一个个人网站&quot;，它就会帮我处理几乎所有事情：</p>
+<ul>
+<li><strong>需求沟通</strong> — 告诉 OpenClaw 我想要什么样的网站，包括页面设计和功能需求</li>
+<li><strong>前端开发</strong> — 自动生成 HTML/CSS/JS 代码，包括 3D 樱花浮岛、粒子效果等复杂交互</li>
+<li><strong>DNS 配置</strong> — 帮我解决域名解析和 Cloudflare 上的 DNS 设置</li>
+<li><strong>GitHub 部署</strong> — 通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署</li>
+<li><strong>上线运行</strong> — 网站成功上线，包括个人介绍站和博客站</li>
+</ul>
+<p><img alt="OpenClaw 实际使用截图" loading="lazy" src="/images/openclaw-usage.png"></p>
+<p><img alt="Cloudflare 配置截图" loading="lazy" src="/images/cloudflare-dashboard.png"></p>
+<p><img alt="GitHub 项目截图" loading="lazy" src="/images/github-projects.png"></p>
+<p>全程我只需要少量基础知识。页面设计、代码编写、文件上传，OpenClaw 都能很好地完成。虽然有时结果不够完美需要精雕细琢，但<strong>三四天时间就可以完成网站的搭建、运行和各种配置</strong>。对于一个普通人而言，这在以前是无法想象的。</p>
+<h2 id="-七客观评价打破知识壁垒的利器">📊 七、客观评价：打破知识壁垒的利器<a hidden class="anchor" aria-hidden="true" href="#-七客观评价打破知识壁垒的利器">#</a></h2>
+<p>使用 OpenClaw 期间，我查看了它的使用数据：</p>
+<p><img alt="OpenClaw 使用统计" loading="lazy" src="/images/openclaw-stats.png"></p>
+<ul>
+<li><strong>317</strong> 条消息总数</li>
+<li><strong>14.1M</strong> Token 消耗</li>
+<li><strong>202</strong> 次工具调用</li>
+<li><strong>97.6%</strong> 缓存命中率</li>
+</ul>
+<p>这些数据背后，是我从一个完全不懂网站搭建的小白，到拥有两个运行中网站的过程。OpenClaw 调用了 140 次 <code>exec</code>（命令执行）、38 次 <code>process</code>（进程管理）、7 次 <code>write</code>（文件写入）和 7 次 <code>edit</code>（文件编辑）——这些原本需要手动完成的操作，全部由 AI Agent 自动执行了。</p>
+<blockquote>
+<p>大模型加持下的全自动工程，最主要的优点是可以<strong>打破知识壁垒，加速普通人对于新事物的学习和使用</strong>。你不需要成为程序员才能搭建网站，不需要成为设计师才能做出漂亮的页面。AI Agent 让&quot;想法&quot;到&quot;实现&quot;之间的距离，缩短到了前所未有的程度。</p>
+</blockquote>
+<h2 id="-八大模型的问题与冲击">🤔 八、大模型的问题与冲击<a hidden class="anchor" aria-hidden="true" href="#-八大模型的问题与冲击">#</a></h2>
+<p>但每一次技术革命都伴随着阵痛。大模型的到来，我想百分之八十的人都没有做好准备。</p>
+<h3 id="劳动方式的转变从打工人到审核员">劳动方式的转变：从打工人到审核员<a hidden class="anchor" aria-hidden="true" href="#劳动方式的转变从打工人到审核员">#</a></h3>
+<p>搭建网站这几天，我的工作模式变成了：把需求告诉 OpenClaw → 喝着水刷着抖音等待 → 检查结果 → 提出修改意见 → 再次等待。这种模式更像是从**&ldquo;打工人&rdquo;<strong>变成了</strong>&ldquo;审核员&rdquo;**。AI 的工作效率毋庸置疑——一个 AI 加一个人，就能做一个团队的活。</p>
+<blockquote>
+<p>🔴 <strong>不可避免的冲击</strong>
+设计、编程、内容创作等职业会面临巨大市场冲击。尤其是以机械重复为主的工作岗位，会被 AI 优先替代。这不是危言耸听，而是正在发生的现实。</p>
+</blockquote>
+<h3 id="大模型能替代人类吗">大模型能替代人类吗？<a hidden class="anchor" aria-hidden="true" href="#大模型能替代人类吗">#</a></h3>
+<p>我的答案是：<strong>部分能，但不能全部</strong>。大模型终究是按部就班的机器，程序是死的。就算学习能力再强，它也无法承担责任。因此，<strong>越依赖经验、越需要承担责任的行业，被替代率越低</strong>。</p>
+<table>
+  <thead>
+      <tr>
+          <th>类别</th>
+          <th>被替代风险</th>
+          <th>原因</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>机械重复型工作</td>
+          <td>极高</td>
+          <td>AI 擅长模式化和标准化任务</td>
+      </tr>
+      <tr>
+          <td>设计 / 编程 / 内容创作</td>
+          <td>较高</td>
+          <td>AI 效率远超个人，但顶级创意仍需人类</td>
+      </tr>
+      <tr>
+          <td>需要承担责任的工作</td>
+          <td>较低</td>
+          <td>法律、医疗决策等需要人类担责</td>
+      </tr>
+      <tr>
+          <td>依赖深度经验的工作</td>
+          <td>很低</td>
+          <td>复杂判断和人际互动难以被替代</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="失业问题的本质">失业问题的本质<a hidden class="anchor" aria-hidden="true" href="#失业问题的本质">#</a></h3>
+<p>未来的 AI 是&quot;提出建议和执行建议的行为人&quot;，而我们则是&quot;审核员&quot;和&quot;监督员&quot;。很多岗位会被替代，失业人口会增加，生产力会极速提高。但我认为，失业的主要原因<strong>不是大模型在代替人类</strong>，而是<strong>生产力和需求的长期不平衡</strong>——需求少于生产力引起的结构性失业。</p>
+<blockquote>
+<p>解决 AI 和人类就业问题的最主要方式，不是阻止 AI 发展，而是<strong>增加需求、扩大消费</strong>，确保经济可以内外循环，让经济具备弹性。当生产力极大提升时，我们需要新的需求增长点来吸纳这些生产力。</p>
+</blockquote>
+<p>不过这个问题在最近一段时间不必过度关心。目前的需求和算力资源都是富余的，大模型也没有大规模入场，对于普通生产生活还需要一段适配期。</p>
+<hr>
+<h2 id="-九写在最后未来已来">🌟 九、写在最后：未来已来<a hidden class="anchor" aria-hidden="true" href="#-九写在最后未来已来">#</a></h2>
+<p>回顾使用 OpenClaw 的这段经历，从第一次满怀期待却铩羽而归，到如今的得心应手，我深刻感受到了 AI 技术的飞速进步。以前搭建网站需要学习 HTML、CSS、JavaScript，需要了解服务器配置、域名解析、DNS 设置……现在，你只需要会&quot;说话&quot;就行。</p>
+<p>未来已来，大模型必将成为生产发展中不可或缺的力量。与其恐惧被替代，不如学会与 AI 协作，成为那个&quot;审核员&quot;和&quot;监督员&quot;。毕竟，<strong>淘汰你的不是 AI，而是会用 AI 的人</strong>。</p>
+<blockquote>
+<p>💡 <strong>写在最后的话</strong>
+这篇文章本身就是我用 OpenClaw 辅助完成的。从内容梳理到排版优化，AI 帮了我很多忙。但最终的观点、感受和判断，都是我自己的。这或许就是未来人机协作的最佳模式——AI 负责执行，人类负责思考和决策。</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://yadongw118.dpdns.org/tags/openclaw/">OpenClaw</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/ai-agent/">AI Agent</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/deepseek/">DeepSeek</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/cloudflare/">Cloudflare</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/github-pages/">GitHub Pages</a></li>
+      <li><a href="https://yadongw118.dpdns.org/tags/ai-%E6%80%9D%E8%80%83/">AI 思考</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://yadongw118.dpdns.org/posts/tired-day/">
+    <span class="title">« Prev</span>
+    <span>疲惫的一天</span>
+  </a>
+</nav>
+
+  </footer>
+<section class="comments" style="margin-top:2rem;padding:1.5rem;background:var(--entry-content-bg,#f8f9fa);border-radius:8px">
+  <h2 style="font-size:1.2rem;margin-bottom:.5rem">💬 评论区</h2>
+  <p style="color:var(--entry-content-color,#666);font-size:.85rem;margin-bottom:1rem">欢迎留言交流，支持匿名评论</p>
+  
+  
+  <div id="cmtList" style="margin-bottom:1.2rem"></div>
+  
+  
+  <div style="background:var(--entry-content-bg,#fff);border:1px solid #e0e0e0;border-radius:8px;padding:1rem">
+    <textarea id="cmtContent" placeholder="写下你的评论..." style="width:100%;min-height:80px;padding:.6rem;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:.9rem;resize:vertical;outline:none;background:#fff;color:#333" onfocus="this.style.borderColor='#4a90d9'" onblur="this.style.borderColor='#ddd'"></textarea>
+    <div style="display:flex;gap:.5rem;margin-top:.6rem;align-items:center">
+      <input id="cmtName" placeholder="你的名字（选填）" style="flex:1;padding:.45rem .6rem;border:1px solid #ddd;border-radius:6px;font-size:.85rem;outline:none;background:#fff;color:#333" onfocus="this.style.borderColor='#4a90d9'" onblur="this.style.borderColor='#ddd'">
+      <button onclick="postComment()" style="padding:.45rem 1rem;background:#4a90d9;color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit" onmouseover="this.style.background='#3a7bc8'" onmouseout="this.style.background='#4a90d9'">发表</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const slug = 'openclaw-review';
+    const API = '/api/comments';
+    
+    
+    fetch(API + '?slug=' + slug)
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.comments.length > 0) {
+          renderComments(data.comments);
+        } else {
+          document.getElementById('cmtList').innerHTML = '<p style="color:#999;font-size:.85rem">暂无评论，来说点什么吧 ✍️</p>';
+        }
+      });
+
+    function renderComments(list) {
+      const el = document.getElementById('cmtList');
+      el.innerHTML = list.map(c => {
+        const d = new Date(c.time);
+        const time = d.toLocaleDateString('zh-CN') + ' ' + d.toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'});
+        const initial = (c.name || '匿名')[0];
+        return '<div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:.8rem 1rem;margin-bottom:.6rem">' +
+          '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">' +
+            '<div style="width:28px;height:28px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#4a90d9;font-weight:600">' + initial + '</div>' +
+            '<span style="font-size:.85rem;font-weight:600;color:#333">' + esc(c.name || '匿名') + '</span>' +
+            '<span style="font-size:.72rem;color:#999;margin-left:auto">' + time + '</span>' +
+          '</div>' +
+          '<div style="font-size:.88rem;color:#555;line-height:1.6;padding-left:2.1rem">' + esc(c.content) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    window.postComment = function() {
+      var content = document.getElementById('cmtContent').value.trim();
+      var name = document.getElementById('cmtName').value.trim();
+      if (!content) return alert('请输入评论内容');
+      
+      fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ slug: slug, name: name || '匿名', content: content })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok) {
+          document.getElementById('cmtContent').value = '';
+          
+          return fetch(API + '?slug=' + slug).then(r => r.json());
+        }
+      })
+      .then(data => {
+        if (data && data.ok) renderComments(data.comments);
+      });
+    };
+
+    function esc(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+  })();
+  </script>
+</section>
+
+
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://yadongw118.dpdns.org/">Yadong&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

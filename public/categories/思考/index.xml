@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>思考 on Yadong's Blog</title><link>https://yadongw118.dpdns.org/categories/%E6%80%9D%E8%80%83/</link><description>Recent content in 思考 on Yadong's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 21 May 2026 21:22:00 +0000</lastBuildDate><atom:link href="https://yadongw118.dpdns.org/categories/%E6%80%9D%E8%80%83/index.xml" rel="self" type="application/rss+xml"/><item><title>时代的风口：Token 中转，一门被低估的生意</title><link>https://yadongw118.dpdns.org/posts/era-of-token-aggregation/</link><pubDate>Thu, 21 May 2026 21:22:00 +0000</pubDate><guid>https://yadongw118.dpdns.org/posts/era-of-token-aggregation/</guid><description>每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>思考 on Yadong&#39;s Blog</title>
+    <link>https://yadongw118.dpdns.org/categories/%E6%80%9D%E8%80%83/</link>
+    <description>Recent content in 思考 on Yadong&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 21 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://yadongw118.dpdns.org/categories/%E6%80%9D%E8%80%83/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>时代的风口：Token 中转，一门被低估的生意</title>
+      <link>https://yadongw118.dpdns.org/posts/era-of-token-aggregation/</link>
+      <pubDate>Thu, 21 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://yadongw118.dpdns.org/posts/era-of-token-aggregation/</guid>
+      <description>每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>自建工具链 on Yadong's Blog</title><link>https://yadongw118.dpdns.org/tags/%E8%87%AA%E5%BB%BA%E5%B7%A5%E5%85%B7%E9%93%BE/</link><description>Recent content in 自建工具链 on Yadong's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 20 May 2026 21:48:00 +0000</lastBuildDate><atom:link href="https://yadongw118.dpdns.org/tags/%E8%87%AA%E5%BB%BA%E5%B7%A5%E5%85%B7%E9%93%BE/index.xml" rel="self" type="application/rss+xml"/><item><title>从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路</title><link>https://yadongw118.dpdns.org/posts/openclaw-to-hermes/</link><pubDate>Wed, 20 May 2026 21:48:00 +0000</pubDate><guid>https://yadongw118.dpdns.org/posts/openclaw-to-hermes/</guid><description>一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>自建工具链 on Yadong&#39;s Blog</title>
+    <link>https://yadongw118.dpdns.org/tags/%E8%87%AA%E5%BB%BA%E5%B7%A5%E5%85%B7%E9%93%BE/</link>
+    <description>Recent content in 自建工具链 on Yadong&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 20 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://yadongw118.dpdns.org/tags/%E8%87%AA%E5%BB%BA%E5%B7%A5%E5%85%B7%E9%93%BE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路</title>
+      <link>https://yadongw118.dpdns.org/posts/openclaw-to-hermes/</link>
+      <pubDate>Wed, 20 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://yadongw118.dpdns.org/posts/openclaw-to-hermes/</guid>
+      <description>一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录</description>
+    </item>
+  </channel>
+</rss>

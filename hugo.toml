@@ -24,6 +24,8 @@ theme = "PaperMod"
   tocopen = true
   comments = true
   twikooEnvId = ""
+  [params.profileMode]
+    enabled = true
 
 [params.homeInfoParams]
   Title = "👋 你好，欢迎来到我的博客"
