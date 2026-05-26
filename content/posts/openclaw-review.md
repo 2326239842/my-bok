@@ -1,6 +1,6 @@
 ---
 title: "OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅"
-date: 2026-05-16 21:30
+date: "2026-05-16T21:30:00Z"
 draft: false
 tags: ["OpenClaw", "AI Agent", "大模型", "DeepSeek", "个人博客", "Cloudflare", "GitHub Pages", "AI 思考"]
 categories: ["技术"]
