@@ -143,9 +143,19 @@ a:hover{text-decoration:underline}
 @media(max-width:1100px){.toc{display:none!important}}
 
 /* Lightbox */
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out;animation:lbFadeIn .25s ease}
 .lb.on{display:flex}
-.lb img{max-width:90vw;max-height:90vh;border-radius:var(--r2)}
+.lb img{max-width:90vw;max-height:85vh;border-radius:var(--r2);object-fit:contain;animation:lbImgIn .25s ease;touch-action:manipulation}
+.lb-close{position:absolute;top:1rem;right:1.2rem;color:#fff;font-size:2rem;cursor:pointer;z-index:2001;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);transition:background .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.lb-close:hover{background:rgba(255,255,255,.25)}
+.lb-counter{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);color:#fff;font-size:.85rem;background:rgba(0,0,0,.5);padding:.3rem .8rem;border-radius:12px;pointer-events:none}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:2.2rem;cursor:pointer;padding:.5rem .8rem;border-radius:8px;background:rgba(255,255,255,.08);transition:background .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+.lb-nav:hover{background:rgba(255,255,255,.2)}
+.lb-prev{left:.8rem}
+.lb-next{right:.8rem}
+@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes lbImgIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@media(max-width:600px){.lb img{max-width:100vw;max-height:80vh}.lb-nav{font-size:1.6rem;padding:.3rem .5rem}.lb-prev{left:.2rem}.lb-next{right:.2rem}}
 
 /* Back top */
 #btop{position:fixed;bottom:1.5rem;right:1.5rem;width:40px;height:40px;border-radius:50%;background:var(--ac);color:#0a0a0f;border:none;font-size:1rem;cursor:pointer;opacity:0;transition:all .3s;z-index:1000;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -251,7 +261,7 @@ a:hover{text-decoration:underline}
 </div>
 
 <div class="toc" id="toc"></div>
-<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbImg"></div>
+<div class="lb" id="lb" onclick="if(event.target===this)closeLB()"><span class="lb-close" onclick="closeLB()">×</span><span class="lb-nav lb-prev" onclick="event.stopPropagation();navLB(-1)">‹</span><img id="lbImg"><span class="lb-nav lb-next" onclick="event.stopPropagation();navLB(1)">›</span><span class="lb-counter" id="lbCounter"></span></div>
 <button id="btop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
@@ -1880,6 +1890,7 @@ async function showAdminLogin() {
       _isAdmin = true;
       sessionStorage.setItem('cmt_admin', '1');
       await loadDeletedArticles();
+      await loadArticleEdits();
       if (curArt) showDetail(curArt.id, true);
       alert('✅ 管理员登录成功');
     } else {
@@ -2040,9 +2051,9 @@ function showDetail(id,noPush){
     <div class="d-meta">
       <h1>${a.title}</h1>
       <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
-      ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#ffd700;cursor:pointer;border:1px solid #ffd700;border-radius:6px;padding:.2rem .6rem" onclick="togglePin(curArt)">📌 置顶</span><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span></div>` : ''}
+      ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#ffd700;cursor:pointer;border:1px solid #ffd700;border-radius:6px;padding:.2rem .6rem" onclick="togglePin(curArt)">📌 置顶</span><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span><span style="font-size:.75rem;color:#4fc3f7;cursor:pointer;border:1px solid #4fc3f7;border-radius:6px;padding:.2rem .6rem" onclick="startEditArticle(curArt)">✏️ 编辑</span></div>` : ''}
     </div>
-    <div class="d-content" id="dContent">${a.content}</div>
+    <div class="d-content" id="dContent">${_articleEdits[a.title] || a.content}</div>
     <div class="comments">
       <h3>💬 评论 (<span id="cmtCountTitle">...</span>)</h3>
       <div class="comment-form">
@@ -2064,7 +2075,7 @@ function showDetail(id,noPush){
     b.onclick=e=>{e.stopPropagation();navigator.clipboard.writeText(pre.textContent).then(()=>{b.textContent='✓';setTimeout(()=>b.textContent='复制',1200)})};
     w.appendChild(b);
   });
-  d.querySelectorAll('.d-content img').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>openLB(img.src)});
+  d.querySelectorAll('.d-content img').forEach(img=>{img.style.cursor='zoom-in';img.onclick=()=>{const allImgs=d.querySelectorAll('.d-content img');const srcs=Array.from(allImgs).map(i=>i.src);openLB(img.src,srcs)}});
   // Audio: only one song at a time
   d.querySelectorAll('.d-content audio').forEach(audio=>{audio.addEventListener('play',function(){d.querySelectorAll('.d-content audio').forEach(other=>{if(other!==this)other.pause()})})});
   buildTOC();
@@ -2199,6 +2210,85 @@ function showDeletedArticles() {
   requestAnimationFrame(() => el.querySelectorAll('.card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*60)));
   curArt = null;
   history.pushState({id:null}, '', location.pathname + '#/');
+}
+
+// ===== Article Edit =====
+let _articleEdits = {};
+
+async function loadArticleEdits() {
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'article_edits_list', password: 'wyd73199254110'}),
+    });
+    const d = await r.json();
+    if (d.ok && Array.isArray(d.edits)) {
+      d.edits.forEach(e => { _articleEdits[e.title] = e; });
+    }
+  } catch(e) {
+    console.error('Failed to load article edits:', e);
+  }
+}
+
+function startEditArticle(a) {
+  let modal = document.getElementById('editModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'editModal';
+    modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2500;align-items:center;justify-content:center';
+    modal.onclick = (e) => { if (e.target === modal) cancelEdit(); };
+    modal.innerHTML = `
+      <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:12px;padding:1.5rem;width:90%;max-width:800px;max-height:90vh;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h3 style="margin:0;color:var(--tx)">✏️ 编辑文章</h3>
+          <span style="font-size:.75rem;color:var(--tx3)">使用 Markdown 格式编辑</span>
+        </div>
+        <div style="margin-bottom:.8rem;color:var(--tx2);font-size:.82rem">标题: <strong id="editTitle" style="color:var(--ac)"></strong></div>
+        <textarea id="editTextarea" style="flex:1;min-height:50vh;padding:.8rem;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.85rem;resize:vertical;outline:none;line-height:1.6" placeholder="在此编辑文章内容..."></textarea>
+        <div style="display:flex;gap:.5rem;margin-top:1rem;justify-content:flex-end">
+          <button onclick="cancelEdit()" style="padding:.5rem 1.2rem;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);color:var(--tx2);cursor:pointer;font-size:.82rem">取消</button>
+          <button onclick="saveArticleEdit()" style="padding:.5rem 1.2rem;border:none;border-radius:8px;background:var(--ac);color:#0a0a0f;cursor:pointer;font-size:.82rem;font-weight:600">💾 保存</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+  document.getElementById('editTitle').textContent = a.title;
+  document.getElementById('editTextarea').value = _articleEdits[a.title] ? _articleEdits[a.title].content : a.content;
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+async function saveArticleEdit() {
+  if (!curArt) return;
+  const content = document.getElementById('editTextarea').value.trim();
+  try {
+    const r = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        _action: 'article_edit_save',
+        password: 'wyd73199254110',
+        title: curArt.title,
+        content: content
+      }),
+    });
+    const d = await r.json();
+    if (d.ok) {
+      _articleEdits[curArt.title] = content;
+      document.getElementById('editModal').style.display = 'none';
+      if (curArt) showDetail(curArt.id, true);
+      alert('✅ 保存成功');
+    } else {
+      alert('❌ 保存失败: ' + (d.error || '未知错误'));
+    }
+  } catch(e) {
+    alert('❌ 保存失败: ' + e.message);
+  }
+}
+
+function cancelEdit() {
+  const modal = document.getElementById('editModal');
+  if (modal) modal.style.display = 'none';
 }
 
 function showHome(noPush){
@@ -2357,7 +2447,40 @@ function pickMonth(m){
 }
 
 // ===== Lightbox =====
-function openLB(s){document.getElementById('lbImg').src=s;document.getElementById('lb').classList.add('on')}
+let _lbImages=[],_lbIdx=0;
+function openLB(s,imgs){
+  _lbImages=imgs||[s];
+  _lbIdx=_lbImages.indexOf(s);
+  if(_lbIdx<0)_lbIdx=0;
+  _showLBImg();
+  document.getElementById('lb').classList.add('on');
+}
+function _showLBImg(){
+  const img=document.getElementById('lbImg');
+  img.src=_lbImages[_lbIdx];
+  const c=document.getElementById('lbCounter');
+  c.textContent=_lbImages.length>1?(_lbIdx+1)+' / '+_lbImages.length:'';
+  c.style.display=_lbImages.length>1?'block':'none';
+  document.querySelector('.lb-prev').style.display=_lbImages.length>1?'flex':'none';
+  document.querySelector('.lb-next').style.display=_lbImages.length>1?'flex':'none';
+}
+function navLB(d){
+  if(_lbImages.length<=1)return;
+  _lbIdx=(_lbIdx+d+_lbImages.length)%_lbImages.length;
+  _showLBImg();
+}
+function closeLB(){document.getElementById('lb').classList.remove('on')}
+// Touch swipe for lightbox
+(function(){
+  let sx=0,sy=0;
+  const lb=document.getElementById('lb');
+  if(!lb)return;
+  lb.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  lb.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)){navLB(dx<0?1:-1)}
+  },{passive:true});
+})();
 
 // ===== Scroll =====
 function initScroll(){
@@ -2373,7 +2496,7 @@ function initScroll(){
     if(e.state&&e.state.id)showDetail(e.state.id,true);
     else showHome(true);
   });
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))document.getElementById('lb').classList.remove('on');else if(curArt)showHome()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))closeLB();else if(curArt)showHome();if(document.getElementById('editModal'))document.getElementById('editModal').style.display='none'}if(document.getElementById('lb').classList.contains('on')){if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)}});
 }
 </script>
 </body>
