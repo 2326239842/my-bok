@@ -248,6 +248,7 @@ function build() {
     const content = isHtml ? escapeForTemplateLiteral(body.trim()) : escapeForTemplateLiteral(mdToHtml(body));
 
     articles.push({
+      mtime: fs.statSync(file).mtimeMs,
       id: idx + 1,
       title: meta.title || basename.replace('.md', ''),
       date: meta.date || new Date().toISOString().replace('Z','+00:00'),
@@ -259,7 +260,7 @@ function build() {
     });
   });
 
-  articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+  articles.sort((a, b) => { const d = new Date(b.date) - new Date(a.date); return d !== 0 ? d : b.mtime - a.mtime; });
   articles.forEach((a, i) => a.id = i + 1);
 
   // Write article content to separate JSON (loaded on-demand, not in initial HTML)
