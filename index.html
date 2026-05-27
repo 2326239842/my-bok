@@ -2338,12 +2338,12 @@ async function updateStats(){
   document.getElementById('statPosts').textContent=articles.length;
   const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
   document.getElementById('statTags').textContent=tags.size;
+  const results = await Promise.all(articles.map(a => loadComments(a)));
   let total = 0;
-  for (const a of articles) {
-    const cmts = await loadComments(a);
-    _cmtCountCache[a.title] = cmts.length;
-    total += cmts.length;
-  }
+  articles.forEach((a, i) => {
+    _cmtCountCache[a.title] = results[i].length;
+    total += results[i].length;
+  });
   document.getElementById('statComments').textContent = total;
   renderCards();
 }
