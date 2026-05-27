@@ -1999,10 +1999,9 @@ let curArt=null,isDark=true;
 // ===== Init =====
 document.addEventListener('DOMContentLoaded',async ()=>{
   history.scrollRestoration='manual';window.scrollTo(0,0);
-  renderCards();await updateStats();initScroll();initQuote();initUptime();initArchives();
-  loadAllLikes();
+  renderCards();initScroll();initQuote();initUptime();initArchives();
+  await Promise.all([updateStats(), loadAllLikes(), loadPinned()]);
   if (_isAdmin) await loadDeletedArticles();
-  await loadPinned();
 });
 
 // ===== Render Cards =====
@@ -2346,8 +2345,19 @@ async function loadAllLikes() {
 
 async function toggleLike(a) {
   const slug = artSlug(a);
+  // 先乐观更新UI
+  _likeCounts[slug] = (_likeCounts[slug] || 0) + 1;
+  _myLikes[a.title] = true;
+  localStorage.setItem('my_likes', JSON.stringify(_myLikes));
+  updateLikeUI(a);
+  let total = 0;
+  for (const k in _likeCounts) total += _likeCounts[k];
+  const el = document.getElementById('statLikes');
+  if (el) el.textContent = total || 0;
+  // 心跳动画
   const btn = document.getElementById('likeBtn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="heart">⏳</span> 处理中...'; }
+  if (btn) { btn.classList.add('animating'); setTimeout(() => btn.classList.remove('animating'), 500); }
+  // 异步同步到服务器（不阻塞UI）
   try {
     const res = await fetch(API_BASE, {
       method: 'POST',
@@ -2357,18 +2367,9 @@ async function toggleLike(a) {
     const data = await res.json();
     if (data.ok) {
       _likeCounts[slug] = data.count;
-      _myLikes[a.title] = true;
-      localStorage.setItem('my_likes', JSON.stringify(_myLikes));
       updateLikeUI(a);
-      let total = 0;
-      for (const k in _likeCounts) total += _likeCounts[k];
-      const el = document.getElementById('statLikes');
-      if (el) el.textContent = total || 0;
-      if (btn) { btn.classList.add('animating'); setTimeout(() => btn.classList.remove('animating'), 500); }
     }
-  } catch(e) {} finally {
-    if (btn) btn.disabled = false;
-  }
+  } catch(e) {}
 }
 
 function updateLikeUI(a) {
