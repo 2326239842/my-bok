@@ -66,7 +66,7 @@ a:hover{text-decoration:underline}
 .articles{display:flex;flex-direction:column;gap:.8rem}
 .card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.1rem 1.3rem;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(16px)}
 .card.visible{opacity:1;transform:translateY(0)}
-.card:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,232,157,.15)}
 .card-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
 .card-title{font-size:1rem;font-weight:600;flex:1}
 .card-date{font-size:.72rem;color:var(--tx3);white-space:nowrap}
@@ -81,7 +81,7 @@ a:hover{text-decoration:underline}
 .back-btn{display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;color:var(--tx2);margin-bottom:1rem;cursor:pointer}
 .back-btn:hover{color:var(--ac)}
 .d-meta{margin-bottom:1.5rem}
-.d-meta h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:.4rem}
+.d-meta h1{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:.4rem;background:linear-gradient(135deg,var(--ac),#7c6aef);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .d-meta .d-info{font-size:.8rem;color:var(--tx3);display:flex;gap:1rem;flex-wrap:wrap}
 .d-content{font-size:.95rem;line-height:1.85;color:var(--tx)}
 .d-content h2{font-size:1.3rem;font-weight:700;margin:1.8rem 0 .6rem;padding-bottom:.3rem;border-bottom:1px solid var(--bdr)}
@@ -165,7 +165,7 @@ a:hover{text-decoration:underline}
 /* Responsive */
 @media(max-width:768px){
   .layout{flex-direction:column;padding-top:calc(52px + 1rem)}
-  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:left .3s ease,padding .3s ease;padding:1rem;box-shadow:none;flex:none;min-width:0;pointer-events:none}
+  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--bdr);transition:left .3s ease,padding .3s ease;padding:1rem;box-shadow:none;flex:none;min-width:0;pointer-events:none}
   .side.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5);pointer-events:auto}
   .side-card{display:block;padding:0;border:none;background:none}
   .side-avatar{margin:0 auto .8rem;width:60px;height:60px;font-size:1.6rem}
@@ -192,6 +192,8 @@ a:hover{text-decoration:underline}
 .like-btn.liked .heart{transform:scale(1.2)}
 .like-count{font-size:1.1rem;font-weight:700;color:var(--tx)}
 .like-count.maxed{color:#ffd700}
+@keyframes heartPop{0%{transform:scale(1)}30%{transform:scale(1.35)}60%{transform:scale(.9)}100%{transform:scale(1)}}
+.like-btn.animating{animation:heartPop .5s ease}
 .article-body table th{padding:8px 14px;font-weight:600;text-align:left;border:1px solid var(--bdr2);white-space:nowrap}
 .article-body table td{padding:6px 14px;border:1px solid var(--bdr2);vertical-align:top}
 .article-body table td code,.article-body table th code{white-space:nowrap;font-size:.9em}
@@ -241,7 +243,7 @@ a:hover{text-decoration:underline}
         <div class="side-stat"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
         <div class="side-stat"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
         <div class="side-stat"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statLikes">❤️</div><div class="side-stat-lbl">红心</div></div>
+        <div class="side-stat"><div class="side-stat-num" id="statLikes">0</div><div class="side-stat-lbl">红心</div></div>
       </div>
       <div class="side-links">
         <a class="side-link" href="https://github.com/2326239842" target="_blank" rel="noopener" onclick="window.open(this.href,'_blank');return false">🐙 GitHub</a>
@@ -1965,10 +1967,25 @@ async function renderDetailComments(a) {
   const el = document.getElementById('cmtList');
   if (!el) return;
   const admin = await checkAdmin();
-  el.innerHTML = cmts.map(c => `<div class="cmt">
-    <div class="cmt-top"><div class="cmt-avatar">👤</div><div class="cmt-name">${esc(c.name)}</div><div class="cmt-time">${new Date(c.time).toLocaleString('zh-CN')}</div>${admin ? `<span class="cmt-delete" onclick="deleteComment(curArt,'${c.id}')">删除</span>` : ''}</div>
+  const avatarColors = [
+    'linear-gradient(135deg,#ff9a9e,#fad0c4)',
+    'linear-gradient(135deg,#a18cd1,#fbc2eb)',
+    'linear-gradient(135deg,#667eea,#764ba2)',
+    'linear-gradient(135deg,#f093fb,#f5576c)',
+    'linear-gradient(135deg,#4facfe,#00f2fe)',
+    'linear-gradient(135deg,#43e97b,#38f9d7)',
+    'linear-gradient(135deg,#fa709a,#fee140)',
+    'linear-gradient(135deg,#a1c4fd,#c2e9fb)',
+  ];
+  el.innerHTML = cmts.map(c => {
+    let hash = 0;
+    for (let i = 0; i < c.name.length; i++) hash = c.name.charCodeAt(i) + ((hash << 5) - hash);
+    const bg = avatarColors[Math.abs(hash) % avatarColors.length];
+    return `<div class="cmt">
+    <div class="cmt-top"><div class="cmt-avatar" style="background:${bg};color:#fff;font-weight:600;font-size:.75rem">${esc(c.name).charAt(0).toUpperCase()}</div><div class="cmt-name">${esc(c.name)}</div><div class="cmt-time">${new Date(c.time).toLocaleString('zh-CN')}</div>${admin ? `<span class="cmt-delete" onclick="deleteComment(curArt,'${c.id}')">删除</span>` : ''}</div>
     <div class="cmt-text">${esc(c.content)}</div>
-  </div>`).join('') || '<div style="font-size:.85rem;color:var(--tx3)">暂无评论，来说点什么吧 ✍️</div>';
+  </div>`;
+  }).join('') || '<div style="font-size:.85rem;color:var(--tx3)">暂无评论，来说点什么吧 ✍️</div>';
   // 更新评论数
   const infoEl = document.querySelector('.d-info span:last-child');
   if (infoEl) infoEl.textContent = '💬 ' + cmts.length + ' 条评论';
@@ -1982,7 +1999,7 @@ let curArt=null,isDark=true;
 // ===== Init =====
 document.addEventListener('DOMContentLoaded',async ()=>{
   history.scrollRestoration='manual';window.scrollTo(0,0);
-  renderCards();updateStats();initScroll();initQuote();initUptime();initArchives();
+  renderCards();await updateStats();initScroll();initQuote();initUptime();initArchives();
   loadAllLikes();
   if (_isAdmin) await loadDeletedArticles();
   await loadPinned();
@@ -2071,7 +2088,7 @@ function showDetail(id,noPush){
     <div class="comments">
       <h3>💬 评论 (<span id="cmtCountTitle">...</span>)</h3>
       <div class="comment-form">
-        <textarea id="cmtText" placeholder="写下你的评论..."></textarea>
+        <textarea id="cmtText" placeholder="写下你的评论..." maxlength="500"></textarea>
         <div class="row">
           <input id="cmtName" placeholder="你的名字" value="${localStorage.getItem('cmt_name')||''}">
           <button onclick="postComment(curArt)">发表</button>
@@ -2260,7 +2277,7 @@ function startEditArticle(a) {
           <span style="font-size:.75rem;color:var(--tx3)">使用 Markdown 格式编辑</span>
         </div>
         <div style="margin-bottom:.8rem;color:var(--tx2);font-size:.82rem">标题: <strong id="editTitle" style="color:var(--ac)"></strong></div>
-        <textarea id="editTextarea" style="flex:1;min-height:50vh;padding:.8rem;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.85rem;resize:vertical;outline:none;line-height:1.6" placeholder="在此编辑文章内容..."></textarea>
+        <textarea id="editTextarea" style="flex:1;min-height:50vh;padding:.8rem;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.95rem;resize:vertical;outline:none;line-height:1.6" placeholder="在此编辑文章内容..." maxlength="50000"></textarea>
         <div style="display:flex;gap:.5rem;margin-top:1rem;justify-content:flex-end">
           <button onclick="cancelEdit()" style="padding:.5rem 1.2rem;border:1px solid var(--bdr);border-radius:8px;background:var(--bg3);color:var(--tx2);cursor:pointer;font-size:.82rem">取消</button>
           <button onclick="saveArticleEdit()" style="padding:.5rem 1.2rem;border:none;border-radius:8px;background:var(--ac);color:#0a0a0f;cursor:pointer;font-size:.82rem;font-weight:600">💾 保存</button>
@@ -2323,12 +2340,14 @@ async function loadAllLikes() {
     let total = 0;
     for (const k in _likeCounts) total += _likeCounts[k];
     const el = document.getElementById('statLikes');
-    if (el) el.textContent = total || '❤️';
+    if (el) el.textContent = total || 0;
   } catch(e) {}
 }
 
 async function toggleLike(a) {
   const slug = artSlug(a);
+  const btn = document.getElementById('likeBtn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="heart">⏳</span> 处理中...'; }
   try {
     const res = await fetch(API_BASE, {
       method: 'POST',
@@ -2344,9 +2363,12 @@ async function toggleLike(a) {
       let total = 0;
       for (const k in _likeCounts) total += _likeCounts[k];
       const el = document.getElementById('statLikes');
-      if (el) el.textContent = total || '❤️';
+      if (el) el.textContent = total || 0;
+      if (btn) { btn.classList.add('animating'); setTimeout(() => btn.classList.remove('animating'), 500); }
     }
-  } catch(e) {}
+  } catch(e) {} finally {
+    if (btn) btn.disabled = false;
+  }
 }
 
 function updateLikeUI(a) {
@@ -2408,10 +2430,31 @@ function toggleTheme(){
 // 异步更新评论数缓存
 let _cmtCountCache = {};
 
+function animateCounter(el, target) {
+  const start = parseInt(el.textContent) || 0;
+  if (start === target) return;
+  const duration = 600;
+  const steps = Math.min(Math.max(target - start, 1), 30);
+  const stepTime = duration / steps;
+  let current = start;
+  const inc = (target - start) / steps;
+  const timer = setInterval(() => {
+    current += inc;
+    if ((inc > 0 && current >= target) || (inc < 0 && current <= target)) {
+      el.textContent = target;
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.round(current);
+    }
+  }, stepTime);
+}
+
 async function updateStats(){
-  document.getElementById('statPosts').textContent=articles.length;
+  const postEl = document.getElementById('statPosts');
+  const tagEl = document.getElementById('statTags');
+  animateCounter(postEl, articles.length);
   const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
-  document.getElementById('statTags').textContent=tags.size;
+  animateCounter(tagEl, tags.size);
   try {
     const res = await fetch(API_BASE, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({_action:'comment_counts'})});
     const data = await res.json();
@@ -2423,7 +2466,7 @@ async function updateStats(){
       _cmtCountCache[a.title] = c;
       total += c;
     });
-    document.getElementById('statComments').textContent = total;
+    animateCounter(document.getElementById('statComments'), total);
   } catch(e) {
     console.error('Failed to load comment counts:', e);
   }
