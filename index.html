@@ -2329,22 +2329,18 @@ async function loadAllLikes() {
 
 async function toggleLike(a) {
   const slug = artSlug(a);
-  const liked = _myLikes[a.title];
-  const action = liked ? 'unlike' : 'like';
   try {
     const res = await fetch(API_BASE, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ _action: action, slug }),
+      body: JSON.stringify({ _action: 'like', slug }),
     });
     const data = await res.json();
     if (data.ok) {
       _likeCounts[slug] = data.count;
-      if (liked) delete _myLikes[a.title];
-      else _myLikes[a.title] = true;
+      _myLikes[a.title] = true;
       localStorage.setItem('my_likes', JSON.stringify(_myLikes));
       updateLikeUI(a);
-      // 更新侧边栏总计
       let total = 0;
       for (const k in _likeCounts) total += _likeCounts[k];
       const el = document.getElementById('statLikes');
@@ -2361,6 +2357,7 @@ function updateLikeUI(a) {
   const cnt = document.getElementById('likeCount');
   if (btn) {
     btn.className = 'like-btn' + (liked ? ' liked' : '');
+    btn.innerHTML = '<span class="heart">' + (liked ? '💖' : '❤️') + '</span> ' + (liked ? '已赞' : '点赞');
   }
   if (cnt) {
     cnt.textContent = count >= 100000 ? '10万+' : count;
