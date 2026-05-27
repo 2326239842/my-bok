@@ -262,9 +262,17 @@ function build() {
   articles.sort((a, b) => new Date(b.date) - new Date(a.date));
   articles.forEach((a, i) => a.id = i + 1);
 
+  // Write article content to separate JSON (loaded on-demand, not in initial HTML)
+  const contentMap = {};
+  articles.forEach(a => { contentMap[a.id] = a.content; });
+  fs.writeFileSync(path.join(__dirname, '..', 'articles-content.json'), JSON.stringify(contentMap));
+  console.log(`📦 Content JSON: ${articles.length} articles → articles-content.json`);
+
+  // Only embed metadata in HTML (no content = much smaller initial load)
   const articlesJs = articles.map(a => {
     const tags = JSON.stringify(a.tags);
-    return `{id:${a.id},title:"${a.title}",date:"${a.date}",tags:${tags},summary:"${a.summary}",content:\`${a.content}\`,image:"${a.image}",audio:"${a.audio}"}`;
+    const summary = a.summary.replace(/"/g, '\\"');
+    return `{id:${a.id},title:"${a.title}",date:"${a.date}",tags:${tags},summary:"${summary}",image:"${a.image}",audio:"${a.audio}"}`;
   }).join(',\n');
 
   const block = `// ===== ARTICLES_START =====\nconst articles=[\n${articlesJs}\n];\n// ===== ARTICLES_END =====`;

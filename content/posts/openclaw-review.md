@@ -67,7 +67,7 @@ openclaw onboard
 
 第一次使用时我没有配置付费 API，而是选择了阿里云百炼平台的免费 Token——每个模型赠送 100 万 Token，对初次体验来说足够了。
 
-![阿里云百炼大模型平台](/images/aliyun-bailian.png)
+![阿里云百炼大模型平台](/images/aliyun-bailian.jpg)
 
 > 💡 **浏览器界面打不开？**
 > 选择使用 UI 时页面显示"无法连接"，排查很久才发现——我把 `openclaw gateway start` 的服务窗口给关了！Gateway 必须保持运行，浏览器界面才能正常访问。这个低级错误让我哭笑不得。
@@ -76,7 +76,7 @@ openclaw onboard
 
 配置完成后我迫不及待地开始体验。让 OpenClaw 整理文件、从网上爬取图片（效果嘛……全是免费小图片，质量一般），但确实挺方便。然而甜蜜期很快就结束了——免费模型的 Token 开始限速，每分钟只能处理很少的请求，稍微复杂一点的任务就要等很久。
 
-![小米百亿 Token 计划](/images/xiaomi-mimo.png)
+![小米百亿 Token 计划](/images/xiaomi-mimo.jpg)
 
 我试着自己配置 Token，但作为纯小白，连配置在哪里都不知道。好在阿里云每个模型都提供了 100 万免费额度，我就用免费额度让 OpenClaw 自己帮我配置——没错，用 AI 来配置 AI，这操作我自己都觉得离谱。
 
@@ -115,11 +115,11 @@ openclaw onboard
 - **GitHub 部署** — 通过 GitHub 仓库直接上传代码，配置 Cloudflare Pages 自动部署
 - **上线运行** — 网站成功上线，包括个人介绍站和博客站
 
-![OpenClaw 实际使用截图](/images/openclaw-usage.png)
+![OpenClaw 实际使用截图](/images/openclaw-usage.jpg)
 
-![Cloudflare 配置截图](/images/cloudflare-dashboard.png)
+![Cloudflare 配置截图](/images/cloudflare-dashboard.jpg)
 
-![GitHub 项目截图](/images/github-projects.png)
+![GitHub 项目截图](/images/github-projects.jpg)
 
 全程我只需要少量基础知识。页面设计、代码编写、文件上传，OpenClaw 都能很好地完成。虽然有时结果不够完美需要精雕细琢，但**三四天时间就可以完成网站的搭建、运行和各种配置**。对于一个普通人而言，这在以前是无法想象的。
 
@@ -127,7 +127,7 @@ openclaw onboard
 
 使用 OpenClaw 期间，我查看了它的使用数据：
 
-![OpenClaw 使用统计](/images/openclaw-stats.png)
+![OpenClaw 使用统计](/images/openclaw-stats.jpg)
 
 - **317** 条消息总数
 - **14.1M** Token 消耗
