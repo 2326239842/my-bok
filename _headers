@@ -1,0 +1,10 @@
+# Static assets - cache aggressively (immutable, content-addressed)
+/articles-content.json
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML - short cache, revalidate
+/*
+  Cache-Control: public, max-age=0, must-revalidate

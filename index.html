@@ -303,6 +303,7 @@ const articles=[
 articles.sort((a,b) => new Date(b.date) - new Date(a.date));
 
 // ===== 评论系统（Cloudflare KV + 管理员） =====
+const fmtDate = d => d ? d.replace('T',' ').substring(0,10) : d;
 const API_BASE = '/api/comments';
 
 // 用文章标题生成固定 slug
@@ -481,7 +482,7 @@ function renderCards(){
     html+='<div style=\"font-size:.78rem;color:var(--ac);margin-bottom:.4rem;letter-spacing:.05em\">📌 置顶</div>';
     html+=pinned.map((a,i)=>{
       const cmts=_cmtCountCache[a.title]||0;
-      return '<div class=\"card pinned\" onclick=\"showDetail('+a.id+')\" style=\"animation-delay:'+(i*60)+'ms;border-color:var(--ac3);background:var(--ac2)\">\n      <div class=\"card-top\">\n        <div class=\"card-title\">📌 '+a.title+'</div>\n        <div class=\"card-date\">📅 '+a.date+'</div>\n      </div>\n      <div class=\"card-summary\">'+a.summary+'</div>\n      <div class=\"card-bottom\">\n        '+a.tags.map(function(t){return '<span class=\"card-tag\">'+t+'</span>'}).join('')+'\n        <span class=\"card-comments\">💬 '+cmts+'</span>\n      </div>\n    </div>';
+      return '<div class=\"card pinned\" onclick=\"showDetail('+a.id+')\" style=\"animation-delay:'+(i*60)+'ms;border-color:var(--ac3);background:var(--ac2)\">\n      <div class=\"card-top\">\n        <div class=\"card-title\">📌 '+a.title+'</div>\n        <div class=\"card-date\">📅 '+fmtDate(a.date)+'</div>\n      </div>\n      <div class=\"card-summary\">'+a.summary+'</div>\n      <div class=\"card-bottom\">\n        '+a.tags.map(function(t){return '<span class=\"card-tag\">'+t+'</span>'}).join('')+'\n        <span class=\"card-comments\">💬 '+cmts+'</span>\n      </div>\n    </div>';
     }).join('');
   }
   html+=paged.map((a,i)=>{
@@ -489,7 +490,7 @@ function renderCards(){
     return `<div class="card" onclick="showDetail(${a.id})" style="animation-delay:${i*60}ms">
       <div class="card-top">
         <div class="card-title">${a.title}</div>
-        <div class="card-date">📅 ${a.date}</div>
+        <div class="card-date">📅 ${fmtDate(a.date)}</div>
       </div>
       <div class="card-summary">${a.summary}</div>
       <div class="card-bottom">
@@ -541,7 +542,7 @@ async function showDetail(id,noPush){
     <div class="back-btn" onclick="showHome()">← 返回</div>
     <div class="d-meta">
       <h1>${a.title}</h1>
-      <div class="d-info"><span>📅 ${a.date}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
+      <div class="d-info"><span>📅 ${fmtDate(a.date)}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
       ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#ffd700;cursor:pointer;border:1px solid #ffd700;border-radius:6px;padding:.2rem .6rem" onclick="togglePin(curArt)">📌 置顶</span><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span><span style="font-size:.75rem;color:#4fc3f7;cursor:pointer;border:1px solid #4fc3f7;border-radius:6px;padding:.2rem .6rem" onclick="startEditArticle(curArt)">✏️ 编辑</span></div>` : ''}
     </div>
     <div class="d-content" id="dContent"><div style="text-align:center;padding:3rem;color:var(--tx3)">⏳ 加载中...</div></div>
@@ -705,7 +706,7 @@ function showDeletedArticles() {
     deleted.map((a,i) => `<div class="card" onclick="restoreArticle('${esc(a.title)}')" style="animation-delay:${i*60}ms;border-color:#f44">
       <div class="card-top">
         <div class="card-title">${a.title}</div>
-        <div class="card-date">📅 ${a.date}</div>
+        <div class="card-date">📅 ${fmtDate(a.date)}</div>
       </div>
       <div class="card-summary" style="color:var(--tx3)">${a.summary}</div>
       <div class="card-bottom"><span style="font-size:.68rem;color:#f44">已删除 — 点击恢复</span></div>
