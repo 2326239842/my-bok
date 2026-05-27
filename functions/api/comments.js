@@ -75,6 +75,40 @@ export async function onRequest(context) {
       return Response.json({ ok: true, pinned }, { headers: CORS });
     }
 
+    // 批量获取所有文章评论数（公开，无需密码）
+    if (body._action === 'comment_counts') {
+      const list = await env.KV.list({ prefix: 'comments:' });
+      const counts = {};
+      for (const key of list.keys) {
+        const slug = key.name.replace('comments:', '');
+        const value = await env.KV.get(key.name, 'json');
+        if (value) counts[slug] = value.length;
+        else counts[slug] = 0;
+      }
+      return Response.json({ ok: true, counts }, { headers: CORS });
+    }
+
+    // 文章编辑保存（管理员）
+    if (body._action === 'article_edit_save') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!body.title || body.content === undefined) return Response.json({ error: '缺少参数' }, { status: 400, headers: CORS });
+      const edit = { title: body.title, content: body.content, updatedAt: new Date().toISOString() };
+      await env.KV.put(`article_edit:${body.title}`, JSON.stringify(edit));
+      return Response.json({ ok: true, edit }, { headers: CORS });
+    }
+
+    // 获取所有文章编辑列表（管理员）
+    if (body._action === 'article_edits_list') {
+      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      const list = await env.KV.list({ prefix: 'article_edit:' });
+      const edits = [];
+      for (const key of list.keys) {
+        const value = await env.KV.get(key.name, 'json');
+        if (value) edits.push(value);
+      }
+      return Response.json({ ok: true, edits }, { headers: CORS });
+    }
+
     // 切换置顶（管理员）
     if (body._action === 'toggle_pin') {
       if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
