@@ -1,10 +1,7 @@
-# Static assets - cache aggressively (immutable, content-addressed)
+# Content JSON - cache 7 days (loaded on-demand, safe to cache)
 /articles-content.json
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
+# Images - cache 30 days (static, rarely change)
 /images/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
-
-# HTML - short cache, revalidate
-/*
-  Cache-Control: public, max-age=0, must-revalidate
