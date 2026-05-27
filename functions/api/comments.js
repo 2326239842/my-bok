@@ -123,6 +123,52 @@ export async function onRequest(context) {
       return Response.json({ ok: true, pinned }, { headers: CORS });
     }
 
+    // ===== 点赞系统（公开，无需密码） =====
+    // 获取单篇文章点赞数
+    if (body._action === 'get_like') {
+      const slug = body.slug;
+      if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });
+      const count = parseInt(await env.KV.get(`likes:${slug}`) || '0');
+      return Response.json({ ok: true, count }, { headers: CORS });
+    }
+
+    // 获取所有文章点赞数（批量）
+    if (body._action === 'get_all_likes') {
+      const list = await env.KV.list({ prefix: 'likes:' });
+      const likes = {};
+      for (const key of list.keys) {
+        const slug = key.name.replace('likes:', '');
+        likes[slug] = parseInt(await env.KV.get(key.name) || '0');
+      }
+      return Response.json({ ok: true, likes }, { headers: CORS });
+    }
+
+    // 点赞（上限 100000）
+    if (body._action === 'like') {
+      const slug = body.slug;
+      if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });
+      const key = `likes:${slug}`;
+      let count = parseInt(await env.KV.get(key) || '0');
+      if (count < 100000) {
+        count++;
+        await env.KV.put(key, String(count));
+      }
+      return Response.json({ ok: true, count }, { headers: CORS });
+    }
+
+    // 取消点赞
+    if (body._action === 'unlike') {
+      const slug = body.slug;
+      if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });
+      const key = `likes:${slug}`;
+      let count = parseInt(await env.KV.get(key) || '0');
+      if (count > 0) {
+        count--;
+        await env.KV.put(key, String(count));
+      }
+      return Response.json({ ok: true, count }, { headers: CORS });
+    }
+
     // 普通发表评论
     const { slug, name, content } = body;
     if (!slug || !content) return Response.json({ error: '缺少内容' }, { status: 400, headers: CORS });

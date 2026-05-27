@@ -183,6 +183,15 @@ a:hover{text-decoration:underline}
 .article-body .table-wrap{overflow-x:auto;margin:1.2em 0;-webkit-overflow-scrolling:touch}
 .article-body table{width:100%;border-collapse:collapse;font-size:.93em}
 .article-body table thead{background:var(--ac);color:#fff}
+/* ───── Like Button ───── */
+.like-bar{display:flex;align-items:center;gap:.6rem;margin:1.5rem 0;padding:1rem;border-radius:var(--r);border:1px solid var(--bdr);background:var(--bg3)}
+.like-btn{display:flex;align-items:center;gap:.4rem;padding:.5rem 1.2rem;border:2px solid var(--bdr);border-radius:999px;background:none;color:var(--tx2);cursor:pointer;font-size:.9rem;font-family:var(--font);transition:all .3s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+.like-btn:hover{border-color:#f44;color:#f44}
+.like-btn.liked{border-color:#f44;color:#f44;background:rgba(255,68,68,.1)}
+.like-btn .heart{font-size:1.1rem;transition:transform .3s}
+.like-btn.liked .heart{transform:scale(1.2)}
+.like-count{font-size:1.1rem;font-weight:700;color:var(--tx)}
+.like-count.maxed{color:#ffd700}
 .article-body table th{padding:8px 14px;font-weight:600;text-align:left;border:1px solid var(--bdr2);white-space:nowrap}
 .article-body table td{padding:6px 14px;border:1px solid var(--bdr2);vertical-align:top}
 .article-body table td code,.article-body table th code{white-space:nowrap;font-size:.9em}
@@ -232,7 +241,7 @@ a:hover{text-decoration:underline}
         <div class="side-stat"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
         <div class="side-stat"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
         <div class="side-stat"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
-        <div class="side-stat"><div class="side-stat-num">☕</div><div class="side-stat-lbl">续命中</div></div>
+        <div class="side-stat"><div class="side-stat-num" id="statLikes">❤️</div><div class="side-stat-lbl">红心</div></div>
       </div>
       <div class="side-links">
         <a class="side-link" href="https://github.com/2326239842" target="_blank" rel="noopener" onclick="window.open(this.href,'_blank');return false">🐙 GitHub</a>
@@ -1974,6 +1983,7 @@ let curArt=null,isDark=true;
 document.addEventListener('DOMContentLoaded',async ()=>{
   history.scrollRestoration='manual';window.scrollTo(0,0);
   renderCards();updateStats();initScroll();initQuote();initUptime();initArchives();
+  loadAllLikes();
   if (_isAdmin) await loadDeletedArticles();
   await loadPinned();
 });
@@ -2054,6 +2064,10 @@ function showDetail(id,noPush){
       ${_isAdmin ? `<div style="margin-top:.6rem;display:flex;gap:.5rem"><span style="font-size:.75rem;color:#ffd700;cursor:pointer;border:1px solid #ffd700;border-radius:6px;padding:.2rem .6rem" onclick="togglePin(curArt)">📌 置顶</span><span style="font-size:.75rem;color:#f44;cursor:pointer;border:1px solid #f44;border-radius:6px;padding:.2rem .6rem" onclick="deleteArticle(curArt)">🗑️ 删除本文</span><span style="font-size:.75rem;color:var(--tx3);cursor:pointer;border:1px solid var(--bdr);border-radius:6px;padding:.2rem .6rem" onclick="showDeletedArticles()">📂 管理已删文章</span><span style="font-size:.75rem;color:#4fc3f7;cursor:pointer;border:1px solid #4fc3f7;border-radius:6px;padding:.2rem .6rem" onclick="startEditArticle(curArt)">✏️ 编辑</span></div>` : ''}
     </div>
     <div class="d-content" id="dContent">${_articleEdits[a.title] || a.content}</div>
+    <div class="like-bar">
+      <button class="like-btn" id="likeBtn" onclick="toggleLike(curArt)"><span class="heart">❤️</span> 点赞</button>
+      <span class="like-count" id="likeCount">${_likeCounts[artSlug(a)] || 0}</span>
+    </div>
     <div class="comments">
       <h3>💬 评论 (<span id="cmtCountTitle">...</span>)</h3>
       <div class="comment-form">
@@ -2088,6 +2102,7 @@ function showDetail(id,noPush){
     s.parentNode.replaceChild(ns,s);
   });
   if(!noPush) history.pushState({id:id},'',location.pathname+'#/post/'+id);
+  updateLikeUI(a);
 }
 
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
@@ -2289,6 +2304,68 @@ async function saveArticleEdit() {
 function cancelEdit() {
   const modal = document.getElementById('editModal');
   if (modal) modal.style.display = 'none';
+}
+
+// ===== 点赞系统 =====
+let _myLikes = JSON.parse(localStorage.getItem('my_likes') || '{}');
+let _likeCounts = {};
+
+async function loadAllLikes() {
+  try {
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({_action: 'get_all_likes'}),
+    });
+    const data = await res.json();
+    if (data.ok && data.likes) _likeCounts = data.likes;
+    // 更新侧边栏总计
+    let total = 0;
+    for (const k in _likeCounts) total += _likeCounts[k];
+    const el = document.getElementById('statLikes');
+    if (el) el.textContent = total || '❤️';
+  } catch(e) {}
+}
+
+async function toggleLike(a) {
+  const slug = artSlug(a);
+  const liked = _myLikes[a.title];
+  const action = liked ? 'unlike' : 'like';
+  try {
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ _action: action, slug }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      _likeCounts[slug] = data.count;
+      if (liked) delete _myLikes[a.title];
+      else _myLikes[a.title] = true;
+      localStorage.setItem('my_likes', JSON.stringify(_myLikes));
+      updateLikeUI(a);
+      // 更新侧边栏总计
+      let total = 0;
+      for (const k in _likeCounts) total += _likeCounts[k];
+      const el = document.getElementById('statLikes');
+      if (el) el.textContent = total || '❤️';
+    }
+  } catch(e) {}
+}
+
+function updateLikeUI(a) {
+  const slug = artSlug(a);
+  const count = _likeCounts[slug] || 0;
+  const liked = !!_myLikes[a.title];
+  const btn = document.getElementById('likeBtn');
+  const cnt = document.getElementById('likeCount');
+  if (btn) {
+    btn.className = 'like-btn' + (liked ? ' liked' : '');
+  }
+  if (cnt) {
+    cnt.textContent = count >= 100000 ? '10万+' : count;
+    cnt.className = 'like-count' + (count >= 100000 ? ' maxed' : '');
+  }
 }
 
 function showHome(noPush){
