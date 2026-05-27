@@ -2338,13 +2338,21 @@ async function updateStats(){
   document.getElementById('statPosts').textContent=articles.length;
   const tags=new Set();articles.forEach(a=>a.tags.forEach(t=>tags.add(t)));
   document.getElementById('statTags').textContent=tags.size;
-  const results = await Promise.all(articles.map(a => loadComments(a)));
-  let total = 0;
-  articles.forEach((a, i) => {
-    _cmtCountCache[a.title] = results[i].length;
-    total += results[i].length;
-  });
-  document.getElementById('statComments').textContent = total;
+  try {
+    const res = await fetch(API_BASE, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({_action:'comment_counts'})});
+    const data = await res.json();
+    const counts = (data.ok && data.counts) || {};
+    let total = 0;
+    articles.forEach(a => {
+      const slug = artSlug(a);
+      const c = counts[slug] || 0;
+      _cmtCountCache[a.title] = c;
+      total += c;
+    });
+    document.getElementById('statComments').textContent = total;
+  } catch(e) {
+    console.error('Failed to load comment counts:', e);
+  }
   renderCards();
 }
 
