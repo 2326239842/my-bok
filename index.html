@@ -216,7 +216,7 @@ a:hover{text-decoration:underline}
   <a href="#" class="nav-logo" onclick="showHome();return false">📝 Yadong</a>
   <div class="nav-r">
     <button class="nav-copy-btn" onclick="navigator.clipboard.writeText('https://yadongw118.dpdns.org').then(()=>{var t=document.createElement('span');t.textContent='✅ 已复制!';t.style.cssText='position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--ac);color:#0a0a0f;padding:8px 20px;border-radius:20px;font-size:.85rem;z-index:9999;pointer-events:none;font-weight:600';document.body.appendChild(t);setTimeout(()=>t.remove(),2000)})">📋 复制网址</button>
-    <button onclick="location.reload();return false" title="更新">更新</button>
+    <button onclick="clearCache()" title="刷新" style="font-size:.75rem">🔄 刷新</button>
     <button class="menu-btn" onclick="toggleSide()" title="菜单">☰</button>
     <button onclick="toggleSearch()" title="搜索">🔍</button>
     <button onclick="toggleTheme()" title="主题">🌙</button>
@@ -890,6 +890,16 @@ function toggleSearch(){document.getElementById('searchWrap').classList.toggle('
 function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideMask').classList.toggle('on')}
 
 // ===== Theme =====
+function clearCache(){
+  _contentCache=null;
+  _contentFetchPromise=null;
+  _cmtCache={};
+  localStorage.removeItem('cmt_name');
+  localStorage.removeItem('my_likes');
+  sessionStorage.clear();
+  if('caches' in window){caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})})}
+  location.href=location.pathname+'?_v='+Date.now();
+}
 function toggleTheme(){
   isDark=!isDark;
   const s=document.documentElement.style;
