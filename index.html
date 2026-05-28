@@ -279,6 +279,8 @@ a:hover{text-decoration:underline}
 <button id="btop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
+// ===== 版本检测：WebView 缓存清除 =====
+(function(){var v='20260528c';var s=localStorage.getItem('_v');if(s&&s!==v){localStorage.clear();sessionStorage.clear();if('caches' in window){caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})})}}localStorage.setItem('_v',v)})();
 // ===== 数据 =====
 // ===== ARTICLES_START =====
 const articles=[
