@@ -544,7 +544,7 @@ async function showDetail(id,noPush){
     ? '<span style="font-size:.72rem;color:var(--ac);cursor:pointer;margin-left:auto" onclick="adminLogout()">退出管理</span>'
     : '<span style="font-size:.72rem;color:var(--tx3);cursor:pointer;margin-left:auto" onclick="showAdminLogin()">🔑 管理</span>';
   d.innerHTML=`
-    <div class="back-btn" onclick="showHome()">← 返回</div>
+    <div class="back-btn" onclick="history.back()">← 返回</div>
     <div class="d-meta">
       <h1>${a.title}</h1>
       <div class="d-info"><span>📅 ${fmtDate(a.date)}</span><span>🏷️ ${a.tags.join(', ')}</span><span>💬 <span id="cmtCountLabel">...</span> 条评论</span>${adminBtn}</div>
@@ -716,7 +716,7 @@ function showDeletedArticles() {
       <div class="card-summary" style="color:var(--tx3)">${a.summary}</div>
       <div class="card-bottom"><span style="font-size:.68rem;color:#f44">已删除 — 点击恢复</span></div>
     </div>`).join('') +
-    '<div style="margin-top:1rem"><span style="font-size:.82rem;color:var(--ac);cursor:pointer" onclick="showHome()">← 返回文章列表</span></div>';
+    '<div style="margin-top:1rem"><span style="font-size:.82rem;color:var(--ac);cursor:pointer" onclick="history.back()">← 返回文章列表</span></div>';
   requestAnimationFrame(() => el.querySelectorAll('.card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*60)));
   curArt = null;
   history.pushState({id:null}, '', location.pathname + '#/');
