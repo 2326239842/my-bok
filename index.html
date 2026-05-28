@@ -569,7 +569,7 @@ async function showDetail(id,noPush){
   // Lazy-load article content from JSON
   try {
     const contentData = await ensureContent();
-    const articleContent = _articleEdits[a.title] || contentData[id] || '<p>内容加载失败</p>';
+    const articleContent = _articleEdits[a.title] || contentData[a.title] || '<p>内容加载失败</p>';
     document.getElementById('dContent').innerHTML = articleContent;
   } catch(e) {
     document.getElementById('dContent').innerHTML = '<p style="color:#f44">内容加载失败，请刷新重试</p>';

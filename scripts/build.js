@@ -264,8 +264,9 @@ function build() {
   articles.forEach((a, i) => a.id = i + 1);
 
   // Write article content to separate JSON (loaded on-demand, not in initial HTML)
+  // Key is article title (stable) instead of numeric ID (shifts when new articles are added)
   const contentMap = {};
-  articles.forEach(a => { contentMap[a.id] = a.content; });
+  articles.forEach(a => { contentMap[a.title] = a.content; });
   fs.writeFileSync(path.join(__dirname, '..', 'articles-content.json'), JSON.stringify(contentMap));
   console.log(`📦 Content JSON: ${articles.length} articles → articles-content.json`);
 
