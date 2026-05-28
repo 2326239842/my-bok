@@ -1,6 +1,6 @@
-# Content JSON - cache 7 days (loaded on-demand, safe to cache)
+# Content JSON - no cache (IDs shift when new articles are added)
 /articles-content.json
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Cache-Control: no-cache, must-revalidate
 
 # Images - cache 30 days (static, rarely change)
 /images/*
