@@ -1,122 +1,179 @@
 /**
- * 🐱 Desktop Pet Cat — 网页桌宠猫咪 v2
- * 自包含单文件，一个 <script> 标签即可嵌入
- * 支持：待机、眨眼、呼吸、走路、点击反应、拖拽、移动端触控
- * 不干扰阅读：小尺寸、右下角、可隐藏
+ * 🐱 Desktop Pet Cat v3 — 月光蓝猫
+ * 灵感自月光下的蓝猫设计，纯CSS动画
+ * 支持：待机、眨眼、呼吸、走路、点击反应、拖拽、移动端触控、文字气泡
  */
 (function(){
   'use strict';
-  if(window._dpCatLoaded) return; window._dpCatLoaded=true;
+  if(window._dpCatLoaded)return;window._dpCatLoaded=true;
 
-  /* ── 配置 ── */
-  const CFG={
-    size:70,            // 桌面尺寸
-    mobileSize:48,      // 移动端尺寸
-    bottom:16,
-    right:16,
-    mobileBottom:12,
-    mobileRight:8,
-    dragThreshold:5,
-    idleTimeout:10000,
-    walkRange:100,
-  };
-
+  const CFG={size:80,mobileSize:52,bottom:16,right:16,mobileBottom:12,mobileRight:8,dragThreshold:5,idleTimeout:10000,walkRange:100};
   const isMobile=()=>window.innerWidth<768||'ontouchstart' in window;
   const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const sz=()=>isMobile()?CFG.mobileSize:CFG.size;
+
+  /* ── 月光蓝猫配色 ── */
+  const C={
+    body:'#8b95a8',bodyLight:'#a8b2c2',bodyDark:'#6e7a8f',
+    chest:'#e4e8ef',earInner:'#e2c4c6',nose:'#e8b4b8',
+    eyeIris:'#8db89a',eyeIrisLight:'#b5d4be',eyePupil:'#2a332e',
+    mouth:'#5a5055',
+  };
 
   /* ── CSS ── */
   const CSS=`
-#dp-wrap{position:fixed;z-index:9998;pointer-events:none;font-style:normal;font-variant:normal;line-height:0;text-align:left;direction:ltr;bottom:${CFG.bottom}px;right:${CFG.right}px;will-change:transform}
-#dp-wrap *{box-sizing:border-box!important;margin:0!important;padding:0!important;border:none!important;background:none!important;box-shadow:none!important;text-shadow:none!important;filter:none!important;opacity:1!important;transform-origin:center bottom!important;animation-play-state:running!important;pointer-events:auto!important;transition:none!important}
-#dp-wrap .dp-no-events{pointer-events:none!important}
+#dp-wrap{position:fixed;z-index:9998;pointer-events:none;font-style:normal;line-height:0;text-align:left;direction:ltr;bottom:${CFG.bottom}px;right:${CFG.right}px;will-change:transform}
+#dp-wrap *{box-sizing:border-box!important;margin:0!important;padding:0!important;border:none!important;background:none!important;box-shadow:none!important;text-shadow:none!important;animation-play-state:running!important;pointer-events:auto!important;transition:none!important}
+#dp-wrap .dp-ne{pointer-events:none!important}
 #dp-cat{position:relative;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;transform-origin:center bottom}
-#dp-cat:hover{filter:drop-shadow(0 0 8px rgba(245,166,35,.35))!important}
-#dp-cat.dp-dragging{cursor:grabbing!important}
-#dp-shadow{position:absolute;bottom:-3px;left:50%;transform:translateX(-50%)!important;width:36px;height:5px;background:rgba(0,0,0,.12)!important;border-radius:50%!important}
-#dp-body{width:42px;height:30px;background:#f5a623!important;border-radius:21px 21px 12px 12px!important;position:relative;z-index:1;animation:dp-breathe 3s ease-in-out infinite!important}
-#dp-body::after{content:''!important;position:absolute!important;bottom:-5px!important;left:6px!important;width:30px;height:10px;background:#f5a623!important;border-radius:0 0 10px 10px!important}
-#dp-head{width:38px;height:34px;background:#f5a623!important;border-radius:50% 50% 42% 42%!important;position:absolute!important;top:-18px!important;left:2px!important;z-index:2}
-.dp-ear{position:absolute!important;top:-7px!important;width:0!important;height:0!important;border-left:6px solid transparent!important;border-right:6px solid transparent!important;border-bottom:11px solid #f5a623!important;z-index:1}
-.dp-ear.dp-l{left:1px!important;transform:rotate(-10deg)!important}
-.dp-ear.dp-r{right:1px!important;transform:rotate(10deg)!important}
-.dp-ei{position:absolute!important;top:-5px!important;width:0!important;height:0!important;border-left:3.5px solid transparent!important;border-right:3.5px solid transparent!important;border-bottom:7px solid #ffb6c1!important;z-index:2}
-.dp-ei.dp-l{left:4.5px!important;transform:rotate(-10deg)!important}
-.dp-ei.dp-r{right:4.5px!important;transform:rotate(10deg)!important}
-#dp-eyes{position:absolute!important;top:12px!important;left:50%!important;transform:translateX(-50%)!important;display:flex!important;gap:10px!important;z-index:3}
-.dp-eye{width:7px;height:7px;background:#333!important;border-radius:50%!important;position:relative;animation:dp-blink 4s infinite!important}
-.dp-eye::after{content:''!important;position:absolute!important;top:1px!important;left:1.5px!important;width:2.5px;height:2.5px;background:#fff!important;border-radius:50%!important}
-.dp-eye-shut{height:1.5px!important;border-radius:1px!important;animation:none!important}
-.dp-eye-shut::after{display:none!important}
-#dp-nose{position:absolute!important;top:19px!important;left:50%!important;transform:translateX(-50%)!important;width:4px;height:2.5px;background:#ffb6c1!important;border-radius:50%!important;z-index:3}
-#dp-mouth{position:absolute!important;top:21px!important;left:50%!important;transform:translateX(-50%)!important;width:8px;height:3px;z-index:3}
-#dp-mouth::before,#dp-mouth::after{content:''!important;position:absolute!important;top:0!important;width:5px;height:3px;border-bottom:1.5px solid #333!important;border-radius:0 0 50% 50%!important}
-#dp-mouth::before{left:0!important}
-#dp-mouth::after{right:0!important}
-#dp-wh{position:absolute!important;top:18px!important;left:50%!important;transform:translateX(-50%)!important;width:36px;z-index:3}
-.dp-w{position:absolute!important;width:11px!important;height:1px!important;background:#666!important;border-radius:1px!important}
-.dp-w.dp-l1{left:0!important;top:0!important;transform:rotate(-8deg)!important}
-.dp-w.dp-l2{left:0!important;top:4px!important;transform:rotate(5deg)!important}
-.dp-w.dp-r1{right:0!important;top:0!important;transform:rotate(8deg)!important}
-.dp-w.dp-r2{right:0!important;top:4px!important;transform:rotate(-5deg)!important}
-#dp-paws{position:absolute!important;bottom:-4px!important;left:50%!important;transform:translateX(-50%)!important;display:flex!important;gap:14px!important;z-index:2}
-.dp-pw{width:10px;height:6px;background:#e8941a!important;border-radius:0 0 5px 5px!important;animation:dp-pawL 1.5s ease-in-out infinite!important}
+#dp-cat:hover{filter:drop-shadow(0 0 8px rgba(141,184,154,.3))!important}
+#dp-cat.dp-drag{cursor:grabbing!important}
+#dp-shadow{position:absolute;bottom:0;left:50%;transform:translateX(-50%)!important;width:40px;height:5px;background:rgba(0,0,0,.1)!important;border-radius:50%!important;pointer-events:none}
+
+/* ── 身体 ── */
+#dp-body{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:34px;height:28px;background:linear-gradient(175deg,${C.bodyLight} 0%,${C.body} 30%,#7d8a9c 60%,${C.bodyDark} 100%)!important;border-radius:50% 50% 42% 42%/55% 55% 38% 38%!important;z-index:2;box-shadow:inset 0 3px 8px rgba(255,255,255,.07),0 3px 10px rgba(0,0,0,.2)!important;animation:dp-breathe 4s ease-in-out infinite!important}
+#dp-body::after{content:''!important;position:absolute!important;bottom:4px!important;left:50%!important;transform:translateX(-50%)!important;width:18px;height:16px;background:linear-gradient(180deg,rgba(228,232,239,.6),${C.chest},rgba(200,208,218,.4))!important;border-radius:45% 45% 40% 40%/50% 50% 35% 35%!important;z-index:3;box-shadow:inset 0 1px 4px rgba(255,255,255,.4)!important}
+
+/* ── 尾巴 ── */
+#dp-tail{position:absolute;bottom:18px;right:-10px;width:20px;height:26px;z-index:1;transform-origin:4px 24px;animation:dp-tailSway 4s ease-in-out infinite!important}
+#dp-tail::before{content:''!important;position:absolute!important;bottom:0!important;left:0!important;width:100%!important;height:100%!important;border-radius:50% 50% 35% 35%/60% 55% 30% 35%!important;background:linear-gradient(175deg,${C.bodyLight},${C.body} 30%,${C.bodyDark} 65%,#5c6878)!important;clip-path:ellipse(55% 48% at 30% 55%)!important;box-shadow:2px 3px 8px rgba(0,0,0,.15)!important}
+
+/* ── 头 ── */
+#dp-head{position:absolute;top:0;left:50%;transform:translateX(-50%);width:36px;height:32px;z-index:4}
+#dp-head-base{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:32px;height:28px;background:linear-gradient(175deg,${C.bodyLight} 0%,${C.body} 40%,#7d8a9c 70%,${C.bodyDark} 100%)!important;border-radius:48% 48% 44% 44%/50% 50% 42% 42%!important;box-shadow:inset 0 2px 6px rgba(255,255,255,.06),inset 0 -2px 6px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.15)!important}
+
+/* ── 耳朵 ── */
+.dp-ear{position:absolute;top:-6px;width:12px;height:16px;z-index:3}
+.dp-ear.dp-l{left:2px}.dp-ear.dp-r{right:2px}
+.dp-ear::before{content:''!important;position:absolute!important;width:100%!important;height:100%!important;background:linear-gradient(170deg,${C.bodyLight},${C.body} 50%,${C.bodyDark})!important;clip-path:polygon(50% 0%,8% 100%,92% 100%)!important;border-radius:2px 2px 0 0!important;z-index:1}
+.dp-ear::after{content:''!important;position:absolute!important;top:3px!important;left:50%!important;transform:translateX(-50%)!important;width:8px;height:10px;background:linear-gradient(180deg,#ecd5d6,${C.earInner} 40%,#d4b0b3)!important;clip-path:polygon(50% 0%,15% 92%,85% 92%)!important;z-index:2;box-shadow:inset 0 1px 3px rgba(255,220,220,.4)!important}
+.dp-ear{animation:dp-earTwitch 7s ease-in-out infinite!important}
+.dp-ear.dp-r{animation-delay:3.5s!important}
+
+/* ── 脸部白区 ── */
+.dp-face-white{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:16px;height:12px;background:rgba(228,232,239,.4)!important;border-radius:40% 40% 35% 35%!important;z-index:5;filter:blur(2px)!important;pointer-events:none}
+
+/* ── 眼睛 ── */
+.dp-eyes{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:24px;display:flex;justify-content:space-between;z-index:6}
+.dp-eye-w{position:relative;width:10px;height:11px;border-radius:50% 50% 45% 45%/55% 55% 42% 42%!important;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.08)!important}
+.dp-eye-w .ew{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 45%,#f8f9fb,#eef1f5 50%,#dde2ea)!important;border-radius:inherit;z-index:1}
+.dp-eye-w .iris{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:9px;border-radius:50%!important;background:radial-gradient(circle at 45% 40%,${C.eyeIrisLight},${C.eyeIris} 35%,#6a9e78 70%,#4a7055)!important;z-index:2;box-shadow:inset 0 1px 2px rgba(0,0,0,.25)!important}
+.dp-eye-w .pupil{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:3px;height:5px;border-radius:50%!important;background:${C.eyePupil}!important;z-index:3}
+.dp-eye-w .hl{position:absolute;top:28%;left:32%;width:2.5px;height:2.5px;border-radius:50%!important;background:rgba(255,255,255,.9)!important;z-index:4;box-shadow:0 0 2px rgba(255,255,255,.6)!important}
+.dp-eye-w .hl2{position:absolute;top:42%;left:52%;width:1.5px;height:1.5px;border-radius:50%!important;background:rgba(255,255,255,.6)!important;z-index:4}
+/* 眨眼眼睑 */
+.dp-eye-w .lid{position:absolute;top:-105%;left:-1px;width:calc(100% + 2px);height:105%;background:linear-gradient(180deg,#7d8a9c,${C.body} 40%,${C.bodyDark})!important;z-index:5;border-radius:0 0 35% 35%!important;box-shadow:0 1px 3px rgba(0,0,0,.1)!important;animation:dp-softBlink 5s ease-in-out infinite!important}
+.dp-eye-w.dp-r .lid{animation-delay:.2s!important}
+
+/* ── 鼻子 ── */
+#dp-nose{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:5px;height:4px;background:linear-gradient(180deg,#f0c4c8,${C.nose} 40%,#d49a9f)!important;clip-path:polygon(50% 0%,0% 65%,15% 100%,85% 100%,100% 65%)!important;z-index:7;box-shadow:inset 0 1px 2px rgba(255,200,200,.4),0 1px 2px rgba(0,0,0,.1)!important}
+#dp-nose::after{content:''!important;position:absolute!important;top:0.5px!important;left:1px!important;width:1.5px;height:1px;background:rgba(255,255,255,.4)!important;border-radius:50%!important}
+
+/* ── 嘴巴 ── */
+#dp-mouth{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:8px;height:5px;z-index:7}
+#dp-mouth::before,#dp-mouth::after{content:''!important;position:absolute!important;top:0!important;width:4px;height:4px;border-bottom:1.5px solid rgba(90,80,85,.45)!important;border-radius:0 0 50% 50%!important}
+#dp-mouth::before{left:-0.5px!important;border-right:1px solid rgba(90,80,85,.35)!important;transform:rotate(8deg)!important}
+#dp-mouth::after{right:-0.5px!important;border-left:1px solid rgba(90,80,85,.35)!important;transform:rotate(-8deg)!important}
+
+/* ── 胡须 ── */
+#dp-wh{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:44px;height:14px;z-index:6;pointer-events:none}
+.dp-w{position:absolute;height:1px;background:rgba(200,195,205,.5)!important;border-radius:1px!important}
+.dp-w.dp-l1{left:0;top:1px;width:16px;transform:rotate(-10deg);animation:dp-w1 5s ease-in-out infinite!important}
+.dp-w.dp-l2{left:1px;top:6px;width:17px;transform:rotate(2deg);animation:dp-w2 5.5s ease-in-out infinite!important}
+.dp-w.dp-r1{right:0;top:1px;width:16px;transform:rotate(10deg);animation:dp-w3 5s ease-in-out infinite!important}
+.dp-w.dp-r2{right:1px;top:6px;width:17px;transform:rotate(-2deg);animation:dp-w4 5.5s ease-in-out infinite!important}
+
+/* ── 爪子 ── */
+#dp-paws{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:3}
+.dp-pw{width:8px;height:6px;background:linear-gradient(180deg,${C.bodyLight},${C.body} 50%,#6e7a8f)!important;border-radius:45% 45% 40% 40%!important;box-shadow:inset 0 1px 2px rgba(255,255,255,.08),0 2px 4px rgba(0,0,0,.15)!important;animation:dp-pawL 1.5s ease-in-out infinite!important}
 .dp-pw.dp-r{animation-name:dp-pawR!important}
-#dp-tail{position:absolute!important;bottom:9px!important;right:-12px!important;width:24px;height:7px;background:#f5a623!important;border-radius:4px!important;transform-origin:left center!important;animation:dp-tailWag 2s ease-in-out infinite!important;z-index:0}
-.dp-mood{position:absolute!important;top:-24px!important;left:50%!important;transform:translateX(-50%)!important;font-size:13px!important;pointer-events:none!important;opacity:0!important;transition:opacity .3s!important;z-index:10}
-.dp-mood-show{opacity:1!important;animation:dp-moodPop .5s ease-out!important}
-.dp-zzz{display:none!important;position:absolute!important;top:-28px!important;right:-14px!important;font-size:9px!important;color:#00e89d!important;pointer-events:none!important;z-index:10}
-.dp-zzz-show{display:block!important;animation:dp-zzz 2s ease-in-out infinite!important}
-.dp-food{display:none!important;position:absolute!important;bottom:-2px!important;left:50%!important;transform:translateX(-50%)!important;font-size:11px!important;pointer-events:none!important;z-index:10}
-.dp-food-show{display:block!important;animation:dp-foodBounce 1s ease-in-out infinite!important}
-.dp-angry{display:none!important;position:absolute!important;top:-26px!important;right:-6px!important;font-size:11px!important;pointer-events:none!important;z-index:10}
-.dp-angry-show{display:block!important}
-#dp-close{position:absolute!important;top:-6px!important;left:-6px!important;width:14px!important;height:14px!important;border-radius:50%!important;background:#333!important;color:#999!important;font-size:8px!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;opacity:0!important;transition:opacity .2s!important;z-index:20!important;line-height:1!important}
+
+/* ── 浮动表情 ── */
+.dp-mood{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:14px;pointer-events:none;opacity:0;transition:opacity .3s;z-index:10}
+.dp-mood.dp-on{opacity:1;animation:dp-moodPop .5s ease-out}
+
+/* ── 睡觉 Zzz ── */
+.dp-zzz{display:none;position:absolute;top:-22px;right:-10px;font-size:9px;color:#8db89a;pointer-events:none;z-index:10}
+.dp-zzz.dp-on{display:block;animation:dp-zzzFloat 2s ease-in-out infinite}
+
+/* ── 生气 ── */
+.dp-angry{display:none;position:absolute;top:-20px;right:-4px;font-size:10px;pointer-events:none;z-index:10}
+.dp-angry.dp-on{display:block}
+
+/* ── 吃东西 ── */
+.dp-food{display:none;position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:10px;pointer-events:none;z-index:10}
+.dp-food.dp-on{display:block;animation:dp-foodBounce 1s ease-in-out infinite}
+
+/* ── 文字气泡 ── */
+.dp-bubble{position:absolute;top:-36px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.92)!important;color:#333!important;font-size:9px!important;font-family:-apple-system,sans-serif!important;padding:3px 8px!important;border-radius:10px!important;white-space:nowrap;pointer-events:none;opacity:0;z-index:11;box-shadow:0 1px 4px rgba(0,0,0,.1)!important;border:1px solid rgba(0,0,0,.06)!important;transition:opacity .2s,transform .2s}
+.dp-bubble::after{content:''!important;position:absolute!important;bottom:-4px!important;left:50%!important;transform:translateX(-50%)!important;width:0!important;height:0!important;border-left:4px solid transparent!important;border-right:4px solid transparent!important;border-top:4px solid rgba(255,255,255,.92)!important}
+.dp-bubble.dp-on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* ── 关闭按钮 ── */
+#dp-close{position:absolute;top:-5px;left:-5px;width:12px;height:12px;border-radius:50%!important;background:rgba(0,0,0,.4)!important;color:#999!important;font-size:7px!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;opacity:0;transition:opacity .2s;z-index:20;line-height:1!important}
 #dp-wrap:hover #dp-close{opacity:1!important}
 #dp-close:hover{background:#f44!important;color:#fff!important}
-#dp-restore{position:fixed!important;z-index:9998!important;border-radius:50%!important;background:rgba(0,0,0,.45)!important;color:#aaa!important;font-size:16px!important;cursor:pointer!important;display:none!important;align-items:center!important;justify-content:center!important;transition:.2s!important;bottom:${CFG.bottom}px!important;right:${CFG.right}px!important}
-#dp-restore:hover{background:rgba(0,232,157,.2)!important;color:#00e89d!important}
-@keyframes dp-blink{0%,90%,100%{transform:scaleY(1)!important}95%{transform:scaleY(.1)!important}}
-@keyframes dp-breathe{0%,100%{transform:scaleY(1)!important}50%{transform:scaleY(1.03)!important}}
-@keyframes dp-tailWag{0%,100%{transform:rotate(-15deg)!important}50%{transform:rotate(15deg)!important}}
-@keyframes dp-tailFast{0%,100%{transform:rotate(-25deg)!important}50%{transform:rotate(25deg)!important}}
-@keyframes dp-tailAngry{0%,100%{transform:rotate(-30deg)!important}50%{transform:rotate(30deg)!important}}
-@keyframes dp-pawL{0%,100%{transform:translateY(0)!important}50%{transform:translateY(-2px)!important}}
-@keyframes dp-pawR{0%,100%{transform:translateY(-2px)!important}50%{transform:translateY(0)!important}}
+/* ── 恢复按钮 ── */
+#dp-restore{position:fixed!important;z-index:9998!important;border-radius:50%!important;background:rgba(0,0,0,.4)!important;color:#aaa!important;font-size:16px!important;cursor:pointer!important;display:none!important;align-items:center!important;justify-content:center!important;transition:.2s!important;bottom:${CFG.bottom}px!important;right:${CFG.right}px!important;width:28px!important;height:28px!important}
+#dp-restore:hover{background:rgba(141,184,154,.25)!important;color:#8db89a!important}
+
+/* ── Keyframes ── */
+@keyframes dp-breathe{0%,100%{transform:translateX(-50%) scaleY(1)!important}50%{transform:translateX(-50%) scaleY(1.02)!important}}
+@keyframes dp-tailSway{0%,100%{transform:rotate(-6deg)!important}25%{transform:rotate(4deg)!important}50%{transform:rotate(-3deg)!important}75%{transform:rotate(5deg)!important}}
+@keyframes dp-tailFast{0%,100%{transform:rotate(-12deg)!important}50%{transform:rotate(12deg)!important}}
+@keyframes dp-tailAngry{0%,100%{transform:rotate(-20deg)!important}50%{transform:rotate(20deg)!important}}
+@keyframes dp-earTwitch{0%,45%,100%{transform:rotate(0deg)!important}48%{transform:rotate(-4deg)!important}52%{transform:rotate(3deg)!important}56%{transform:rotate(-1deg)!important}60%{transform:rotate(0deg)!important}}
+@keyframes dp-softBlink{0%,85%,100%{top:-105%!important}90%{top:0!important}95%{top:0!important}}
+@keyframes dp-pawL{0%,100%{transform:translateY(0)!important}50%{transform:translateY(-1.5px)!important}}
+@keyframes dp-pawR{0%,100%{transform:translateY(-1.5px)!important}50%{transform:translateY(0)!important}}
 @keyframes dp-moodPop{0%{transform:translateX(-50%) scale(0)!important}60%{transform:translateX(-50%) scale(1.3)!important}100%{transform:translateX(-50%) scale(1)!important}}
-@keyframes dp-zzz{0%{opacity:0;transform:translateY(0) scale(.8)!important}50%{opacity:1;transform:translateY(-6px) scale(1)!important}100%{opacity:0;transform:translateY(-12px) scale(.6)!important}}
+@keyframes dp-zzzFloat{0%{opacity:0;transform:translateY(0) scale(.8)!important}50%{opacity:1;transform:translateY(-5px) scale(1)!important}100%{opacity:0;transform:translateY(-10px) scale(.6)!important}}
 @keyframes dp-foodBounce{0%,100%{transform:translateX(-50%) translateY(0)!important}50%{transform:translateX(-50%) translateY(-3px)!important}}
 @keyframes dp-walkBob{0%,100%{transform:translateY(0)!important}25%{transform:translateY(-2px)!important}75%{transform:translateY(-1px)!important}}
-@keyframes dp-sleepBreathe{0%,100%{transform:scaleY(1)!important}50%{transform:scaleY(1.05)!important}}
-@keyframes dp-chew{0%,100%{transform:translateY(0)!important}50%{transform:translateY(1px)!important}}
-@media(prefers-reduced-motion:reduce){#dp-body,#dp-tail,.dp-eye,.dp-pw{animation:none!important}}
+@keyframes dp-sleepBreathe{0%,100%{transform:scaleY(1)!important}50%{transform:scaleY(1.04)!important}}
+@keyframes dp-chew{0%,100%{transform:translateY(0)!important}50%{transform:translateY(.5px)!important}}
+@keyframes dp-w1{0%,100%{transform:rotate(-10deg);opacity:.5}25%{transform:rotate(-9deg);opacity:.65}50%{transform:rotate(-11deg);opacity:.45}75%{transform:rotate(-9.5deg);opacity:.6}}
+@keyframes dp-w2{0%,100%{transform:rotate(2deg);opacity:.5}50%{transform:rotate(1deg);opacity:.6}}
+@keyframes dp-w3{0%,100%{transform:rotate(10deg);opacity:.5}25%{transform:rotate(11deg);opacity:.65}50%{transform:rotate(9deg);opacity:.45}75%{transform:rotate(10.5deg);opacity:.6}}
+@keyframes dp-w4{0%,100%{transform:rotate(-2deg);opacity:.5}50%{transform:rotate(-3deg);opacity:.6}}
+@media(prefers-reduced-motion:reduce){#dp-body,#dp-tail,.dp-pw,.dp-ear,.dp-eye-w .lid,.dp-w{animation:none!important}}
 `;
 
-  /* ── 注入 CSS ── */
+  /* ── 注入 ── */
   const style=document.createElement('style');
   style.textContent=CSS;
   document.head.appendChild(style);
 
-  /* ── 创建 DOM ── */
   const wrap=document.createElement('div');
   wrap.id='dp-wrap';
   wrap.innerHTML=`
-    <div id="dp-close" title="隐藏桌宠">×</div>
-    <div class="dp-mood dp-no-events" id="dp-mood"></div>
-    <div class="dp-zzz dp-no-events" id="dp-zzz">💤</div>
-    <div class="dp-angry dp-no-events" id="dp-angry">💢</div>
-    <div class="dp-food dp-no-events" id="dp-food">🐟</div>
-    <div class="dp-no-events" id="dp-shadow"></div>
+    <div id="dp-close" title="隐藏">×</div>
+    <div class="dp-mood dp-ne" id="dp-mood"></div>
+    <div class="dp-zzz dp-ne" id="dp-zzz">💤</div>
+    <div class="dp-angry dp-ne" id="dp-angry">💢</div>
+    <div class="dp-food dp-ne" id="dp-food">🐟</div>
+    <div class="dp-bubble dp-ne" id="dp-bubble"></div>
+    <div class="dp-ne" id="dp-shadow"></div>
     <div id="dp-cat">
       <div id="dp-head">
         <div class="dp-ear dp-l"></div><div class="dp-ear dp-r"></div>
-        <div class="dp-ei dp-l"></div><div class="dp-ei dp-r"></div>
-        <div id="dp-eyes"><div class="dp-eye" id="dp-el"></div><div class="dp-eye" id="dp-er"></div></div>
-        <div id="dp-nose"></div>
-        <div id="dp-mouth"></div>
-        <div id="dp-wh">
-          <div class="dp-w dp-l1"></div><div class="dp-w dp-l2"></div>
-          <div class="dp-w dp-r1"></div><div class="dp-w dp-r2"></div>
+        <div id="dp-head-base">
+          <div class="dp-face-white"></div>
+          <div class="dp-eyes">
+            <div class="dp-eye-w" id="dp-el">
+              <div class="ew"></div><div class="iris"><div class="pupil"></div></div>
+              <div class="hl"></div><div class="hl2"></div><div class="lid"></div>
+            </div>
+            <div class="dp-eye-w dp-r" id="dp-er">
+              <div class="ew"></div><div class="iris"><div class="pupil"></div></div>
+              <div class="hl"></div><div class="hl2"></div><div class="lid"></div>
+            </div>
+          </div>
+          <div id="dp-nose"></div>
+          <div id="dp-mouth"></div>
+          <div id="dp-wh">
+            <div class="dp-w dp-l1"></div><div class="dp-w dp-l2"></div>
+            <div class="dp-w dp-r1"></div><div class="dp-w dp-r2"></div>
+          </div>
         </div>
       </div>
       <div id="dp-body">
@@ -132,103 +189,88 @@
   restore.title='显示桌宠';
   document.body.appendChild(restore);
 
-  /* ── DOM 引用 ── */
+  /* ── DOM ── */
   const $=id=>document.getElementById(id);
   const cat=$('dp-cat');
 
   /* ── 状态 ── */
-  let state='idle';
-  let moodTimer=null;
-  let idleTimer=null;
-  let walkRAF=null;
-  let isDragging=false;
-  let dragSX=0,dragSY=0,startL=0,startT=0;
-  let walkDir=1;
+  let state='idle',moodTimer=null,idleTimer=null,walkRAF=null,bubbleTimer=null;
+  let isDragging=false,dragSX=0,dragSY=0,startL=0,startT=0,walkDir=1;
 
-  /* ── 尾巴动画 ── */
+  /* ── 尾巴 ── */
   function setTail(s){
     const t=$('dp-tail');
-    t.style.animation='none';
-    void t.offsetHeight;
-    t.style.animation=s==='fast'?'dp-tailFast .4s ease-in-out infinite':s==='angry'?'dp-tailAngry .3s ease-in-out infinite':'dp-tailWag 2s ease-in-out infinite';
+    t.style.animation='none';void t.offsetHeight;
+    t.style.animation=s==='fast'?'dp-tailFast .4s ease-in-out infinite':s==='angry'?'dp-tailAngry .3s ease-in-out infinite':'dp-tailSway 4s ease-in-out infinite';
+  }
+
+  /* ── 文字气泡 ── */
+  function showBubble(text,dur){
+    const b=$('dp-bubble');
+    b.textContent=text;b.className='dp-bubble dp-ne dp-on';
+    clearTimeout(bubbleTimer);
+    bubbleTimer=setTimeout(()=>{b.className='dp-bubble dp-ne'},dur||2000);
   }
 
   /* ── 表情 ── */
   function showMood(e,d){
-    const m=$('dp-mood');
-    m.textContent=e;
-    m.className='dp-mood dp-no-events dp-mood-show';
-    clearTimeout(moodTimer);
-    moodTimer=setTimeout(()=>{m.className='dp-mood dp-no-events'},d||1500);
+    const m=$('dp-mood');m.textContent=e;m.className='dp-mood dp-ne dp-on';
+    clearTimeout(moodTimer);moodTimer=setTimeout(()=>{m.className='dp-mood dp-ne'},d||1500);
   }
 
-  /* ── 隐藏所有状态元素 ── */
+  /* ── 重置 ── */
   function resetAll(){
-    $('dp-el').className='dp-eye';
-    $('dp-er').className='dp-eye';
-    $('dp-body').style.animation='';
-    $('dp-el').style.transform='';
-    $('dp-er').style.transform='';
+    $('dp-mood').className='dp-mood dp-ne';
+    $('dp-zzz').className='dp-zzz dp-ne';
+    $('dp-angry').className='dp-angry dp-ne';
+    $('dp-food').className='dp-food dp-ne';
+    $('dp-bubble').className='dp-bubble dp-ne';
     setTail('normal');
-    $('dp-mood').className='dp-mood dp-no-events';
-    $('dp-zzz').className='dp-zzz dp-no-events';
-    $('dp-angry').className='dp-angry dp-no-events';
-    $('dp-food').className='dp-food dp-no-events';
     cat.style.animation='';
-    // 恢复耳朵
-    const ears=wrap.querySelectorAll('.dp-ear');
-    ears[0].style.transform='rotate(-10deg)';
-    ears[1].style.transform='rotate(10deg)';
   }
+
+  /* ── 说话文字库 ── */
+  const SPEECH={
+    happy:['喵~开心！','嘿嘿~','好舒服呀~','(◕ᴗ◕✿)'],
+    angry:['哼！','别烦我！','喵呜！','(╯°□°)╯'],
+    eat:['好吃！','鱼鱼~','喵呜喵呜','嗷呜~'],
+    idle:['...','zzZ','喵？','(..•́_•̀..)'],
+    drag:['放我下来！','救命！','头晕...','哇啊啊！'],
+    click:['干嘛~','摸摸我~','嘻嘻','❤️','别戳！','再戳生气了哦'],
+  };
+  function randSpeech(arr){return arr[Math.floor(Math.random()*arr.length)]}
 
   /* ── 状态切换 ── */
   function setState(s){
     if(state===s)return;
-    state=s;
-    resetAll();
-    clearTimeout(idleTimer);
-    cancelAnimationFrame(walkRAF);
+    state=s;resetAll();
+    clearTimeout(idleTimer);cancelAnimationFrame(walkRAF);
 
     if(s==='happy'){
-      $('dp-el').className='dp-eye dp-eye-shut';
-      $('dp-er').className='dp-eye dp-eye-shut';
-      setTail('fast');
-      showMood('😻');
+      setTail('fast');showMood('😻');showBubble(randSpeech(SPEECH.happy));
     }else if(s==='sleep'){
-      $('dp-el').className='dp-eye dp-eye-shut';
-      $('dp-er').className='dp-eye dp-eye-shut';
+      setTail('slow');$('dp-zzz').className='dp-zzz dp-ne dp-on';
       $('dp-body').style.animation='dp-sleepBreathe 4s ease-in-out infinite';
-      setTail('slow');
-      $('dp-zzz').className='dp-zzz dp-no-events dp-zzz-show';
     }else if(s==='angry'){
-      $('dp-el').style.transform='translateY(-1px)';
-      $('dp-er').style.transform='translateY(-1px)';
-      wrap.querySelectorAll('.dp-ear')[0].style.transform='rotate(-20deg)';
-      wrap.querySelectorAll('.dp-ear')[1].style.transform='rotate(20deg)';
-      setTail('angry');
-      $('dp-angry').className='dp-angry dp-no-events dp-angry-show';
-      showMood('💢');
+      setTail('angry');showMood('💢');showBubble(randSpeech(SPEECH.angry));
     }else if(s==='eat'){
       $('dp-body').style.animation='dp-chew .3s ease-in-out infinite';
-      $('dp-food').className='dp-food dp-no-events dp-food-show';
-      showMood('😋');
+      $('dp-food').className='dp-food dp-ne dp-on';showMood('😋');showBubble(randSpeech(SPEECH.eat));
     }else if(s==='walk'){
       cat.style.animation='dp-walkBob .6s ease-in-out infinite';
-      setTail('fast');
-      startWalking();
-    }else{
-      scheduleIdle();
-    }
+      setTail('fast');startWalking();
+    }else{scheduleIdle()}
   }
 
-  /* ── 随机闲置 ── */
+  /* ── 闲置 ── */
   function scheduleIdle(){
     clearTimeout(idleTimer);
     idleTimer=setTimeout(()=>{
       if(state!=='idle')return;
       const r=Math.random();
-      if(r<.3){showMood('😺');setState('happy');setTimeout(()=>setState('idle'),2000)}
-      else if(r<.5){showMood('🐟');setState('eat');setTimeout(()=>setState('idle'),2500)}
+      if(r<.25){showBubble(randSpeech(SPEECH.idle))}
+      if(r<.3){setState('happy');setTimeout(()=>setState('idle'),2000)}
+      else if(r<.5){setState('eat');setTimeout(()=>setState('idle'),2500)}
       else scheduleIdle();
     },CFG.idleTimeout+Math.random()*5000);
   }
@@ -236,13 +278,12 @@
   /* ── 走路 ── */
   function startWalking(){
     if(state!=='walk')return;
-    let curRight=parseInt(wrap.style.right)||CFG.right;
-    curRight-=walkDir*1.5;
-    if(curRight>CFG.right+CFG.walkRange)walkDir=-1;
-    if(curRight<CFG.right-CFG.walkRange)walkDir=1;
-    curRight=Math.max(4,curRight);
-    wrap.style.right=curRight+'px';
-    wrap.style.left='auto';
+    let cur=parseInt(wrap.style.right)||CFG.right;
+    cur-=walkDir*1.5;
+    if(cur>CFG.right+CFG.walkRange)walkDir=-1;
+    if(cur<CFG.right-CFG.walkRange)walkDir=1;
+    cur=Math.max(4,cur);
+    wrap.style.right=cur+'px';wrap.style.left='auto';
     cat.style.transform=walkDir<0?'scaleX(-1)':'scaleX(1)';
     walkRAF=requestAnimationFrame(()=>setTimeout(startWalking,30));
   }
@@ -253,9 +294,8 @@
     isDragging=false;
     dragSX=e.clientX||(e.touches&&e.touches[0].clientX)||0;
     dragSY=e.clientY||(e.touches&&e.touches[0].clientY)||0;
-    const r=wrap.getBoundingClientRect();
-    startL=r.left;startT=r.top;
-    cat.classList.add('dp-dragging');
+    const r=wrap.getBoundingClientRect();startL=r.left;startT=r.top;
+    cat.classList.add('dp-drag');
     document.addEventListener('pointermove',onMove);
     document.addEventListener('pointerup',onUp);
   }
@@ -270,38 +310,33 @@
     wrap.style.right='auto';
   }
   function onUp(){
-    cat.classList.remove('dp-dragging');
+    cat.classList.remove('dp-drag');
     document.removeEventListener('pointermove',onMove);
     document.removeEventListener('pointerup',onUp);
-    if(isDragging){showMood('😠');setTimeout(()=>setState('idle'),1500)}
+    if(isDragging){showMood('😠');showBubble(randSpeech(SPEECH.drag));setTimeout(()=>setState('idle'),1500)}
   }
 
   /* ── 点击 ── */
   let clickLock=false;
   cat.addEventListener('click',e=>{
     if(isDragging||clickLock)return;
-    e.stopPropagation();
-    clickLock=true;
-    setTimeout(()=>clickLock=false,300);
+    e.stopPropagation();clickLock=true;setTimeout(()=>clickLock=false,300);
+    showBubble(randSpeech(SPEECH.click));
     const fns=[
       ()=>{setState('happy');setTimeout(()=>setState('idle'),2000)},
       ()=>{setState('eat');setTimeout(()=>setState('idle'),2500)},
       ()=>{setState('angry');setTimeout(()=>setState('idle'),1800)},
-      ()=>{showMood('❤️');setState('happy');setTimeout(()=>setState('idle'),2000)},
+      ()=>{showMood('❤️');showBubble('❤️');setState('happy');setTimeout(()=>setState('idle'),2000)},
     ];
     fns[Math.floor(Math.random()*fns.length)]();
   });
 
   /* ── 隐藏/显示 ── */
   $('dp-close').addEventListener('click',e=>{
-    e.stopPropagation();
-    wrap.style.display='none';
-    restore.style.display='flex';
+    e.stopPropagation();wrap.style.display='none';restore.style.display='flex';
   });
   restore.addEventListener('click',()=>{
-    wrap.style.display='';
-    restore.style.display='none';
-    setState('idle');
+    wrap.style.display='';restore.style.display='none';setState('idle');
   });
 
   /* ── 绑定 ── */
@@ -309,35 +344,21 @@
 
   /* ── 响应式 ── */
   function onResize(){
-    const s=sz();
-    wrap.style.fontSize=s+'px';
     const br=isMobile()?CFG.mobileBottom:CFG.bottom;
     const rr=isMobile()?CFG.mobileRight:CFG.right;
-    restore.style.bottom=br+'px';
-    restore.style.right=rr+'px';
+    restore.style.bottom=br+'px';restore.style.right=rr+'px';
     if(!isDragging){wrap.style.right=rr+'px';wrap.style.left='auto';wrap.style.bottom=br+'px';wrap.style.top='auto'}
   }
-  window.addEventListener('resize',onResize);
-  onResize();
+  window.addEventListener('resize',onResize);onResize();
 
-  /* ── 阅读时自动缩小 ── */
-  let scrollTimer;
+  /* ── 阅读时缩小 ── */
   window.addEventListener('scroll',()=>{
-    clearTimeout(scrollTimer);
-    const y=scrollY;
-    if(y>300){
-      wrap.style.transform='scale(.7)';
-      wrap.style.opacity='.6';
-      wrap.style.transition='transform .3s,opacity .3s';
-    }else{
-      wrap.style.transform='';
-      wrap.style.opacity='';
-    }
+    if(scrollY>300){wrap.style.transform='scale(.7)';wrap.style.opacity='.55';wrap.style.transition='transform .3s,opacity .3s'}
+    else{wrap.style.transform='';wrap.style.opacity='';wrap.style.transition='transform .3s,opacity .3s'}
   },{passive:true});
 
   /* ── 启动 ── */
   scheduleIdle();
 
-  /* ── API ── */
   window.DesktopCat={setState,show:()=>{wrap.style.display='';restore.style.display='none';setState('idle')},hide:()=>{wrap.style.display='none';restore.style.display='flex'},getState:()=>state};
 })();
