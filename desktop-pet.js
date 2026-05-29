@@ -4,6 +4,7 @@
  */
 (function(){
   'use strict';
+  function init(){
   if(window._dpCatLoaded)return;window._dpCatLoaded=true;
 
   const MOBILE=window.innerWidth<768||'ontouchstart' in window;
@@ -194,4 +195,7 @@
 
   sched();
   window.DesktopCat={setState,show:()=>{W.style.display='';R.style.display='none';setState('idle')},hide:()=>{W.style.display='none';R.style.display='flex'},getState:()=>st};
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
 })();
