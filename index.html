@@ -65,6 +65,15 @@ a:hover{text-decoration:underline}
 .search-input:focus{border-color:var(--ac)}
 .search-input::placeholder{color:var(--tx3)}
 
+/* Sort & Count Bar */
+.sort-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:.5rem}
+.sort-btn{padding:.3rem .7rem;border-radius:999px;font-size:.72rem;background:var(--bg3);border:1px solid var(--bdr);color:var(--tx2);cursor:pointer;transition:all .2s;font-family:var(--font);white-space:nowrap}
+.sort-btn:hover,.sort-btn.active{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.article-count{font-size:.72rem;color:var(--tx3)}
+
+/* Enhanced Pagination */
+.pag-info{font-size:.72rem;color:var(--tx3);text-align:center;margin-top:.8rem}
+
 /* Article Cards */
 .articles{display:flex;flex-direction:column;gap:.8rem}
 .card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:1.1rem 1.3rem;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(16px)}
@@ -231,6 +240,13 @@ a:hover{text-decoration:underline}
     <div id="homeView">
       <div class="search-wrap" id="searchWrap">
         <input class="search-input" id="searchInput" placeholder="搜索文章..." oninput="curPage=1;renderCards()">
+      </div>
+      <div class="sort-bar" id="sortBar">
+        <div>
+          <button class="sort-btn active" id="sortNew" onclick="setSort('new')">📅 最新优先</button>
+          <button class="sort-btn" id="sortOld" onclick="setSort('old')">📅 最早优先</button>
+        </div>
+        <span class="article-count" id="articleCount"></span>
       </div>
       <div class="articles" id="cards"></div>
     </div>
@@ -465,7 +481,11 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 });
 
 // ===== Render Cards =====
-const PER_PAGE=30;let curPage=1;
+const PER_PAGE=30;let curPage=1;let _sortOrder='new';
+function setSort(order){_sortOrder=order;curPage=1;
+  document.getElementById('sortNew').classList.toggle('active',order==='new');
+  document.getElementById('sortOld').classList.toggle('active',order==='old');
+  renderCards();}
 function renderCards(){
   const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
   const mf=window._monthFilter;
@@ -477,9 +497,22 @@ function renderCards(){
   });
   const pinned=list.filter(a=>_pinnedArticles.includes(a.title));
   const regular=list.filter(a=>!_pinnedArticles.includes(a.title));
-  const totalPages=Math.ceil(regular.length/PER_PAGE)||1;
+  // Sort by date
+  const sorted=regular.sort((a,b)=>{
+    const da=new Date(a.date),db=new Date(b.date);
+    return _sortOrder==='new'?db-da:da-db;
+  });
+  const totalArticles=sorted.length;
+  const totalPages=Math.ceil(totalArticles/PER_PAGE)||1;
   if(curPage>totalPages)curPage=totalPages;
-  const paged=regular.slice((curPage-1)*PER_PAGE,curPage*PER_PAGE);
+  const paged=sorted.slice((curPage-1)*PER_PAGE,curPage*PER_PAGE);
+  // Article count
+  const countEl=document.getElementById('articleCount');
+  if(countEl){
+    const start=(curPage-1)*PER_PAGE+1;
+    const end=Math.min(curPage*PER_PAGE,totalArticles);
+    countEl.textContent=totalArticles>0?`共 ${totalArticles} 篇 · 显示 ${start}-${end}`:'';
+  }
   const el=document.getElementById('cards');
   var html='';
   // 置顶文章区
@@ -508,13 +541,31 @@ function renderCards(){
   // Pagination
   let pag='';
   if(totalPages>1){
-    pag='<div style="display:flex;justify-content:center;gap:.5rem;margin-top:1.5rem;flex-wrap:wrap">';
-    if(curPage>1)pag+=`<button onclick="goPage(${curPage-1})" class="tag-btn">← 上一页</button>`;
-    for(let p=1;p<=totalPages;p++){
-      pag+=`<button onclick="goPage(${p})" class="tag-btn${p===curPage?' active':''}">${p}</button>`;
+    pag='<div style="display:flex;justify-content:center;align-items:center;gap:.4rem;margin-top:1.5rem;flex-wrap:wrap">';
+    if(curPage>1){
+      pag+=`<button onclick="goPage(1)" class="tag-btn" title="首页">⟪</button>`;
+      pag+=`<button onclick="goPage(${curPage-1})" class="tag-btn">← 上一页</button>`;
     }
-    if(curPage<totalPages)pag+=`<button onclick="goPage(${curPage+1})" class="tag-btn">下一页 →</button>`;
+    // Smart page numbers: show first, last, and nearby pages
+    const pages=[];
+    if(totalPages<=7){for(let i=1;i<=totalPages;i++)pages.push(i);}
+    else{
+      pages.push(1);
+      if(curPage>3)pages.push('...');
+      for(let i=Math.max(2,curPage-1);i<=Math.min(totalPages-1,curPage+1);i++)pages.push(i);
+      if(curPage<totalPages-2)pages.push('...');
+      pages.push(totalPages);
+    }
+    pages.forEach(p=>{
+      if(p==='...')pag+=`<span style="color:var(--tx3);font-size:.75rem;padding:0 .2rem">…</span>`;
+      else pag+=`<button onclick="goPage(${p})" class="tag-btn${p===curPage?' active':''}">${p}</button>`;
+    });
+    if(curPage<totalPages){
+      pag+=`<button onclick="goPage(${curPage+1})" class="tag-btn">下一页 →</button>`;
+      pag+=`<button onclick="goPage(${totalPages})" class="tag-btn" title="末页">⟫</button>`;
+    }
     pag+='</div>';
+    pag+=`<div class="pag-info">第 ${curPage} / ${totalPages} 页</div>`;
   }
   el.innerHTML+=pag;
   requestAnimationFrame(()=>el.querySelectorAll('.card').forEach((c,i)=>setTimeout(()=>c.classList.add('visible'),i*60)));
