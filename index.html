@@ -482,6 +482,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 
 // ===== Render Cards =====
 const PER_PAGE=30;let curPage=1;let _sortOrder='new';
+let _savedScrollY=0;
 function setSort(order){_sortOrder=order;curPage=1;
   document.getElementById('sortNew').classList.toggle('active',order==='new');
   document.getElementById('sortOld').classList.toggle('active',order==='old');
@@ -588,6 +589,7 @@ async function ensureContent() {
 
 async function showDetail(id,noPush){
   const a=articles.find(x=>x.id===id);if(!a)return;curArt=a;
+  if(!noPush) _savedScrollY=window.scrollY;
   document.getElementById('homeView').style.display='none';
   const d=document.getElementById('detailView');
   d.className='detail active';
@@ -925,6 +927,7 @@ function showHome(noPush){
   document.getElementById('toc').innerHTML='';
   renderCards();
   if(!noPush) history.pushState({id:null},'',location.pathname+'#/');
+  else setTimeout(()=>window.scrollTo({top:_savedScrollY,behavior:'instant'}),50);
 }
 
 // ===== TOC =====
@@ -1165,5 +1168,6 @@ function initScroll(){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))closeLB();else if(curArt)showHome();if(document.getElementById('editModal'))document.getElementById('editModal').style.display='none'}if(document.getElementById('lb').classList.contains('on')){if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)}});
 }
 </script>
+<script src="desktop-pet.js" defer></script>
 </body>
 </html>
