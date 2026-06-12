@@ -299,24 +299,87 @@ a:hover{text-decoration:underline}
 // ===== 数据 =====
 // ===== ARTICLES_START =====
 const articles=[
-{id:1,title:"我做了一个手势控制的3D星系——不用装任何插件",date:"2026-05-28",tags:["Three.js","MediaPipe","WebGL","3D","手势交互","前端"],summary:"用Three.js + MediaPipe在浏览器里实现手势控制的粒子星系，11种形态、双手交互，打开网页就能玩",image:"",audio:""},
-{id:2,title:"王者荣耀：一台精密的行为工程机器",date:"2026-05-27T22:00:00",tags:["心理学","游戏设计","王者荣耀","产品分析"],summary:"从斯金纳箱到沉没成本，从ELO匹配到社交绑定——用心理学手术刀解剖国民手游的每一个上瘾机制。",image:"",audio:""},
-{id:3,title:"小米MiMo降价风暴：百亿计划收官，Token价格对标DeepSeek",date:"2026-05-27",tags:["AI","小米","MiMo","DeepSeek","API","大模型"],summary:"小米MiMo百亿激励计划圆满收官，Token价格大幅下调对标DeepSeek，110亿额度重置，多模态+1M上下文，开发者迎来最佳时机",image:"",audio:""},
-{id:4,title:"收藏夹大公开：16 个超实用的免费网站工具",date:"2026-05-26",tags:["工具推荐","免费资源","效率","收藏夹"],summary:"从 PDF 处理到论文下载，从格式转换到 AI 大模型——这 16 个免费网站每个都值得放进书签栏。",image:"",audio:""},
-{id:5,title:"宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑",date:"2026-05-25",tags:["思想实验","哲学","物理学","认知科学","量子力学","科普"],summary:"探索认知、逻辑与宇宙本质的极限——从忒修斯之船到玻尔兹曼大脑，十大改变人类思考方式的思想实验深度解读。",image:"",audio:""},
-{id:6,title:"🎂 生日快乐！",date:"2026-05-25",tags:["生日","生活"],summary:"一岁一礼，一寸欢喜。送给自己的生日祝福页面，愿你眼里有光，心中有爱。",image:"",audio:""},
-{id:7,title:"时代的风口：Token 中转，一门被低估的生意",date:"2026-05-21",tags:["Token中转","AI Agent","大模型","API聚合","创业思考"],summary:"每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。",image:"",audio:""},
-{id:8,title:"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路",date:"2026-05-20",tags:["Hermes","OpenClaw","AI Agent","大模型","DeepSeek","Xiaomi","NVIDIA","自建工具链"],summary:"一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录",image:"",audio:""},
-{id:9,title:"AI生成的手账：春日樱花漫步",date:"2026-05-19",tags:["手账","AI","生活"],summary:"用AI为照片添加手绘风注解，记录美好的春日时光",image:"",audio:""},
-{id:10,title:"最近在听的歌 —— 一份私藏歌单 🎵",date:"2026-05-19",tags:["音乐","生活","歌单推荐"],summary:"整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。",image:"",audio:""},
-{id:11,title:"你看到的，未必是真相",date:"2026-05-19",tags:["思考","流媒体","幸存者偏差","社会观察"],summary:"流媒体时代，关于「幸存者视角」的沉思",image:"",audio:""},
-{id:12,title:"从历史分工到现代对立：两性议题的深层溯源",date:"2026-05-18",tags:["性别研究","社会观察","进化心理学"],summary:"最近，知乎上一篇关于“计算机考试插排分配”的讨论再次点燃了两性话题的争论。表面上，这只是一个插排分配的琐事，但其背后折射出的男女思维差异、信任程度与群体互动逻辑，远比事件本身复杂得多。",image:"",audio:""},
-{id:13,title:"自动部署测试文章",date:"2026-05-18",tags:["测试","部署"],summary:"测试 GitHub Actions 自动部署到 Cloudflare Pages",image:"",audio:""},
-{id:14,title:"疲惫的一天",date:"2026-05-17",tags:["生活","随笔"],summary:"记录这疲惫但充实的一天",image:"",audio:""},
-{id:15,title:"我的AI工具折腾之路",date:"2026-05-17",tags:["AI","技术","工具"],summary:"从云端API到本地部署，我的AI工具使用体验与思考",image:"",audio:""},
-{id:16,title:"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅",date:"2026-05-16",tags:["OpenClaw","AI Agent","大模型","DeepSeek","个人博客","Cloudflare","GitHub Pages","AI 思考"],summary:"从第一次满怀期待却铩羽而归，到如今将它作为日常生产力工具——聊聊我与 OpenClaw 的真实故事",image:"",audio:""},
-{id:17,title:"周末的一天",date:"2026-05-16",tags:["生活","随笔"],summary:"记录这个周末的点点滴滴，从早到晚的琐碎日常。",image:"",audio:""},
-{id:18,title:"Hello World - 我的第一篇博客",date:"2026-05-15",tags:["技术","前端"],summary:"欢迎来到我的博客！这是我的第一篇文章，记录搭建博客的过程。",image:"",audio:""}
+{id:1,title:"周末的一天",date:"2026-06-12T04:06:43.814+00:00",tags:[],summary:"title: \"周末的一天\"
+date: 20260516
+tags: 生活,随笔
+summary: \"记录这个周末的点点滴滴，从早到晚的琐碎日常。\"
+
+
+ 清晨...",image:"",audio:""},
+{id:2,title:"hello-world-我的第一篇博客",date:"2026-06-12T04:06:43.813+00:00",tags:[],summary:"title: \"Hello World  我的第一篇博客\"
+date: 20260515
+tags: 技术,前端
+summary: \"欢迎来到我的博客！这是我的第一篇文章，记录搭...",image:"",audio:""},
+{id:3,title:"王者荣耀-用户心理学解剖",date:"2026-06-12T04:06:43.812+00:00",tags:[],summary:"title: \"王者荣耀：一台精密的行为工程机器\"
+date: 20260527T22:00:00
+tags: [\"心理学\", \"游戏设计\", \"王者荣耀\", \"产品分析\"]
+su...",image:"",audio:""},
+{id:4,title:"xiaomi-mimo-price-drop",date:"2026-06-12T04:06:43.811+00:00",tags:[],summary:"title: \"小米MiMo降价风暴：百亿计划收官，Token价格对标DeepSeek\"
+date: 20260527
+draft: false
+tags: [\"AI\", \"小米\"...",image:"",audio:""},
+{id:5,title:"tired-day",date:"2026-06-12T04:06:43.809+00:00",tags:[],summary:"title: \"疲惫的一天\"
+date: 20260517
+draft: false
+tags: [\"生活\", \"随笔\"]
+categories: [\"生活\"]
+summary...",image:"",audio:""},
+{id:6,title:"thought-experiments-top10",date:"2026-06-12T04:06:43.809+00:00",tags:[],summary:"title: \"宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑\"
+date: \"20260525\"
+tags: [\"思想实验\", \"哲学\", \"物理学\", \"认知科学\", \"量子力...",image:"",audio:""},
+{id:7,title:"test-auto-deploy",date:"2026-06-12T04:06:43.807+00:00",tags:[],summary:"title: \"自动部署测试文章\"
+date: 20260518
+draft: false
+tags: [\"测试\", \"部署\"]
+categories: [\"技术\"]
+summ...",image:"",audio:""},
+{id:8,title:"survivor-bias-streaming-era",date:"2026-06-12T04:06:43.806+00:00",tags:[],summary:"title: \"你看到的，未必是真相\"
+date: \"20260519\"
+tags: [\"思考\", \"流媒体\", \"幸存者偏差\", \"社会观察\"]
+summary: \"流媒体时代，...",image:"",audio:""},
+{id:9,title:"openclaw-to-hermes",date:"2026-06-12T04:06:43.805+00:00",tags:[],summary:"title: \"从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路\"
+date: \"20260520\"
+draft: false
+tags: [\"He...",image:"",audio:""},
+{id:10,title:"openclaw-review",date:"2026-06-12T04:06:43.803+00:00",tags:[],summary:"title: \"OpenClaw 使用后感：从踩坑到真香，一个普通人的 AI Agent 之旅\"
+date: \"20260516\"
+draft: false
+tags: [\"Ope...",image:"",audio:""},
+{id:11,title:"my-ai-journey",date:"2026-06-12T04:06:43.800+00:00",tags:[],summary:"title: \"我的AI工具折腾之路\"
+date: 20260517
+draft: false
+tags: [\"AI\", \"技术\", \"工具\"]
+categories: [\"技术...",image:"",audio:""},
+{id:12,title:"music-playlist",date:"2026-06-12T04:06:43.798+00:00",tags:[],summary:"title: \"最近在听的歌 —— 一份私藏歌单 🎵\"
+date: \"20260519\"
+draft: false
+tags: [\"音乐\", \"生活\", \"歌单推荐\"]
+cat...",image:"",audio:""},
+{id:13,title:"happy-birthday",date:"2026-06-12T04:06:43.794+00:00",tags:[],summary:"title: \"🎂 生日快乐！\"
+date: \"20260525\"
+tags: [\"生日\", \"生活\"]
+summary: \"一岁一礼，一寸欢喜。送给自己的生日祝福页面，愿你眼里...",image:"",audio:""},
+{id:14,title:"gesture-galaxy-3d",date:"2026-06-12T04:06:43.789+00:00",tags:[],summary:"title: \"我做了一个手势控制的3D星系——不用装任何插件\"
+date: 20260528
+draft: false
+tags: [\"Three.js\", \"MediaPipe...",image:"",audio:""},
+{id:15,title:"gender-issues-deep-dive",date:"2026-06-12T04:06:43.787+00:00",tags:[],summary:"title: \"从历史分工到现代对立：两性议题的深层溯源\"
+date: \"20260518\"
+tags: [\"性别研究\", \"社会观察\", \"进化心理学\"]
+summary: \"最...",image:"",audio:""},
+{id:16,title:"free-tools-collection",date:"2026-06-12T04:06:43.786+00:00",tags:[],summary:"title: \"收藏夹大公开：16 个超实用的免费网站工具\"
+date: 20260526
+tags: [\"工具推荐\", \"免费资源\", \"效率\", \"收藏夹\"]
+summary:...",image:"",audio:""},
+{id:17,title:"era-of-token-aggregation",date:"2026-06-12T04:06:43.785+00:00",tags:[],summary:"title: \"时代的风口：Token 中转，一门被低估的生意\"
+date: \"20260521\"
+draft: false
+tags: [\"Token中转\", \"AI Agent...",image:"",audio:""},
+{id:18,title:"ai-hand-drawn-journal",date:"2026-06-12T04:06:43.780+00:00",tags:[],summary:"title: \"AI生成的手账：春日樱花漫步\"
+date: \"20260519\"
+tags: [\"手账\", \"AI\", \"生活\"]
+summary: \"用AI为照片添加手绘风注解，...",image:"",audio:""},
+{id:19,title:"Hermes Agent Windows 安装指南：从踩坑到跑通的完整记录",date:"2026-06-12",tags:["Hermes","Windows","AI Agent","安装教程","Python"],summary:"记录在 Windows 11 上安装 Hermes Agent 的全过程，包括前置条件、Python 版本踩坑、环境变量配置、Web UI 搭建，以及实际使用中的问题解决方案。",image:"",audio:""}
 ];
 // ===== ARTICLES_END =====
 
