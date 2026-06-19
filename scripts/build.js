@@ -16,6 +16,8 @@ const START_MARKER = '// ===== ARTICLES_START =====';
 const END_MARKER = '// ===== ARTICLES_END =====';
 
 function parseFrontMatter(content) {
+  // Normalize line endings (Windows \r\n -> \n)
+  content = content.replace(/\r\n/g, '\n');
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) return { meta: {}, body: content };
 
@@ -28,10 +30,10 @@ function parseFrontMatter(content) {
         try {
           val = JSON.parse(val);
         } catch(e) {
-          val = val.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+          val = val.slice(1, -1).split(',').map(s => s.trim().replace(/^[\"']|[\"']$/g, ''));
         }
       } else {
-        val = val.replace(/^["']|["']$/g, '');
+        val = val.replace(/^[\"']|[\"']$/g, '');
       }
       meta[key.trim()] = val;
     }
@@ -66,233 +68,227 @@ function mdToHtml(md) {
     if (!/^\|[-:| ]+\|$/.test(sepLine)) return tableBlock;
 
     // Parse separator for alignment
-    const alignments = sepLine
-      .split('|')
-      .map(s => s.trim())
-      .filter(s => s.length > 0)
-      .map(s => {
-        if (s.startsWith(':') && s.endsWith(':')) return ' center';
-        if (s.endsWith(':')) return ' right';
-        return '';
-      });
+    const alignments = sepLine.split('|').filter(c => c.trim()).map(cell => {
+      cell = cell.trim();
+      if (cell.startsWith(':') && cell.endsWith(':')) return 'center';
+      if (cell.endsWith(':')) return 'right';
+      return 'left';
+    });
 
-    // Parse header row (first line)
-    const headerRow = lines[0].trim();
-    const headers = headerRow
-      .split('|')
-      .map(s => s.trim())
-      .filter(s => s.length > 0);
+    // Parse header
+    const parseRow = (line) => line.split('|').filter((c, i, arr) => i > 0 && i < arr.length - 1).map(c => c.trim());
 
-    // Parse data rows (remaining lines after separator)
-    const dataRows = lines.slice(2).filter(l => l.trim().startsWith('|'));
-
-    let table = '<table>\n<thead>\n<tr>';
+    let tableHtml = '<div class="table-wrap"><table>\n<thead>\n<tr>\n';
+    const headers = parseRow(lines[0]);
     headers.forEach((h, i) => {
-      const align = alignments[i] ? ` style="text-align:${alignments[i].trim()}"` : '';
-      // Convert inline markdown in header
-      let content = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
-      table += `<th${align}>${content}</th>`;
+      const align = alignments[i] || 'left';
+      tableHtml += `<th style="text-align:${align}">${inlineFormat(h)}</th>\n`;
     });
-    table += '</tr>\n</thead>\n<tbody>\n';
-    dataRows.forEach(row => {
-      const cells = row
-        .split('|')
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
-      table += '<tr>';
-      cells.forEach((cell, i) => {
-        const align = alignments[i] ? ` style="text-align:${alignments[i].trim()}"` : '';
-        // Convert inline markdown in cell
-        let content = cell.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
-        table += `<td${align}>${content}</td>`;
+    tableHtml += '</tr>\n</thead>\n<tbody>\n';
+
+    // Parse data rows
+    for (let i = 2; i < lines.length; i++) {
+      const cells = parseRow(lines[i]);
+      tableHtml += '<tr>\n';
+      cells.forEach((c, j) => {
+        const align = alignments[j] || 'left';
+        tableHtml += `<td style="text-align:${align}">${inlineFormat(c)}</td>\n`;
       });
-      table += '</tr>\n';
-    });
-    table += '</tbody>\n</table>';
-    return '<div class="table-wrap">' + table + '</div>';
+      tableHtml += '</tr>\n';
+    }
+    tableHtml += '</tbody>\n</table></div>\n';
+    return tableHtml;
   });
 
-  // Step 4: Horizontal rules
-  html = html.replace(/^---\s*$/gm, '<hr>');
+  // Helper for inline formatting in table cells
+  function inlineFormat(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>');
+  }
 
-  // Step 4: Blockquotes - group consecutive lines
-  html = html.replace(/^>\s?(.+)$/gm, '%%BQ%%$1%%/BQ%%');
-  html = html.replace(/((?:%%BQ%%[^\n]*%%\/BQ%%\n?)+)/g, (match) => {
-    const lines = match
-      .split(/(?:%%\/BQ%%)\n?/)
-      .filter(l => l.startsWith('%%BQ%%'))
-      .map(l => l.replace('%%BQ%%', ''));
-    return '<blockquote>' + lines.join('<br>') + '</blockquote>';
+  // Step 4: Blockquotes (group consecutive > lines)
+  html = html.replace(/(?:^>\s?.+\n?)+/gm, (block) => {
+    const content = block.replace(/^>\s?/gm, '').trim();
+    return `<blockquote>${content}</blockquote>\n`;
   });
 
-  // Step 5: Headings
+  // Step 5: Headers
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
 
-  // Step 6: Images (before links)
+  // Step 6: Horizontal rules
+  html = html.replace(/^---$/gm, '<hr>');
+
+  // Step 7: Images
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
 
-  // Step 7: Links
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // Step 8: Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
 
-  // Step 8: Bold & italic
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
-
-  // Step 9: Unordered list items
-  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-
-  // Step 10: Group consecutive <li> into <ul>
-  html = html.replace(/(?:<li>[\s\S]*?<\/li>\s*)+/g, (match) => {
-    return '<ul>' + match.trim() + '</ul>';
+  // Step 9: Unordered lists
+  html = html.replace(/(?:^- .+\n?)+/gm, (block) => {
+    const items = block.trim().split('\n').map(line => `<li>${inlineFormat(line.replace(/^- /, ''))}</li>`).join('\n');
+    return `<ul>\n${items}\n</ul>\n`;
   });
 
-  // Step 11: Restore inline code
-  inlineCodes.forEach((code, i) => {
-    const escaped = code
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-    html = html.replace(`%%INLINECODE_${i}%%`, `<code>${escaped}</code>`);
-  });
+  // Step 10: Paragraphs (wrap remaining text in <p>)
+  const blockTagNames = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'blockquote', 'pre', 'hr', 'table', 'div', 'thead', 'tbody', 'tr', 'th', 'td', 'img', 'a'];
+  const lines = html.split('\n');
+  let result = [];
+  let inParagraph = false;
 
-  // Step 12: Restore code blocks
-  codeBlocks.forEach(({ lang, code }, i) => {
-    html = html.replace(`%%CODEBLOCK_${i}%%`, `<pre><code>${lang ? lang + '\n' : ''}${code}</code></pre>`);
-  });
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
 
-  // Step 13: Wrap remaining text in paragraphs
-  // Split by block-level elements
-  const blockTagNames = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'blockquote', 'pre', 'hr', 'table'];
-  const blockRE = new RegExp(
-    `(<(?:${blockTagNames.join('|')})(?:\\s[^>]*)?>[\\s\\S]*?<\\/(?:${blockTagNames.join('|')})>|<hr\\s*\\/?>)`,
-    'gi'
-  );
-
-  const segments = [];
-  let lastEnd = 0;
-  let match;
-  blockRE.lastIndex = 0;
-  while ((match = blockRE.exec(html)) !== null) {
-    // Text before this block element
-    if (match.index > lastEnd) {
-      const text = html.slice(lastEnd, match.index).trim();
-      if (text) segments.push({ type: 'text', content: text });
-    }
-    segments.push({ type: 'block', content: match[0] });
-    lastEnd = match.index + match[0].length;
-  }
-  // Remaining text after last block element
-  if (lastEnd < html.length) {
-    const text = html.slice(lastEnd).trim();
-    if (text) segments.push({ type: 'text', content: text });
-  }
-
-  if (segments.length === 0) return '';
-
-  let result = '';
-  for (const seg of segments) {
-    if (seg.type === 'block') {
-      result += seg.content + '\n';
-    } else {
-      let text = seg.content;
-      text = text.replace(/\n{2,}/g, '</p><p>');
-      text = text.replace(/\n/g, '<br>');
-      // Skip empty paragraphs
-      if (text.replace(/<br>/g, '').trim()) {
-        result += '<p>' + text + '</p>\n';
+    if (!trimmed) {
+      if (inParagraph) {
+        result.push('</p>');
+        inParagraph = false;
       }
+      continue;
+    }
+
+    // Check if line is already a block element
+    const isBlock = blockTagNames.some(tag => trimmed.startsWith(`<${tag}`) || trimmed.startsWith(`</${tag}`));
+    // Check if line is a placeholder
+    const isPlaceholder = /^%%(CODEBLOCK|INLINECODE)_\d+%%$/.test(trimmed);
+
+    if (isBlock || isPlaceholder) {
+      if (inParagraph) {
+        result.push('</p>');
+        inParagraph = false;
+      }
+      result.push(line);
+    } else {
+      if (!inParagraph) {
+        result.push('<p>');
+        inParagraph = true;
+      }
+      result.push(inlineFormat(trimmed));
     }
   }
 
-  return result.trim();
+  if (inParagraph) {
+    result.push('</p>');
+  }
+
+  html = result.join('\n');
+
+  // Step 11: Restore code blocks
+  html = html.replace(/%%CODEBLOCK_(\d+)%%/g, (_, idx) => {
+    const block = codeBlocks[parseInt(idx)];
+    const lang = block.lang ? ` class="language-${block.lang}"` : '';
+    return `<pre><code${lang}>${escapeHtml(block.code)}</code></pre>`;
+  });
+
+  // Step 12: Restore inline code
+  html = html.replace(/%%INLINECODE_(\d+)%%/g, (_, idx) => {
+    return `<code>${escapeHtml(inlineCodes[parseInt(idx)])}</code>`;
+  });
+
+  return html;
 }
 
-function escapeForTemplateLiteral(str) {
-  return str
+function escapeHtml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escapeForTemplateLiteral(text) {
+  return text
     .replace(/\\/g, '\\\\')
     .replace(/`/g, '\\`')
-    .replace(/\$/g, '\\$')
-    .replace(/<\/script>/gi, '<\\/script>');
+    .replace(/\$/g, '\\$');
 }
 
-function build() {
-  if (POSTS_DIRS.length === 0) {
-    console.log('❌ No posts/ directories found.');
-    process.exit(1);
-  }
+// Main build
+const indexHtml = fs.readFileSync(INDEX_FILE, 'utf8');
+const startIdx = indexHtml.indexOf(START_MARKER);
+const endIdx = indexHtml.indexOf(END_MARKER);
 
-  const fileSet = new Map();
-  POSTS_DIRS.forEach(dir => {
-    fs.readdirSync(dir).filter(f => f.endsWith('.md')).forEach(f => {
-      if (!fileSet.has(f)) {
-        fileSet.set(f, path.join(dir, f));
-      }
-    });
-  });
-  const files = [...fileSet.values()];
-  if (files.length === 0) {
-    console.log('⚠️  No .md files in posts/');
-    process.exit(1);
-  }
+if (startIdx === -1 || endIdx === -1) {
+  console.error('ERROR: Could not find ARTICLES_START/ARTICLES_END markers in index.html');
+  process.exit(1);
+}
 
-  const articles = [];
+const articles = [];
+let idx = 0;
 
-  files.forEach((file, idx) => {
-    const raw = fs.readFileSync(file, 'utf-8');
-    const basename = path.basename(file);
+POSTS_DIRS.forEach(dir => {
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const basename = path.basename(file, '.md');
+
     const { meta, body } = parseFrontMatter(raw);
 
     const isHtml = /^\s*</.test(body.trim());
     const content = isHtml ? escapeForTemplateLiteral(body.trim()) : escapeForTemplateLiteral(mdToHtml(body));
 
     articles.push({
-      mtime: fs.statSync(file).mtimeMs,
+      mtime: fs.statSync(filePath).mtimeMs,
       id: idx + 1,
       title: meta.title || basename.replace('.md', ''),
       date: meta.date || new Date().toISOString().replace('Z','+00:00'),
       tags: Array.isArray(meta.tags) ? meta.tags : (meta.tags ? meta.tags.split(',').map(t => t.trim()) : []),
-      summary: meta.summary || body.substring(0, 100).replace(/[#*>\-]/g, '').trim() + '...',
+      summary: meta.summary || body.substring(0, 100).replace(/[#*>\\-]/g, '').trim() + '...',
       content: content,
       image: meta.image || '',
       audio: meta.audio || ''
     });
+    idx++;
   });
+});
 
-  articles.sort((a, b) => { const d = new Date(b.date) - new Date(a.date); return d !== 0 ? d : b.mtime - a.mtime; });
-  articles.forEach((a, i) => a.id = i + 1);
+articles.sort((a, b) => { const d = new Date(b.date) - new Date(a.date); return d !== 0 ? d : b.mtime - a.mtime; });
+articles.forEach((a, i) => a.id = i + 1);
 
-  // Write article content to separate JSON (loaded on-demand, not in initial HTML)
-  // Key is article title (stable) instead of numeric ID (shifts when new articles are added)
-  const contentMap = {};
-  articles.forEach(a => { contentMap[a.title] = a.content; });
-  fs.writeFileSync(path.join(__dirname, '..', 'articles-content.json'), JSON.stringify(contentMap));
-  console.log(`📦 Content JSON: ${articles.length} articles → articles-content.json`);
+// Write article content to separate JSON (loaded on-demand, not in initial HTML)
+// Key is article title (stable) instead of numeric ID (shifts when new articles are added)
+const contentMap = {};
+articles.forEach(a => { contentMap[a.title] = a.content; });
+fs.writeFileSync(path.join(__dirname, '..', 'articles-content.json'), JSON.stringify(contentMap));
 
-  // Only embed metadata in HTML (no content = much smaller initial load)
-  const articlesJs = articles.map(a => {
-    const tags = JSON.stringify(a.tags);
-    const summary = a.summary.replace(/"/g, '\\"');
-    return `{id:${a.id},title:"${a.title}",date:"${a.date}",tags:${tags},summary:"${summary}",image:"${a.image}",audio:"${a.audio}"}`;
-  }).join(',\n');
+// Generate slug map (title -> MD5 hash for content/*.json file names)
+const crypto = require('crypto');
+const slugMap = {};
+articles.forEach(a => {
+  slugMap[a.title] = crypto.createHash('md5').update(a.title).digest('hex').slice(0, 8);
+});
 
-  const block = `// ===== ARTICLES_START =====\nconst articles=[\n${articlesJs}\n];\n// ===== ARTICLES_END =====`;
-
-  let html = fs.readFileSync(INDEX_FILE, 'utf-8');
-  const startIdx = html.indexOf(START_MARKER);
-  const endIdx = html.indexOf(END_MARKER);
-
-  if (startIdx === -1 || endIdx === -1) {
-    console.log('❌ Markers not found in index.html. Expected:', START_MARKER, END_MARKER);
-    process.exit(1);
+// Write per-article content JSON files
+const contentDir = path.join(__dirname, '..', 'content');
+if (!fs.existsSync(contentDir)) fs.mkdirSync(contentDir, { recursive: true });
+articles.forEach(a => {
+  const slug = slugMap[a.title];
+  if (slug) {
+    fs.writeFileSync(path.join(contentDir, `${slug}.json`), JSON.stringify({ title: a.title, content: a.content }));
   }
+});
 
-  html = html.substring(0, startIdx) + block + html.substring(endIdx + END_MARKER.length);
-  fs.writeFileSync(INDEX_FILE, html);
+// Build articles metadata array (without content for initial load)
+const articlesMeta = articles.map(a => ({
+  id: a.id,
+  title: a.title,
+  date: a.date,
+  tags: a.tags,
+  summary: a.summary,
+  image: a.image,
+  audio: a.audio
+}));
 
-  console.log(`✅ Built ${articles.length} articles from posts/`);
-  articles.forEach(a => console.log(`   - ${a.title} (${a.date})`));
-}
+const before = indexHtml.substring(0, startIdx + START_MARKER.length);
+const after = indexHtml.substring(endIdx);
+const newArticles = `\nconst articles=${JSON.stringify(articlesMeta)};\nconst slugMap=${JSON.stringify(slugMap)};\n`;
 
-build();
+const newIndex = before + newArticles + after;
+fs.writeFileSync(INDEX_FILE, newIndex);
+
+console.log(`📦 Content JSON: ${articles.length} articles → articles-content.json`);
+console.log(`✅ Built ${articles.length} articles from ${POSTS_DIRS.map(d => path.relative(path.join(__dirname, '..'), d)).join(', ')}`);
+articles.forEach(a => {
+  console.log(`   - ${a.title} (${a.date})`);
+});
