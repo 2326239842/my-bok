@@ -1,13 +1,42 @@
 ---
 title: "我做了个国际空间站实时追踪系统——3D地球+8颗卫星"
-date: 2026-06-21
+date: 2026-06-20
 draft: false
 tags: ["Three.js", "WebGL", "卫星追踪", "3D", "前端", "ISS"]
 ---
 
-<div style="text-align:center;padding:3rem 2rem;background:linear-gradient(135deg,rgba(0,255,204,.05),rgba(100,200,255,.03));border:1px solid rgba(0,255,204,.15);border-radius:16px;margin:2rem 0">
-<div style="font-size:3rem;margin-bottom:1rem">🛰️</div>
-<h2 style="margin-bottom:0.5rem;color:#00ffcc">ISS 太空雷达 — 实时卫星追踪</h2>
-<p style="color:#99bbbb;font-size:0.95rem;margin-bottom:1.5rem">3D 地球 + 8 颗在轨卫星实时位置，拖动旋转、点击标记查看详情</p>
-<a href="https://yadongw.dpdns.org/iss-space-radar.html" target="_blank" style="display:inline-block;padding:0.8rem 2rem;background:rgba(0,255,204,.1);border:1px solid #00ffcc;border-radius:8px;color:#00ffcc;text-decoration:none;font-weight:600;transition:all .3s">🚀 打开 ISS 太空雷达 →</a>
-</div>
+## 🌍 灵感来源
+
+每次晚上抬头看到星空，总会想：此时此刻，国际空间站正在地球的哪个角落？那些以 27,600 km/h 速度绕地飞行的宇航员，此刻在做什么？
+
+于是我决定做一个**实时 3D 可视化系统**，把卫星轨道数据变成能交互的 3D 场景——不是静态图片，而是真正转动的地球和在飞的卫星。
+
+## 🛠️ 技术选型
+
+经过调研，最终方案：
+
+- **Three.js r128** — 3D 渲染引擎，用 `SphereGeometry` 做地球，`Points` 做星空背景
+- **TLE 轨道数据** — 从 Celestrap 获取二行轨道根数，用 **SGP4 模型** 解算卫星位置
+- **WebGL** — GPU 渲染，保证 60fps 流畅度
+- **纯前端** — 不需要后端服务器，静态 HTML 搞定
+
+核心难点在于 TLE 数据的解析和 SGP4 轨道预测算法。卫星的位置不是匀速圆周运动，而是受地球扁率、大气阻力、日月引力等多重因素影响的复杂轨道。
+
+## 📸 功能特性
+
+| 功能 | 说明 |
+|------|------|
+| 🌐 3D 地球 | 真实贴图 + 云层 + 昼夜线 |
+| 🛰️ 8 颗卫星 | 含 ISS、Hubble、Starlink 等 |
+| 🖱️ 交互操作 | 鼠标拖动旋转、滚轮缩放、点击标记查看详情 |
+| ⏱️ 实时更新 | 根据 TLE 数据实时计算位置 |
+
+## 🚀 在线体验
+
+👉 [打开 ISS 太空雷达](https://yadongw.dpdns.org/iss-space-radar.html){target="_blank"}
+
+## 💡 后续计划
+
+- 增加更多卫星轨道（目前 8 颗，目标是 50+）
+- 添加过境预报功能（告诉你什么时候能看到 ISS 从头顶飞过）
+- 接入 WebSocket 实现真正的实时数据推送
