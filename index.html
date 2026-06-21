@@ -460,6 +460,13 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   renderCards();initScroll();initQuote();initUptime();initArchives();
   await Promise.all([updateStats(), loadAllLikes(), loadPinned()]);
   if (_isAdmin) await loadDeletedArticles();
+  // Handle initial hash route (e.g. direct link to /#/post/xxx)
+  const hash = window.location.hash;
+  if (hash.startsWith('#/post/')) {
+    const id = hash.replace('#/post/','');
+    const a = articles.find(x=>x.id===id);
+    if (a) showDetail(a.id, true);
+  }
 });
 
 // ===== Render Cards =====
