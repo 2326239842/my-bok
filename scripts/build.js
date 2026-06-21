@@ -124,8 +124,8 @@ function mdToHtml(md) {
   // Step 7: Images
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
 
-  // Step 8: Links
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  // Step 8: Links (handle optional {attributes} after URL)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)(\{[^}]*\})?/g, '<a href="$2" target="_blank">$1</a>');
 
   // Step 9: Unordered lists
   html = html.replace(/(?:^- .+\n?)+/gm, (block) => {
