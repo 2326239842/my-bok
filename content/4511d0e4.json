@@ -1,0 +1,1 @@
+{"title":"部署测试 - Codex 自动部署验证","content":"<p>\n这是一篇由 Codex 自动创建的测试文章，用于验证部署流程。\n</p>\n<h2>测试目标</h2>\n<ul>\n<li>Codex 创建文章</li>\n<li>build.js 构建</li>\n<li>blog-poller / wrangler 自动部署</li>\n<li>网站正常显示</li>\n</ul>\n<h2>测试时间</h2>\n<p>\n生成于：2026-07-18\n</p>\n<p>\n如果你能看到这篇文章，说明 Codex 自动部署全链路工作正常。\n</p>"}
