@@ -1,7 +1,22 @@
-# Content JSON - no cache (IDs shift when new articles are added)
-/articles-content.json
-  Cache-Control: no-cache, must-revalidate
+# HTML — 短期缓存 + stale-while-revalidate
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Images - cache 30 days (static, rarely change)
+# Content JSON — 短期缓存（文章更新频率低，用 stale-while-revalidate 提升性能）
+/articles-content.json
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  X-Content-Type-Options: nosniff
+
+# 静态资源 — 长期缓存
 /images/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# robots.txt / sitemap.xml — 中期缓存
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400

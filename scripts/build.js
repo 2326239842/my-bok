@@ -6,10 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
-// 从 content/posts/（Trae Solo CN）和 posts/（旧目录）读取
+// 仅从 content/posts/ 读取文章
 const POSTS_DIRS = [
   path.join(__dirname, '..', 'content', 'posts'),
-  path.join(__dirname, '..', 'posts'),
 ].filter(d => fs.existsSync(d));
 const INDEX_FILE = path.join(__dirname, '..', 'index.html');
 const START_MARKER = '// ===== ARTICLES_START =====';
@@ -292,3 +291,54 @@ console.log(`✅ Built ${articles.length} articles from ${POSTS_DIRS.map(d => pa
 articles.forEach(a => {
   console.log(`   - ${a.title} (${a.date})`);
 });
+
+// Generate sitemap.xml
+const BASE_URL = 'https://yadongw118.dpdns.org';
+const today = new Date().toISOString().split('T')[0];
+const sitemapUrls = [
+  { loc: `${BASE_URL}/`, priority: '1.0', changefreq: 'daily' },
+  ...articles.map(a => ({
+    loc: `${BASE_URL}/#/post/${a.id}`,
+    priority: '0.8',
+    changefreq: 'monthly',
+    lastmod: a.date.split('T')[0] || today,
+  })),
+];
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${u.lastmod || today}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+fs.writeFileSync(path.join(__dirname, '..', 'sitemap.xml'), sitemapXml);
+console.log(`🗺️ Sitemap: ${sitemapUrls.length} URLs → sitemap.xml`);
+
+// Generate RSS feed
+const RSS_DATE_FMT = (d) => new Date(d).toUTCString();
+const rssItems = articles.slice(0, 20).map(a => {
+  const desc = a.summary.replace(/[<>]/g, '').slice(0, 300);
+  return `  <item>
+    <title>${a.title}</title>
+    <link>${BASE_URL}/#/post/${a.id}</link>
+    <guid isPermaLink="false">${a.title}</guid>
+    <pubDate>${RSS_DATE_FMT(a.date)}</pubDate>
+    <description>${desc}</description>
+  </item>`;
+}).join('\n');
+const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Yadong's Blog</title>
+  <link>${BASE_URL}/</link>
+  <description>Yadong 的个人博客 - 记录技术探索、生活感悟与创意项目</description>
+  <language>zh-CN</language>
+  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+  <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
+${rssItems}
+</channel>
+</rss>`;
+fs.writeFileSync(path.join(__dirname, '..', 'rss.xml'), rssXml);
+console.log(`📡 RSS: ${Math.min(articles.length, 20)} items → rss.xml`);

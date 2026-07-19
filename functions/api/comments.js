@@ -1,7 +1,31 @@
-// Pages Functions — 评论系统 + 管理员删除
-// 管理员密码: wyd73199254110
+// Pages Functions — 评论系统 + 管理员操作
+// Token-based auth: 登录后获取 HMAC 签名 token，后续操作使用 token 认证
 
 const ADMIN_PW = "wyd73199254110";
+const TOKEN_SECRET = "blog-admin-2026-" + ADMIN_PW.slice(-6); // HMAC 签名密钥
+const TOKEN_TTL = 86400000; // 24小时有效期
+
+// 简单的 HMAC-SHA256 实现（Cloudflare Pages Functions 支持 crypto.subtle）
+async function hmacSign(message, secret) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+  return btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/[+/=]/g, c => c === '+' ? '-' : c === '/' ? '_' : '');
+}
+
+async function verifyToken(token) {
+  if (!token) return false;
+  const parts = token.split(':');
+  if (parts.length !== 2) return false;
+  const [sig, ts] = parts;
+  const timestamp = parseInt(ts);
+  if (isNaN(timestamp)) return false;
+  if (Date.now() - timestamp > TOKEN_TTL) return false; // 过期
+  const expectedSig = await hmacSign(ts, TOKEN_SECRET);
+  return sig === expectedSig;
+}
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -23,13 +47,20 @@ export async function onRequest(context) {
     return Response.json({ ok: true, comments: data || [] }, { headers: CORS });
   }
 
-  // POST /api/comments — 发表评论
+  // POST /api/comments
   if (request.method === 'POST') {
     const body = await request.json();
 
+    // 统一的认证检查函数
+    const isAdmin = () => {
+      if (body.password && body.password === ADMIN_PW) return true;
+      if (body.token) return verifyToken(body.token);
+      return false;
+    };
+
     // 删除评论（管理员）
     if (body._action === 'delete') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       const key = `comments:${body.slug}`;
       let comments = await env.KV.get(key, 'json') || [];
       comments = comments.filter(c => c.id !== body.id);
@@ -37,14 +68,17 @@ export async function onRequest(context) {
       return Response.json({ ok: true }, { headers: CORS });
     }
 
-    // 验证管理员
+    // 验证管理员 + 返回 token
     if (body._action === 'verify') {
-      return Response.json({ ok: body.password === ADMIN_PW }, { headers: CORS });
+      if (body.password !== ADMIN_PW) return Response.json({ ok: false }, { headers: CORS });
+      const ts = String(Date.now());
+      const sig = await hmacSign(ts, TOKEN_SECRET);
+      return Response.json({ ok: true, token: `${sig}:${ts}` }, { headers: CORS });
     }
 
     // 删除整篇文章（管理员）
     if (body._action === 'delete_article') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       const deleted = await env.KV.get('deleted_articles', 'json') || [];
       if (!deleted.includes(body.title)) {
         deleted.push(body.title);
@@ -55,7 +89,7 @@ export async function onRequest(context) {
 
     // 恢复文章（管理员）
     if (body._action === 'restore_article') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       let deleted = await env.KV.get('deleted_articles', 'json') || [];
       deleted = deleted.filter(t => t !== body.title);
       await env.KV.put('deleted_articles', JSON.stringify(deleted));
@@ -64,7 +98,7 @@ export async function onRequest(context) {
 
     // 获取已删除列表（管理员）
     if (body._action === 'get_deleted') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       const deleted = await env.KV.get('deleted_articles', 'json') || [];
       return Response.json({ ok: true, deleted }, { headers: CORS });
     }
@@ -75,7 +109,7 @@ export async function onRequest(context) {
       return Response.json({ ok: true, pinned }, { headers: CORS });
     }
 
-    // 批量获取所有文章评论数（公开，无需密码）
+    // 批量获取所有文章评论数（公开）
     if (body._action === 'comment_counts') {
       const list = await env.KV.list({ prefix: 'comments:' });
       const counts = {};
@@ -90,7 +124,7 @@ export async function onRequest(context) {
 
     // 文章编辑保存（管理员）
     if (body._action === 'article_edit_save') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       if (!body.title || body.content === undefined) return Response.json({ error: '缺少参数' }, { status: 400, headers: CORS });
       const edit = { title: body.title, content: body.content, updatedAt: new Date().toISOString() };
       await env.KV.put(`article_edit:${body.title}`, JSON.stringify(edit));
@@ -99,7 +133,7 @@ export async function onRequest(context) {
 
     // 获取所有文章编辑列表（管理员）
     if (body._action === 'article_edits_list') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       const list = await env.KV.list({ prefix: 'article_edit:' });
       const edits = [];
       for (const key of list.keys) {
@@ -111,7 +145,7 @@ export async function onRequest(context) {
 
     // 切换置顶（管理员）
     if (body._action === 'toggle_pin') {
-      if (body.password !== ADMIN_PW) return Response.json({ error: '密码错误' }, { status: 403, headers: CORS });
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
       let pinned = await env.KV.get('pinned_articles', 'json') || [];
       const idx = pinned.indexOf(body.title);
       if (idx >= 0) {
@@ -123,8 +157,7 @@ export async function onRequest(context) {
       return Response.json({ ok: true, pinned }, { headers: CORS });
     }
 
-    // ===== 点赞系统（公开，无需密码） =====
-    // 获取单篇文章点赞数
+    // ===== 点赞系统（公开） =====
     if (body._action === 'get_like') {
       const slug = body.slug;
       if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });
@@ -132,7 +165,6 @@ export async function onRequest(context) {
       return Response.json({ ok: true, count }, { headers: CORS });
     }
 
-    // 获取所有文章点赞数（批量）
     if (body._action === 'get_all_likes') {
       const list = await env.KV.list({ prefix: 'likes:' });
       const likes = {};
@@ -143,7 +175,6 @@ export async function onRequest(context) {
       return Response.json({ ok: true, likes }, { headers: CORS });
     }
 
-    // 点赞（上限 100000）
     if (body._action === 'like') {
       const slug = body.slug;
       if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });
@@ -156,7 +187,6 @@ export async function onRequest(context) {
       return Response.json({ ok: true, count }, { headers: CORS });
     }
 
-    // 取消点赞
     if (body._action === 'unlike') {
       const slug = body.slug;
       if (!slug) return Response.json({ error: '缺少 slug' }, { status: 400, headers: CORS });

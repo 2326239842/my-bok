@@ -2,7 +2,7 @@
 title: "从 OpenClaw 到 Hermes：一个普通人的 AI Agent 进化之路"
 date: "2026-05-20"
 draft: false
-tags: ["Hermes", "OpenClaw", "AI Agent", "大模型", "DeepSeek", "Xiaomi", "NVIDIA", "自建工具链"]
+tags: ["Hermes", "OpenClaw", "AI Agent", "大模型", "DeepSeek", "小米", "NVIDIA", "自建工具链"]
 categories: ["技术"]
 summary: "一亿九千万 Token 烧完之后，我决定亲手给 AI 搭一套满配工具箱——从 OpenClaw 到 Hermes 的转型实录"
 ---

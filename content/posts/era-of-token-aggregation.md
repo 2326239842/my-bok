@@ -2,7 +2,7 @@
 title: "时代的风口：Token 中转，一门被低估的生意"
 date: "2026-05-21"
 draft: false
-tags: ["Token中转", "AI Agent", "大模型", "API聚合", "创业思考"]
+tags: ["Token中转", "AI Agent", "大模型", "AI", "创业思考"]
 categories: ["思考"]
 summary: "每天烧掉几万 Token 的时候我发现了一件事——模型厂商在卖 Token，开发者在买 Token，中间的流通环节却像一座乱糟糟的菜市场。这门生意，有人已经赚到钱了。"
 ---
