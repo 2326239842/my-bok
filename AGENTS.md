@@ -18,7 +18,7 @@
 ```bash
 cd ~/workspace/yadong-blog
 git pull origin main && node scripts/build.js
-CLOUDFLARE_API_TOKEN='your-token-here' / \
+CLOUDFLARE_API_TOKEN='***'
   npx wrangler pages deploy . --project-name=yadong-blog --branch main --commit-dirty=true
 ```
 
