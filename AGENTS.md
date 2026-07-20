@@ -41,6 +41,7 @@ curl -sS --max-time 10 -o /dev/null -w "%{http_code}" https://yadongw118.dpdns.o
 6. 返回按钮用 `history.back()`
 7. articles-content.json 用标题做 key
 8. 不要在调查中循环（确认服务端正常后直接给方案）
+9. **⚠️ HTML 实体转义**：文章正文中的 `&` 必须写成 `&amp;`（包括代码块内的 `R&B`、`Mail & Calendar`、`R&D` 等）。桌面 WebView2 会自动修正，但 Android System WebView 会中断 innerHTML 解析 → 手机端文章显示"加载失败"。构建后用 `python3 -c "import re,json; data=json.load(open('articles-content.json')); [print(f'❌ {t}') for t,c in data.items() if re.findall(r'&(?!(?:amp|lt|gt|quot|apos|#[0-9]+|#x[0-9a-fA-F]+);)', c)]"` 验证无未转义字符
 
 ## 详见
 完整交接文档在 `C:\Users\wang\Desktop\yadong-site\AGENTS.md`
