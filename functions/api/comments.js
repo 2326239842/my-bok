@@ -103,6 +103,32 @@ export async function onRequest(context) {
       return Response.json({ ok: true, deleted }, { headers: CORS });
     }
 
+    // 隐藏文章（管理员）
+    if (body._action === 'hide_article') {
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
+      const hidden = await env.KV.get('hidden_articles', 'json') || [];
+      if (!hidden.includes(body.title)) {
+        hidden.push(body.title);
+        await env.KV.put('hidden_articles', JSON.stringify(hidden));
+      }
+      return Response.json({ ok: true, hidden }, { headers: CORS });
+    }
+
+    // 取消隐藏文章（管理员）
+    if (body._action === 'unhide_article') {
+      if (!(await isAdmin())) return Response.json({ error: '未授权' }, { status: 403, headers: CORS });
+      let hidden = await env.KV.get('hidden_articles', 'json') || [];
+      hidden = hidden.filter(t => t !== body.title);
+      await env.KV.put('hidden_articles', JSON.stringify(hidden));
+      return Response.json({ ok: true, hidden }, { headers: CORS });
+    }
+
+    // 获取隐藏列表（公开，前端用来过滤）
+    if (body._action === 'get_hidden') {
+      const hidden = await env.KV.get('hidden_articles', 'json') || [];
+      return Response.json({ ok: true, hidden }, { headers: CORS });
+    }
+
     // 获取置顶列表（公开）
     if (body._action === 'get_pinned') {
       const pinned = await env.KV.get('pinned_articles', 'json') || [];

@@ -4,7 +4,7 @@ date: "2026-05-19"
 draft: false
 tags: ["音乐", "生活", "音乐"]
 categories: ["生活"]
-summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R&B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。"
+summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R&amp;B，每一首都有自己的故事。文章里嵌入了播放器，点击即可收听。"
 ---
 
 <h2>🎶 写在前面</h2>
@@ -45,7 +45,7 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
   </audio>
 </div>
 
-<p>宇多田光进军美国的英文作品，R&B 曲风。她的声音有一种独特的质感，慵懒又深情。这首歌讲的是分手后的不舍与挽留，但旋律是轻快的，这种反差很有意思。</p>
+<p>宇多田光进军美国的英文作品，R&amp;B 曲风。她的声音有一种独特的质感，慵懒又深情。这首歌讲的是分手后的不舍与挽留，但旋律是轻快的，这种反差很有意思。</p>
 
 <hr>
 
@@ -67,10 +67,10 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
 <hr>
 
 <!-- 歌曲 4 -->
-<h2>4. Toni Braxton & Trey Songz — Yesterday (Remix)</h2>
+<h2>4. Toni Braxton &amp; Trey Songz — Yesterday (Remix)</h2>
 <div class="music-player">
   <div class="player-info">
-    <span class="player-title">🎵 Toni Braxton & Trey Songz - Yesterday (Remix)</span>
+    <span class="player-title">🎵 Toni Braxton &amp; Trey Songz - Yesterday (Remix)</span>
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
@@ -79,7 +79,7 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
   </audio>
 </div>
 
-<p>Toni Braxton 的低沉嗓音配上 Trey Songz 的 R&B 唱腔，绝配。这首歌讲的是对过去感情的怀念，编曲很精致，每次听都有新发现。</p>
+<p>Toni Braxton 的低沉嗓音配上 Trey Songz 的 R&amp;B 唱腔，绝配。这首歌讲的是对过去感情的怀念，编曲很精致，每次听都有新发现。</p>
 
 <hr>
 

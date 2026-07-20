@@ -81,7 +81,7 @@ if ($restart -eq 'y') { Restart-Computer -Force }
 
 ### 比保守方案多删的
 
-OneNote、Outlook、Office Hub、YourPhone、Todos、PowerAutomate、Bing News/Weather、Sound Recorder、Mail & Calendar、Windows Maps、Feedback Hub
+OneNote、Outlook、Office Hub、YourPhone、Todos、PowerAutomate、Bing News/Weather、Sound Recorder、Mail &amp; Calendar、Windows Maps、Feedback Hub
 
 ### 中等方案代码
 

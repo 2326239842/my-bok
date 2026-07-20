@@ -1,8 +1,8 @@
 ---
-title: "收藏夹大公开：19 个超实用的免费网站工具"
+title: "收藏夹大公开：20 个超实用的免费网站工具"
 date: 2026-05-26
 tags: ["工具推荐", "免费资源", "效率", "收藏夹"]
-summary: "从 PDF 处理到论文下载，从格式转换到 AI 大模型——这 19 个免费网站每个都值得放进书签栏。"
+summary: "从 PDF 处理到论文下载，从格式转换到 AI 大模型——这 20 个免费网站每个都值得放进书签栏。"
 ---
 
 <style>
@@ -265,6 +265,17 @@ function copyUrl(url) {
   <span class="free-tag">AI 视频</span><span class="free-tag">科普创作</span>
   <div class="free-link">🔗 <a href="https://fogsight.ai/app" target="_blank">fogsight.ai/app</a></div>
   <button class="copy-btn" data-url="https://fogsight.ai/app" onclick="copyUrl('https://fogsight.ai/app')">📋 复制</button>
+</div>
+
+<div class="free-card">
+  <div class="free-card-top">
+    <span class="free-icon">📹</span>
+    <div class="free-title">WayinVideo</div>
+  </div>
+  <div class="free-desc">AI 视频总结工具。粘贴抖音/TikTok/YouTube 链接，自动生成文字稿 + 摘要 + 可视化思维导图，支持追问互动。免费无需注册，用临时邮箱可反复白嫖免费额度。</div>
+  <span class="free-tag">AI 视频总结</span><span class="free-tag">抖音/TikTok</span><span class="free-tag">临时邮箱白嫖</span>
+  <div class="free-link">🔗 <a href="https://wayin.ai/tools/video-summarizer/tiktok" target="_blank">wayin.ai/tools/video-summarizer/tiktok</a></div>
+  <button class="copy-btn" data-url="https://wayin.ai/tools/video-summarizer/tiktok" onclick="copyUrl('https://wayin.ai/tools/video-summarizer/tiktok')">📋 复制</button>
 </div>
 
 <div class="free-card">
