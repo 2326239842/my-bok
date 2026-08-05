@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>头像连连看</title>
+<style>
+  :root{
+    --bg:#1a1428;
+    --bg2:#241a3a;
+    --panel:#2d2147;
+    --panel2:#382a52;
+    --tx:#f5f0ff;
+    --tx2:#b8a8d8;
+    --tx3:#7a6a99;
+    --ac:#ff6b9d;
+    --ac2:#4fc3f7;
+    --ok:#4ade80;
+    --warn:#fbbf24;
+    --bdr:#4a3672;
+    --cell:#3a2c56;
+    --line:#ffd700;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(ellipse at top,#2a1f4a 0%,#1a1428 60%,#0f0a1c 100%);
+    color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    min-height:100%;
+    overflow-x:hidden;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:.8rem .6rem 1.5rem}
+  .header{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.8rem;flex-wrap:wrap}
+  .title{
+    font-size:1.25rem;font-weight:700;
+    background:linear-gradient(135deg,var(--ac),var(--ac2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    display:flex;align-items:center;gap:.4rem;
+  }
+  .stats{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .stat{
+    background:var(--panel);border:1px solid var(--bdr);border-radius:10px;
+    padding:.35rem .7rem;font-size:.8rem;display:flex;align-items:center;gap:.3rem;color:var(--tx2);
+  }
+  .stat b{color:var(--tx);font-variant-numeric:tabular-nums}
+  .stat.combo{background:linear-gradient(135deg,var(--ac),#c94f7e);border-color:transparent;color:#fff;animation:comboGlow .6s ease}
+  .stat.combo b{color:#fff}
+  @keyframes comboGlow{0%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .btns{display:flex;gap:.4rem;flex-wrap:wrap}
+  .btn{
+    background:var(--panel);border:1px solid var(--bdr);color:var(--tx);
+    border-radius:10px;padding:.4rem .8rem;font-size:.8rem;cursor:pointer;
+    transition:all .15s;display:flex;align-items:center;gap:.3rem;font-weight:600;
+  }
+  .btn:hover{background:var(--panel2);border-color:var(--ac);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.primary{background:linear-gradient(135deg,var(--ac),#c94f7e);border-color:transparent}
+  .btn.primary:hover{filter:brightness(1.1)}
+  .btn .cnt{background:var(--ac2);color:#0f0a1c;border-radius:8px;padding:0 .35rem;font-size:.7rem;font-weight:700;min-width:1.1rem;text-align:center}
+  .stage{
+    position:relative;background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;
+    padding:.6rem;box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .grid{display:grid;gap:3px;position:relative;z-index:1}
+  .cell{
+    aspect-ratio:1/1;background:var(--cell);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;
+    transition:transform .12s,box-shadow .12s,background .12s;overflow:hidden;border:2px solid transparent;
+  }
+  .cell.empty{background:transparent;cursor:default;box-shadow:none}
+  .cell img{
+    width:82%;height:82%;object-fit:cover;border-radius:50%;
+    pointer-events:none;display:block;
+    border:2px solid rgba(255,107,157,.5);
+    box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 2px rgba(255,255,255,.3);
+    transition:border-color .2s,box-shadow .2s;
+  }
+  .cell:hover:not(.empty) img{
+    border-color:var(--ac);
+    box-shadow:0 4px 16px rgba(255,107,157,.5),inset 0 1px 2px rgba(255,255,255,.3);
+  }
+  .cell:hover:not(.empty){transform:translateY(-2px) scale(1.03);box-shadow:0 4px 12px rgba(255,107,157,.4)}
+  .cell.selected{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac),0 0 16px rgba(255,107,157,.6);transform:scale(1.05)}
+  .cell.hint{animation:hintPulse .6s ease-in-out 3}
+  @keyframes hintPulse{0%,100%{box-shadow:0 0 0 2px var(--warn)}50%{box-shadow:0 0 0 4px var(--warn),0 0 20px rgba(251,191,36,.7);transform:scale(1.08)}}
+  .cell.removing{animation:removePop .35s ease-out forwards}
+  @keyframes removePop{50%{transform:scale(1.3);filter:brightness(1.6) saturate(1.5)}100%{transform:scale(0);opacity:0}}
+  .line-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:10;overflow:visible}
+  .particle-layer{position:absolute;inset:0;pointer-events:none;z-index:11;overflow:hidden}
+  .particle{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none}
+  .overlay{
+    position:absolute;inset:0;background:rgba(15,10,28,.88);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;z-index:20;border-radius:14px;
+  }
+  .overlay.show{display:flex}
+  .overlay-card{text-align:center;padding:1.5rem 2rem;max-width:90%}
+  .overlay-card .ico{font-size:3rem;margin-bottom:.5rem}
+  .overlay-card h2{font-size:1.5rem;margin-bottom:.5rem}
+  .overlay-card p{color:var(--tx2);margin-bottom:.4rem;font-size:.9rem}
+  .overlay-card .big{font-size:1.1rem;color:var(--ac);font-weight:700;margin-bottom:1rem}
+  .progress{height:6px;background:var(--cell);border-radius:3px;overflow:hidden;margin-top:.6rem}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--ok),var(--ac2));width:0%;transition:width .3s}
+  /* 连击浮动 */
+  .combo-pop{
+    position:absolute;top:8%;left:50%;transform:translateX(-50%) scale(.5);
+    background:linear-gradient(135deg,var(--ac),var(--warn));color:#fff;
+    padding:.4rem 1rem;border-radius:20px;font-weight:700;font-size:1rem;
+    box-shadow:0 4px 16px rgba(255,107,157,.5);z-index:15;opacity:0;pointer-events:none;
+    transition:opacity .2s,transform .2s;white-space:nowrap;
+  }
+  .combo-pop.show{opacity:1;transform:translateX(-50%) scale(1)}
+  /* 告别卡 */
+  .farewell{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    z-index:25;pointer-events:none;opacity:0;transition:opacity .3s;
+  }
+  .farewell.show{opacity:1}
+  .farewell-card{
+    background:rgba(45,33,71,.95);border:2px solid var(--ac);border-radius:16px;
+    padding:1.2rem 1.6rem;text-align:center;
+    box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 30px rgba(255,107,157,.4);
+    max-width:80%;transform:scale(.7);transition:transform .3s;
+    position:relative;overflow:hidden;
+  }
+  .farewell.show .farewell-card{transform:scale(1)}
+  .farewell-avatar{
+    width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--ac);
+    margin:0 auto .6rem;display:block;box-shadow:0 0 20px rgba(255,107,157,.6);
+  }
+  .farewell-emoji{font-size:1.8rem;margin-bottom:.3rem}
+  .farewell-text{color:var(--tx);font-size:1.05rem;font-weight:600;margin-bottom:.2rem;text-shadow:0 0 10px rgba(255,107,157,.5)}
+  .farewell-sub{color:var(--tx3);font-size:.75rem;margin-bottom:.4rem}
+  .farewell-count{color:var(--ac2);font-size:.7rem;font-weight:600}
+  /* 普通告别特效 — 淡雅版 */
+  .farewell-card.normal{
+    border-color:rgba(255,107,157,.6);
+    box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 25px rgba(255,107,157,.3);
+    animation:normalGlow 2s ease-in-out infinite;
+  }
+  @keyframes normalGlow{
+    0%,100%{box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 25px rgba(255,107,157,.3)}
+    50%{box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 40px rgba(255,107,157,.5)}
+  }
+  .farewell-card.normal .farewell-avatar{
+    border-color:rgba(255,107,157,.5);
+    box-shadow:0 0 15px rgba(255,107,157,.4);
+  }
+  .farewell-card.normal .farewell-text{
+    text-shadow:0 0 8px rgba(255,107,157,.4);
+  }
+  .farewell-card.normal::before{
+    content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+    background:linear-gradient(45deg,transparent 40%,rgba(255,107,157,.06) 50%,transparent 60%);
+    animation:normalShine 3s linear infinite;
+  }
+  @keyframes normalShine{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  /* 枪出如龙特效 */
+  .farewell-card.spear{
+    border-color:#ffd700;
+    box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 40px rgba(255,215,0,.6),0 0 80px rgba(255,107,157,.4);
+  }
+  .farewell-card.spear .farewell-text{
+    background:linear-gradient(90deg,#ffd700,#ff6b9d,#ffd700);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:spearGlow 1.5s ease-in-out infinite;
+  }
+  @keyframes spearGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .farewell-card.spear::before{
+    content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+    background:linear-gradient(45deg,transparent 30%,rgba(255,215,0,.1) 50%,transparent 70%);
+    animation:spearShine 2s linear infinite;
+  }
+  @keyframes spearShine{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  /* 主角光环特效 — 炫酷终极版 */
+  .farewell-card.hero{
+    border:3px solid #ff6b9d;
+    background:linear-gradient(135deg,rgba(45,33,71,.97),rgba(60,20,80,.97));
+    box-shadow:
+      0 0 60px rgba(255,107,157,.9),
+      0 0 120px rgba(255,107,157,.6),
+      0 0 200px rgba(79,195,247,.4),
+      0 0 300px rgba(255,215,0,.3),
+      inset 0 0 30px rgba(255,107,157,.2);
+    animation:heroPulse .8s ease-in-out infinite;
+  }
+  @keyframes heroPulse{
+    0%,100%{transform:scale(1);box-shadow:0 0 60px rgba(255,107,157,.9),0 0 120px rgba(255,107,157,.6),0 0 200px rgba(79,195,247,.4),0 0 300px rgba(255,215,0,.3),inset 0 0 30px rgba(255,107,157,.2)}
+    50%{transform:scale(1.08);box-shadow:0 0 80px rgba(255,107,157,1),0 0 160px rgba(255,107,157,.8),0 0 280px rgba(79,195,247,.6),0 0 400px rgba(255,215,0,.5),inset 0 0 50px rgba(255,107,157,.4)}
+  }
+  .farewell-card.hero .farewell-avatar{
+    border-color:#ffd700;
+    box-shadow:0 0 25px rgba(255,215,0,.9),0 0 50px rgba(255,107,157,.7),0 0 80px rgba(79,195,247,.5);
+    animation:avatarSpin 2s linear infinite;
+  }
+  @keyframes avatarSpin{
+    0%{box-shadow:0 0 25px rgba(255,215,0,.9),0 0 50px rgba(255,107,157,.7),0 0 80px rgba(79,195,247,.5)}
+    33%{box-shadow:0 0 25px rgba(255,107,157,.9),0 0 50px rgba(79,195,247,.7),0 0 80px rgba(255,215,0,.5)}
+    66%{box-shadow:0 0 25px rgba(79,195,247,.9),0 0 50px rgba(255,215,0,.7),0 0 80px rgba(255,107,157,.5)}
+    100%{box-shadow:0 0 25px rgba(255,215,0,.9),0 0 50px rgba(255,107,157,.7),0 0 80px rgba(79,195,247,.5)}
+  }
+  .farewell-card.hero .farewell-emoji{
+    font-size:2.5rem;
+    animation:emojiBounce .6s ease-in-out infinite alternate;
+    text-shadow:0 0 20px rgba(255,215,0,.8),0 0 40px rgba(255,107,157,.6);
+  }
+  @keyframes emojiBounce{from{transform:translateY(0) scale(1)}to{transform:translateY(-8px) scale(1.2)}}
+  .farewell-card.hero .farewell-text{
+    font-size:1.3rem;font-weight:800;letter-spacing:2px;
+    background:linear-gradient(90deg,#ffd700,#ff6b9d,#4fc3f7,#ffd700);
+    background-size:300% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:heroGlow .8s linear infinite;
+    text-shadow:none;
+  }
+  @keyframes heroGlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  .farewell-card.hero .farewell-sub{
+    color:#ffd700;font-size:.85rem;font-weight:600;
+    text-shadow:0 0 10px rgba(255,215,0,.6);
+  }
+  .farewell-card.hero .farewell-count{
+    color:#4fc3f7;font-size:.75rem;font-weight:700;
+    text-shadow:0 0 8px rgba(79,195,247,.6);
+  }
+  /* 皇冠 */
+  .farewell-card.hero::after{
+    content:'👑';position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+    font-size:2rem;animation:heroFloat .8s ease-in-out infinite alternate;
+    text-shadow:0 0 15px rgba(255,215,0,.9),0 0 30px rgba(255,107,157,.6);
+    z-index:2;
+  }
+  @keyframes heroFloat{from{transform:translateX(-50%) translateY(0) rotate(-5deg)}to{transform:translateX(-50%) translateY(-8px) rotate(5deg)}}
+  /* 旋转光束 */
+  .farewell-card.hero::before{
+    content:'';position:absolute;top:-100%;left:-100%;width:300%;height:300%;
+    background:conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(255,215,0,.15) 20deg,
+      transparent 40deg,
+      rgba(255,107,157,.15) 60deg,
+      transparent 80deg,
+      rgba(79,195,247,.15) 100deg,
+      transparent 120deg,
+      rgba(255,215,0,.15) 140deg,
+      transparent 160deg,
+      rgba(255,107,157,.15) 180deg,
+      transparent 200deg,
+      rgba(79,195,247,.15) 220deg,
+      transparent 240deg,
+      rgba(255,215,0,.15) 260deg,
+      transparent 280deg,
+      rgba(255,107,157,.15) 300deg,
+      transparent 320deg,
+      rgba(79,195,247,.15) 340deg,
+      transparent 360deg
+    );
+    animation:heroBeam 3s linear infinite;
+    z-index:0;
+  }
+  @keyframes heroBeam{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .farewell-card.hero > *{position:relative;z-index:1}
+  .footer-note{text-align:center;color:var(--tx3);font-size:.72rem;margin-top:1rem;line-height:1.6}
+  .footer-note a{color:var(--ac2);text-decoration:none}
+  @media (max-width:480px){
+    .title{font-size:1.05rem}
+    .stat{padding:.3rem .55rem;font-size:.72rem}
+    .btn{padding:.35rem .6rem;font-size:.72rem}
+    .stage{padding:.4rem}
+    .grid{gap:2px}
+    .farewell-avatar{width:70px;height:70px}
+    .farewell-text{font-size:.95rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="title">🎯 头像连连看</div>
+    <div class="stats">
+      <div class="stat">⭐ <b id="score">0</b></div>
+      <div class="stat">👥 剩 <b id="left">56</b></div>
+      <div class="stat combo" id="comboStat" style="display:none">🔥 <b id="comboNum">0</b></div>
+    </div>
+  </div>
+  <div class="header">
+    <div class="btns">
+      <button class="btn" id="hintBtn">💡 提示 <span class="cnt" id="hintCnt">5</span></button>
+      <button class="btn" id="shuffleBtn">🔀 重排 <span class="cnt" id="shufCnt">3</span></button>
+      <button class="btn primary" id="restartBtn">🔄 重开</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="grid" id="grid"></div>
+    <svg class="line-canvas" id="lineCanvas"></svg>
+    <div class="particle-layer" id="particleLayer"></div>
+    <div class="combo-pop" id="comboPop"></div>
+    <div class="farewell" id="farewell">
+      <div class="farewell-card" id="farewellCard">
+        <img class="farewell-avatar" id="farewellAvatar" alt="">
+        <div class="farewell-emoji" id="farewellEmoji"></div>
+        <div class="farewell-text" id="farewellText"></div>
+        <div class="farewell-sub" id="farewellSub"></div>
+        <div class="farewell-count" id="farewellCount"></div>
+      </div>
+    </div>
+    <div class="overlay" id="overlay">
+      <div class="overlay-card">
+        <div class="ico" id="ovIco">🏆</div>
+        <h2 id="ovTitle">全部消除，通关啦！</h2>
+        <p id="ovDesc"></p>
+        <div class="big" id="ovBig"></div>
+        <button class="btn primary" onclick="game.restart()">再来一局</button>
+      </div>
+    </div>
+  </div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="footer-note">
+    点击两个相同的头像，若可用不超过3条直线（最多2个拐角）连接即可消除<br>
+    每种头像的最后两个被消除时会有一句专属告别语 · 参考 <a href="https://github.com/gd4Ark/linkup" target="_blank" rel="noopener">gd4Ark/linkup</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== 配置 =====
+  var CONFIG = {
+    cols: 8,
+    rows: 7,
+    types: 7,
+    hints: 5,
+    shuffles: 3,
+    imgBase: '../images/linkup/',
+    imgExt: '.jpg',
+    comboWindow: 2500,  // 连击窗口（毫秒）
+    // 每种头像的告别语（可自定义，比如朋友的外号/吐槽）
+    farewells: [
+      {emoji:'🌟', text:'星光璀璨，前路有光', sub:'愿你如星辰般闪耀'},
+      {emoji:'⚡', text:'一点寒芒先至，随后枪出如龙', sub:'— 枪出如龙 —', special:'spear'},
+      {emoji:'⚔️', text:'千磨万击还坚劲，任尔东西南北风', sub:'不屈不挠，方成大器'},
+      {emoji:'🏔️', text:'会当凌绝顶，一览众山小', sub:'勇攀高峰，不负此生'},
+      {emoji:'🔥', text:'长风破浪会有时，直挂云帆济沧海', sub:'心怀热忱，所向披靡'},
+      {emoji:'👑', text:'谢幕登场，主角光环！', sub:'—— 这就是我 ——', special:'hero'},
+      {emoji:'🚀', text:'大鹏一日同风起，扶摇直上九万里', sub:'乘风而起，势不可挡'}
+    ]
+  };
+
+  function $(id){return document.getElementById(id)}
+  function rand(n){return Math.floor(Math.random()*n)}
+
+  // ===== 游戏状态 =====
+  var game = {
+    grid: [],
+    selected: null,
+    score: 0,
+    left: 0,
+    hints: 0,
+    shuffles: 0,
+    hintPair: null,
+    locked: false,
+    combo: 0,
+    lastMatchTime: 0,
+    comboTimer: null,
+    farewellQueue: [],
+    farewellShowing: false,
+    typesCleared: 0,
+    hintsUsed: 0,
+    shufflesUsed: 0
+  };
+
+  // ===== 初始化网格 =====
+  function initGrid(){
+    var cols = CONFIG.cols, rows = CONFIG.rows;
+    game.grid = [];
+    for(var y=0;y<rows+2;y++){
+      game.grid[y]=[];
+      for(var x=0;x<cols+2;x++) game.grid[y][x]=0;
+    }
+    var total = cols*rows;
+    var perType = total/CONFIG.types;
+    var pool = [];
+    for(var t=1;t<=CONFIG.types;t++){
+      for(var k=0;k<perType;k++) pool.push(t);
+    }
+    for(var i=pool.length-1;i>0;i--){
+      var j=rand(i+1);
+      var tmp=pool[i];pool[i]=pool[j];pool[j]=tmp;
+    }
+    var idx=0;
+    for(var y=1;y<=rows;y++){
+      for(var x=1;x<=cols;x++) game.grid[y][x]=pool[idx++];
+    }
+    game.left = total;
+    if(!findAnyPair()) shuffleRemaining(false);
+  }
+
+  function countType(t){
+    var n=0;
+    for(var y=1;y<=CONFIG.rows;y++){
+      for(var x=1;x<=CONFIG.cols;x++){
+        if(game.grid[y][x]===t) n++;
+      }
+    }
+    return n;
+  }
+
+  // ===== 路径判断 =====
+  function directPath(a,b){
+    if(a.x!==b.x && a.y!==b.y) return null;
+    var path=[];
+    if(a.y===b.y){
+      var lo=Math.min(a.x,b.x), hi=Math.max(a.x,b.x);
+      for(var x=lo+1;x<hi;x++){
+        if(game.grid[a.y][x]!==0) return null;
+        path.push({x:x,y:a.y});
+      }
+    }else{
+      var loy=Math.min(a.y,b.y), hiy=Math.max(a.y,b.y);
+      for(var y=loy+1;y<hiy;y++){
+        if(game.grid[y][a.x]!==0) return null;
+        path.push({x:a.x,y:y});
+      }
+    }
+    return path;
+  }
+  function oneCorner(a,b){
+    var corners=[{x:b.x,y:a.y},{x:a.x,y:b.y}];
+    for(var i=0;i<2;i++){
+      var c=corners[i];
+      if(c.x===a.x && c.y===a.y) continue;
+      if(c.x===b.x && c.y===b.y) continue;
+      if(game.grid[c.y][c.x]!==0) continue;
+      var p1=directPath(a,c), p2=directPath(c,b);
+      if(p1!==null && p2!==null) return p1.concat([c],p2);
+    }
+    return null;
+  }
+  function twoCorner(a,b){
+    var cols=CONFIG.cols, rows=CONFIG.rows;
+    for(var x=0;x<=cols+1;x++){
+      if(x===a.x) continue;
+      if(game.grid[a.y][x]!==0) continue;
+      var t={x:x,y:a.y};
+      var p1=directPath(a,t);
+      if(p1===null) continue;
+      var p2=oneCorner(t,b);
+      if(p2!==null) return p1.concat(p2);
+    }
+    for(var y=0;y<=rows+1;y++){
+      if(y===a.y) continue;
+      if(game.grid[y][a.x]!==0) continue;
+      var t2={x:a.x,y:y};
+      var p1b=directPath(a,t2);
+      if(p1b===null) continue;
+      var p2b=oneCorner(t2,b);
+      if(p2b!==null) return p1b.concat(p2b);
+    }
+    return null;
+  }
+  function findPath(a,b){
+    if(a.x===b.x && a.y===b.y) return null;
+    if(game.grid[a.y][a.x]===0 || game.grid[b.y][b.x]===0) return null;
+    if(game.grid[a.y][a.x]!==game.grid[b.y][b.x]) return null;
+    var p=directPath(a,b); if(p!==null) return p;
+    p=oneCorner(a,b); if(p!==null) return p;
+    p=twoCorner(a,b); if(p!==null) return p;
+    return null;
+  }
+  function findAnyPair(){
+    var cells=[];
+    for(var y=1;y<=CONFIG.rows;y++){
+      for(var x=1;x<=CONFIG.cols;x++){
+        if(game.grid[y][x]!==0) cells.push({x:x,y:y});
+      }
+    }
+    var groups={};
+    cells.forEach(function(c){
+      var t=game.grid[c.y][c.x];
+      (groups[t]=groups[t]||[]).push(c);
+    });
+    for(var t in groups){
+      var arr=groups[t];
+      for(var i=0;i<arr.length;i++){
+        for(var j=i+1;j<arr.length;j++){
+          if(findPath(arr[i],arr[j])) return [arr[i],arr[j]];
+        }
+      }
+    }
+    return null;
+  }
+  function shuffleRemaining(refundShuffle){
+    var cells=[], vals=[];
+    for(var y=1;y<=CONFIG.rows;y++){
+      for(var x=1;x<=CONFIG.cols;x++){
+        if(game.grid[y][x]!==0){
+          cells.push({x:x,y:y});
+          vals.push(game.grid[y][x]);
+        }
+      }
+    }
+    for(var i=vals.length-1;i>0;i--){
+      var j=rand(i+1);
+      var tmp=vals[i];vals[i]=vals[j];vals[j]=tmp;
+    }
+    cells.forEach(function(c,i){ game.grid[c.y][c.x]=vals[i]; });
+    if(!findAnyPair()) return shuffleRemaining(refundShuffle);
+    renderCells();
+  }
+
+  // ===== 渲染 =====
+  var gridEl = $('grid');
+  var lineCanvas = $('lineCanvas');
+  var particleLayer = $('particleLayer');
+
+  function buildGrid(){
+    gridEl.style.gridTemplateColumns = 'repeat('+CONFIG.cols+',1fr)';
+    gridEl.innerHTML='';
+    for(var y=1;y<=CONFIG.rows;y++){
+      for(var x=1;x<=CONFIG.cols;x++){
+        var div=document.createElement('div');
+        div.className='cell';
+        div.dataset.x=x; div.dataset.y=y;
+        div.addEventListener('click',onCellClick);
+        gridEl.appendChild(div);
+      }
+    }
+    renderCells();
+  }
+  function renderCells(){
+    var cells=gridEl.children;
+    for(var i=0;i<cells.length;i++){
+      var el=cells[i];
+      var x=+el.dataset.x, y=+el.dataset.y;
+      var v=game.grid[y][x];
+      if(v===0){
+        el.className='cell empty';
+        el.innerHTML='';
+      }else{
+        el.className='cell';
+        el.innerHTML='<img src="'+CONFIG.imgBase+'avatar-'+v+CONFIG.imgExt+'" alt="头像'+v+'">';
+      }
+    }
+  }
+  function getCellEl(x,y){
+    return gridEl.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+  }
+
+  // ===== 点击处理 =====
+  function onCellClick(e){
+    if(game.locked) return;
+    var el=e.currentTarget;
+    var x=+el.dataset.x, y=+el.dataset.y;
+    if(game.grid[y][x]===0) return;
+    clearHintHighlight();
+    if(!game.selected){
+      game.selected={x:x,y:y};
+      el.classList.add('selected');
+      return;
+    }
+    if(game.selected.x===x && game.selected.y===y){
+      el.classList.remove('selected');
+      game.selected=null;
+      return;
+    }
+    var a=game.selected, b={x:x,y:y};
+    var path=findPath(a,b);
+    if(path!==null){
+      game.locked=true;
+      var aEl=getCellEl(a.x,a.y);
+      var bEl=getCellEl(x,y);
+      aEl.classList.remove('selected');
+      var type=game.grid[a.y][a.x];
+      // findPath 返回的是中间点（不含起止），这里补上起点 a 和终点 b
+      drawLine([a].concat(path).concat([b]), function(){
+        spawnParticles(aEl, type);
+        spawnParticles(bEl, type);
+        aEl.classList.add('removing');
+        bEl.classList.add('removing');
+        setTimeout(function(){
+          game.grid[a.y][a.x]=0;
+          game.grid[b.y][b.x]=0;
+          aEl.className='cell empty'; aEl.innerHTML='';
+          bEl.className='cell empty'; bEl.innerHTML='';
+          game.left-=2;
+          // 连击
+          var now=Date.now();
+          if(now-game.lastMatchTime < CONFIG.comboWindow) game.combo++;
+          else game.combo=1;
+          game.lastMatchTime=now;
+          var gain=10;
+          if(game.combo>=2){
+            gain=10+game.combo*5;
+            showComboPop(game.combo);
+          }
+          game.score+=gain;
+          updateStats();
+          if(game.comboTimer) clearTimeout(game.comboTimer);
+          game.comboTimer=setTimeout(function(){
+            game.combo=0;
+            updateComboStat();
+          },CONFIG.comboWindow);
+          updateComboStat();
+          game.selected=null;
+          // 该类型是否清空 → 告别
+          var remain=countType(type);
+          if(remain===0) queueFarewell(type);
+          // 解锁 + 后续检查（等告别结束）
+          var cb=function(){
+            game.locked=false;
+            if(game.left===0) winGame();
+            else if(!findAnyPair()){
+              showToast('🔁 已无可连，自动重排！');
+              shuffleRemaining(false);
+            }
+          };
+          if(game.farewellQueue.length>0 && !game.farewellShowing){
+            showNextFarewell(cb);
+          }else{
+            cb();
+          }
+        },330);
+      });
+    }else{
+      var prevEl=getCellEl(game.selected.x,game.selected.y);
+      prevEl.classList.remove('selected');
+      game.selected={x:x,y:y};
+      el.classList.add('selected');
+      el.style.boxShadow='0 0 0 2px #f87171';
+      setTimeout(function(){el.style.boxShadow='';},200);
+      // 错误配对打断连击
+      game.combo=0;
+      updateComboStat();
+    }
+  }
+
+  // ===== 连接线 =====
+  // pathPoints: 逻辑坐标数组，必须包含起点和终点 [{x,y}, ...]
+  function drawLine(pathPoints, cb){
+    if(!pathPoints || pathPoints.length<2){ cb && cb(); return; }
+    var firstCell=gridEl.children[0];
+    var cs=firstCell.getBoundingClientRect();
+    if(!cs.width){ cb && cb(); return; } // 网格未渲染，跳过画线
+    var cellW=cs.width, cellH=cs.height, gap=3;
+    var gridRect=gridEl.getBoundingClientRect();
+    var svgRect=lineCanvas.getBoundingClientRect();
+    var offX=gridRect.left-svgRect.left;
+    var offY=gridRect.top-svgRect.top;
+    // 逻辑坐标 → 像素坐标（格子中心，相对 SVG 左上角）
+    function center(p){
+      return {
+        x: offX + (p.x-1)*(cellW+gap) + cellW/2,
+        y: offY + (p.y-1)*(cellH+gap) + cellH/2
+      };
+    }
+    var pts=pathPoints.map(center);
+    // 计算总长度
+    var len=0;
+    for(var i=1;i<pts.length;i++){
+      len+=Math.hypot(pts[i].x-pts[i-1].x, pts[i].y-pts[i-1].y);
+    }
+    // SVG 尺寸：跟随实际渲染尺寸（CSS 已设 100%），用 viewBox 对齐坐标系
+    var w=Math.max(1,Math.round(svgRect.width));
+    var h=Math.max(1,Math.round(svgRect.height));
+    lineCanvas.setAttribute('width',w);
+    lineCanvas.setAttribute('height',h);
+    lineCanvas.setAttribute('viewBox','0 0 '+w+' '+h);
+    lineCanvas.innerHTML='';
+    var poly=document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    var lineColor=getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#ffd700';
+    poly.setAttribute('fill','none');
+    poly.setAttribute('stroke',lineColor);
+    poly.setAttribute('stroke-width','5');
+    poly.setAttribute('stroke-linecap','round');
+    poly.setAttribute('stroke-linejoin','round');
+    poly.setAttribute('vector-effect','non-scaling-stroke');
+    poly.setAttribute('points', pts.map(function(p){return p.x.toFixed(1)+','+p.y.toFixed(1)}).join(' '));
+    poly.style.filter='drop-shadow(0 0 6px rgba(255,215,0,.9))';
+    lineCanvas.appendChild(poly);
+    // 描边动画：用 style 设 dash 属性（兼容性最好），双 rAF 触发过渡
+    if(len>0){
+      poly.style.strokeDasharray=len+'px';
+      poly.style.strokeDashoffset=len+'px';
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          poly.style.transition='stroke-dashoffset .28s ease-out';
+          poly.style.strokeDashoffset='0px';
+        });
+      });
+    }
+    // 线画完 → 保持一小会儿 → 淡出 → 回调
+    setTimeout(function(){
+      poly.style.transition='opacity .25s ease-out';
+      poly.style.opacity='0';
+      setTimeout(function(){
+        if(lineCanvas.contains(poly)) lineCanvas.removeChild(poly);
+        cb && cb();
+      },250);
+    },320);
+  }
+
+  // ===== 粒子 =====
+  function spawnParticles(cellEl, type){
+    var rect=cellEl.getBoundingClientRect();
+    var stageRect=particleLayer.getBoundingClientRect();
+    var cx=rect.left+rect.width/2-stageRect.left;
+    var cy=rect.top+rect.height/2-stageRect.top;
+    // 根据类型选择颜色方案
+    var colors;
+    if(type===2){
+      // 枪出如龙 - 金色+红色
+      colors=['#ffd700','#ff4444','#ff6b9d','#ffffff','#ffd700'];
+    }else if(type===6){
+      // 主角光环 - 多彩盛宴
+      colors=['#ff6b9d','#c94f7e','#4fc3f7','#ffd700','#ffffff','#4ade80','#fbbf24'];
+    }else{
+      colors=['#ff6b9d','#ffd700','#4fc3f7','#4ade80','#fbbf24'];
+    }
+    var n = type===6 ? 28 : (type===2 ? 16 : 10);
+    for(var i=0;i<n;i++){
+      var p=document.createElement('div');
+      p.className='particle';
+      p.style.left=cx+'px';
+      p.style.top=cy+'px';
+      p.style.background=colors[rand(colors.length)];
+      particleLayer.appendChild(p);
+      var angle=(Math.PI*2/n)*i + Math.random()*0.5;
+      var dist = type===6 ? 60+Math.random()*80 : (type===2 ? 50+Math.random()*50 : 30+Math.random()*40);
+      var dx=Math.cos(angle)*dist;
+      var dy=Math.sin(angle)*dist;
+      var size = type===6 ? 10+Math.random()*10 : (type===2 ? 8+Math.random()*6 : 4+Math.random()*4);
+      p.style.width=size+'px';
+      p.style.height=size+'px';
+      p.style.boxShadow='0 0 8px '+p.style.background;
+      p.style.transition='transform .7s ease-out, opacity .7s ease-out';
+      (function(node,dx,dy){
+        requestAnimationFrame(function(){
+          node.style.transform='translate('+dx+'px,'+dy+'px) scale(0)';
+          node.style.opacity='0';
+        });
+        setTimeout(function(){if(node.parentNode)node.parentNode.removeChild(node);},750);
+      })(p,dx,dy);
+    }
+    // 普通头像：淡淡的小光环
+    if(type!==2 && type!==6){
+      var ring=document.createElement('div');
+      ring.style.cssText='position:absolute;left:'+cx+'px;top:'+cy+'px;width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,107,157,.5);pointer-events:none;z-index:12;box-shadow:0 0 10px rgba(255,107,157,.3)';
+      particleLayer.appendChild(ring);
+      requestAnimationFrame(function(){
+        ring.style.transition='all .6s ease-out';
+        ring.style.width='80px';
+        ring.style.height='80px';
+        ring.style.left=(cx-30)+'px';
+        ring.style.top=(cy-30)+'px';
+        ring.style.opacity='0';
+      });
+      setTimeout(function(){if(ring.parentNode)ring.parentNode.removeChild(ring);},700);
+    }
+    // 特殊特效添加光环
+    if(type===2 || type===6){
+      // 主角特效：多重光环 + 光柱
+      var ringCount = type===6 ? 3 : 1;
+      for(var ri=0; ri<ringCount; ri++){
+        (function(idx, t){
+          setTimeout(function(){
+            var ring=document.createElement('div');
+            var color = t===2 ? '#ffd700' : ['#ff6b9d','#ffd700','#4fc3f7'][idx];
+            ring.style.cssText='position:absolute;left:'+cx+'px;top:'+cy+'px;width:20px;height:20px;border-radius:50%;border:3px solid '+color+';pointer-events:none;z-index:12;box-shadow:0 0 30px '+color;
+            particleLayer.appendChild(ring);
+            requestAnimationFrame(function(){
+              ring.style.transition='all .8s ease-out';
+              var sz = t===6 ? 200+idx*60 : 120;
+              ring.style.width=sz+'px';
+              ring.style.height=sz+'px';
+              ring.style.left=(cx-sz/2)+'px';
+              ring.style.top=(cy-sz/2)+'px';
+              ring.style.opacity='0';
+            });
+            setTimeout(function(){if(ring.parentNode)ring.parentNode.removeChild(ring);},900);
+          }, idx*150);
+        })(ri, type);
+      }
+      // 主角额外：光柱效果
+      if(type===6){
+        for(var bi=0; bi<6; bi++){
+          (function(idx){
+            setTimeout(function(){
+              var beam=document.createElement('div');
+              var bcolor=['#ff6b9d','#ffd700','#4fc3f7'][idx%3];
+              beam.style.cssText='position:absolute;left:'+(cx-3)+'px;top:'+cy+'px;width:6px;height:80px;background:linear-gradient(to top,'+bcolor+',transparent);pointer-events:none;z-index:13;box-shadow:0 0 15px '+bcolor+';transform-origin:bottom center;transform:rotate('+(idx*60)+'deg)';
+              particleLayer.appendChild(beam);
+              requestAnimationFrame(function(){
+                beam.style.transition='all 1s ease-out';
+                beam.style.height='200px';
+                beam.style.opacity='0';
+                beam.style.transform='rotate('+(idx*60)+'deg) translateY(-50px)';
+              });
+              setTimeout(function(){if(beam.parentNode)beam.parentNode.removeChild(beam);},1100);
+            }, idx*80);
+          })(bi);
+        }
+      }
+    }
+  }
+
+  // ===== 连击提示 =====
+  var comboPopEl=$('comboPop');
+  var comboPopTimer=null;
+  function showComboPop(n){
+    comboPopEl.textContent='🔥 COMBO x'+n+'  +'+(n*5);
+    comboPopEl.classList.add('show');
+    if(comboPopTimer) clearTimeout(comboPopTimer);
+    comboPopTimer=setTimeout(function(){ comboPopEl.classList.remove('show'); },900);
+  }
+  function updateComboStat(){
+    var stat=$('comboStat');
+    if(game.combo>=2){
+      stat.style.display='flex';
+      $('comboNum').textContent=game.combo;
+    }else{
+      stat.style.display='none';
+    }
+  }
+
+  // ===== 告别卡 =====
+  function queueFarewell(type){ game.farewellQueue.push(type); }
+  function showNextFarewell(doneCb){
+    if(game.farewellQueue.length===0){ doneCb && doneCb(); return; }
+    var type=game.farewellQueue.shift();
+    game.farewellShowing=true;
+    game.typesCleared++;
+    var fw=CONFIG.farewells[type-1] || {emoji:'👋',text:'再见！'};
+    var el=$('farewell');
+    var card=$('farewellCard');
+    // 清除之前的特殊类
+    card.className='farewell-card';
+    // 应用特殊特效
+    if(fw.special==='spear') card.classList.add('spear');
+    else if(fw.special==='hero') card.classList.add('hero');
+    else card.classList.add('normal');
+    $('farewellAvatar').src=CONFIG.imgBase+'avatar-'+type+CONFIG.imgExt;
+    $('farewellEmoji').textContent=fw.emoji;
+    $('farewellText').textContent=fw.text;
+    $('farewellSub').textContent=fw.sub || '';
+    $('farewellCount').textContent='第 '+game.typesCleared+' / '+CONFIG.types+' 位好友已离场';
+    el.classList.add('show');
+    // 特殊特效时延长显示时间
+    var dur = fw.special==='hero' ? 3200 : (fw.special==='spear' ? 2200 : 1500);
+    setTimeout(function(){
+      el.classList.remove('show');
+      setTimeout(function(){
+        game.farewellShowing=false;
+        if(game.farewellQueue.length>0) showNextFarewell(doneCb);
+        else doneCb && doneCb();
+      },300);
+    },dur);
+  }
+  function hideFarewell(){ $('farewell').classList.remove('show'); }
+
+  // ===== 提示 / 重排 =====
+  function useHint(){
+    if(game.hints<=0){showToast('💡 提示次数用完啦');return;}
+    if(game.locked) return;
+    var pair=findAnyPair();
+    if(!pair){showToast('暂无可消除的组合');return;}
+    game.hints--;
+    game.hintsUsed++;
+    $('hintCnt').textContent=game.hints;
+    clearHintHighlight();
+    getCellEl(pair[0].x,pair[0].y).classList.add('hint');
+    getCellEl(pair[1].x,pair[1].y).classList.add('hint');
+    game.hintPair=pair;
+    setTimeout(clearHintHighlight,1800);
+  }
+  function clearHintHighlight(){
+    if(!game.hintPair) return;
+    var e1=getCellEl(game.hintPair[0].x,game.hintPair[0].y);
+    var e2=getCellEl(game.hintPair[1].x,game.hintPair[1].y);
+    if(e1) e1.classList.remove('hint');
+    if(e2) e2.classList.remove('hint');
+    game.hintPair=null;
+  }
+  function useShuffle(){
+    if(game.shuffles<=0){showToast('🔀 重排次数用完啦');return;}
+    if(game.locked) return;
+    game.shuffles--;
+    game.shufflesUsed++;
+    $('shufCnt').textContent=game.shuffles;
+    if(game.selected){
+      var prevEl=getCellEl(game.selected.x,game.selected.y);
+      if(prevEl) prevEl.classList.remove('selected');
+      game.selected=null;
+    }
+    shuffleRemaining(true);
+    showToast('🔀 已重排！');
+  }
+
+  // ===== 更新显示 =====
+  function updateStats(){
+    $('score').textContent=game.score;
+    $('left').textContent=game.left;
+    var pct=CONFIG.cols*CONFIG.rows;
+    var done=pct-game.left;
+    $('progressBar').style.width=(done/pct*100)+'%';
+  }
+
+  // ===== 胜利 =====
+  function winGame(){
+    $('ovIco').textContent='🏆';
+    $('ovTitle').textContent='全部消除，通关啦！';
+    var stats=[];
+    stats.push('得分 '+game.score);
+    stats.push('提示 '+game.hintsUsed+' 次');
+    stats.push('重排 '+game.shufflesUsed+' 次');
+    $('ovDesc').textContent=CONFIG.types+' 位好友全部离场 · '+stats.join(' · ');
+    $('ovBig').textContent = (game.hintsUsed===0 && game.shufflesUsed===0)
+      ? '👑 完美通关！未用任何道具'
+      : '✨ 感谢游玩';
+    $('overlay').classList.add('show');
+    // 胜利炫酷特效
+    spawnVictoryEffect();
+  }
+  function spawnVictoryEffect(){
+    var stage=$('stage');
+    var rect=stage.getBoundingClientRect();
+    var cx=rect.width/2, cy=rect.height/2;
+    // 多层光环
+    for(var ring=0;ring<3;ring++){
+      (function(r){
+        setTimeout(function(){
+          var el=document.createElement('div');
+          var size=20+r*10;
+          el.style.cssText='position:absolute;left:'+cx+'px;top:'+cy+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;border:2px solid '+['#ffd700','#ff6b9d','#4fc3f7'][r]+';pointer-events:none;z-index:30;box-shadow:0 0 30px '+['#ffd700','#ff6b9d','#4fc3f7'][r];
+          stage.appendChild(el);
+          requestAnimationFrame(function(){
+            el.style.transition='all 1s ease-out';
+            el.style.width=(size+200)+'px';
+            el.style.height=(size+200)+'px';
+            el.style.left=(cx-size/2-100)+'px';
+            el.style.top=(cy-size/2-100)+'px';
+            el.style.opacity='0';
+          });
+          setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1100);
+        },r*200);
+      })(ring);
+    }
+    // 胜利粒子
+    var colors=['#ff6b9d','#ffd700','#4fc3f7','#4ade80','#fbbf24','#c94f7e','#ffffff'];
+    for(var i=0;i<40;i++){
+      var p=document.createElement('div');
+      var color=colors[rand(colors.length)];
+      var size=4+Math.random()*8;
+      p.style.cssText='position:absolute;left:'+cx+'px;top:'+cy+'px;width:'+size+'px;height:'+size+'px;background:'+color+';border-radius:50%;pointer-events:none;z-index:30;box-shadow:0 0 10px '+color;
+      stage.appendChild(p);
+      var angle=Math.random()*Math.PI*2;
+      var dist=100+Math.random()*200;
+      var dx=Math.cos(angle)*dist;
+      var dy=Math.sin(angle)*dist;
+      requestAnimationFrame(function(){
+        p.style.transition='transform 1.2s ease-out, opacity 1.2s ease-out';
+        p.style.transform='translate('+dx+'px,'+dy+'px) scale(0)';
+        p.style.opacity='0';
+      });
+      setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p);},1300);
+    }
+  }
+  function hideOverlay(){ $('overlay').classList.remove('show'); }
+
+  // ===== Toast =====
+  var toastTimer=null;
+  function showToast(msg){
+    var t=document.getElementById('__toast');
+    if(!t){
+      t=document.createElement('div');
+      t.id='__toast';
+      t.style.cssText='position:fixed;left:50%;top:18%;transform:translateX(-50%);background:rgba(45,33,71,.95);border:1px solid var(--ac);color:#fff;padding:.6rem 1.1rem;border-radius:10px;font-size:.85rem;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transition:opacity .2s;pointer-events:none';
+      document.body.appendChild(t);
+    }
+    t.textContent=msg;
+    t.style.opacity='1';
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){t.style.opacity='0';},1500);
+  }
+
+  // ===== 重启 =====
+  game.restart=function(){
+    hideOverlay();
+    hideFarewell();
+    game.score=0;
+    game.left=CONFIG.cols*CONFIG.rows;
+    game.hints=CONFIG.hints;
+    game.shuffles=CONFIG.shuffles;
+    game.selected=null;
+    game.locked=false;
+    game.hintPair=null;
+    game.combo=0;
+    game.lastMatchTime=0;
+    game.farewellQueue=[];
+    game.farewellShowing=false;
+    game.typesCleared=0;
+    game.hintsUsed=0;
+    game.shufflesUsed=0;
+    if(game.comboTimer){clearTimeout(game.comboTimer);game.comboTimer=null;}
+    $('hintCnt').textContent=game.hints;
+    $('shufCnt').textContent=game.shuffles;
+    lineCanvas.innerHTML='';
+    particleLayer.innerHTML='';
+    updateComboStat();
+    initGrid();
+    buildGrid();
+    updateStats();
+  };
+
+  // ===== 事件绑定 =====
+  $('hintBtn').addEventListener('click',useHint);
+  $('shuffleBtn').addEventListener('click',useShuffle);
+  $('restartBtn').addEventListener('click',function(){game.restart()});
+  window.addEventListener('resize',function(){lineCanvas.innerHTML='';});
+
+  // ===== 启动 =====
+  game.restart();
+  window.game=game;
+})();
+</script>
+</body>
+</html>
