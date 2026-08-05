@@ -1,4 +1,4 @@
-# HTML — 短期缓存 + stale-while-revalidate
+﻿# HTML — 短期缓存 + stale-while-revalidate
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
@@ -9,6 +9,10 @@
 /articles-content.json
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
   X-Content-Type-Options: nosniff
+
+# 连连看游戏 — 允许同源 iframe 嵌入（覆盖 /* 的 DENY）
+/linkup/*
+  X-Frame-Options: SAMEORIGIN
 
 # 静态资源 — 长期缓存
 /images/*
