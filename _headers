@@ -5,9 +5,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Content JSON — 短期缓存（文章更新频率低，用 stale-while-revalidate 提升性能）
+# Content JSON — 短期缓存（文章更新频繁，缩短缓存让更新后刷新即见）
 /articles-content.json
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: public, max-age=60, stale-while-revalidate=600
   X-Content-Type-Options: nosniff
 
 # 连连看游戏 — 允许同源 iframe 嵌入（CSP frame-ancestors 优先于 X-Frame-Options）
