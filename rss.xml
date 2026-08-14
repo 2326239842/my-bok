@@ -5,56 +5,56 @@
   <link>https://yadongw118.dpdns.org/</link>
   <description>Yadong 的个人博客 - 记录技术探索、生活感悟与创意项目</description>
   <language>zh-CN</language>
-  <lastBuildDate>Fri, 14 Aug 2026 15:45:29 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 14 Aug 2026 15:49:44 GMT</lastBuildDate>
   <atom:link href="https://yadongw118.dpdns.org/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
-    <title>博客软件大全：18 款常用软件合集分享</title>
-    <link>https://yadongw118.dpdns.org/#/post/1</link>
-    <guid isPermaLink="false">博客软件大全：18 款常用软件合集分享</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>网盘『博客软件大全』文件夹里的 18 款软件合集，覆盖下载加速、PDF 处理、系统维护、激活部署、开发设计、游戏与移动应用 7 大类，每款附版本号和官方下载链接，文末有网盘地址。</description>
-  </item>
-  <item>
-    <title>篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</title>
-    <link>https://yadongw118.dpdns.org/#/post/2</link>
-    <guid isPermaLink="false">篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>用篡改猴的 VIP 视频解析脚本，在网页版腾讯、爱奇艺、优酷不用登录就能直接看付费视频。附实测体验：多个解析源可选，但画质固定、略有卡顿，需关闭原窗口观看。</description>
-  </item>
-  <item>
     <title>篡改猴（Tampermonkey）安装教程：Edge 浏览器图文版</title>
-    <link>https://yadongw118.dpdns.org/#/post/3</link>
+    <link>https://yadongw118.dpdns.org/#/post/1</link>
     <guid isPermaLink="false">篡改猴（Tampermonkey）安装教程：Edge 浏览器图文版</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <pubDate>Fri, 14 Aug 2026 06:00:00 GMT</pubDate>
     <description>篡改猴（Tampermonkey）是最流行的用户脚本管理器，可以个性化修改网页、屏蔽广告、跳过会员验证、辅助刷课。本文用图文一步步教你如何在 Edge 浏览器上安装篡改猴并获取第一个脚本。</description>
   </item>
   <item>
-    <title>Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</title>
+    <title>用篡改猴刷网课：学习通视频+刷题脚本实测分享</title>
+    <link>https://yadongw118.dpdns.org/#/post/2</link>
+    <guid isPermaLink="false">用篡改猴刷网课：学习通视频+刷题脚本实测分享</guid>
+    <pubDate>Fri, 14 Aug 2026 05:00:00 GMT</pubDate>
+    <description>两个亲测可用的网课脚本：一个刷视频（学习通网课助手），一个刷题（做题助手）。附使用注意事项——建议只开一倍速，别开多窗口，避免被后台判定刷课行为。</description>
+  </item>
+  <item>
+    <title>篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</title>
+    <link>https://yadongw118.dpdns.org/#/post/3</link>
+    <guid isPermaLink="false">篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</guid>
+    <pubDate>Fri, 14 Aug 2026 04:00:00 GMT</pubDate>
+    <description>用篡改猴的 VIP 视频解析脚本，在网页版腾讯、爱奇艺、优酷不用登录就能直接看付费视频。附实测体验：多个解析源可选，但画质固定、略有卡顿，需关闭原窗口观看。</description>
+  </item>
+  <item>
+    <title>干净卸载软件：卸载工具+追踪安装防流氓软件教程</title>
     <link>https://yadongw118.dpdns.org/#/post/4</link>
-    <guid isPermaLink="false">Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>Win11 广告明显比之前的系统多，拖慢了运行速度和网速。本文从系统设置、浏览器广告去除、应用软件广告去除三个方面，手把手教你有效关闭广告、提升浏览速度。</description>
+    <guid isPermaLink="false">干净卸载软件：卸载工具+追踪安装防流氓软件教程</guid>
+    <pubDate>Fri, 14 Aug 2026 03:00:00 GMT</pubDate>
+    <description>用卸载工具干净卸载软件，重点是『追踪安装』功能——记录软件安装的每一个文件，遇到流氓软件时强制删除也能删干净。附启动项管理和注册表清理说明。</description>
   </item>
   <item>
     <title>IDM 下载安装与设置：多线程下载神器入门</title>
     <link>https://yadongw118.dpdns.org/#/post/5</link>
     <guid isPermaLink="false">IDM 下载安装与设置：多线程下载神器入门</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <pubDate>Fri, 14 Aug 2026 02:00:00 GMT</pubDate>
     <description>IDM（Internet Download Manager）通过多线程技术接管浏览器下载，在不改变网速的前提下极大提升下载速度。本文分享绿色中文版的安装设置流程，以及浏览器接管、下载位置配置等要点。</description>
   </item>
   <item>
-    <title>干净卸载软件：卸载工具+追踪安装防流氓软件教程</title>
+    <title>Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</title>
     <link>https://yadongw118.dpdns.org/#/post/6</link>
-    <guid isPermaLink="false">干净卸载软件：卸载工具+追踪安装防流氓软件教程</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>用卸载工具干净卸载软件，重点是『追踪安装』功能——记录软件安装的每一个文件，遇到流氓软件时强制删除也能删干净。附启动项管理和注册表清理说明。</description>
+    <guid isPermaLink="false">Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</guid>
+    <pubDate>Fri, 14 Aug 2026 01:00:00 GMT</pubDate>
+    <description>Win11 广告明显比之前的系统多，拖慢了运行速度和网速。本文从系统设置、浏览器广告去除、应用软件广告去除三个方面，手把手教你有效关闭广告、提升浏览速度。</description>
   </item>
   <item>
-    <title>用篡改猴刷网课：学习通视频+刷题脚本实测分享</title>
+    <title>博客软件大全：18 款常用软件合集分享</title>
     <link>https://yadongw118.dpdns.org/#/post/7</link>
-    <guid isPermaLink="false">用篡改猴刷网课：学习通视频+刷题脚本实测分享</guid>
+    <guid isPermaLink="false">博客软件大全：18 款常用软件合集分享</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>两个亲测可用的网课脚本：一个刷视频（学习通网课助手），一个刷题（做题助手）。附使用注意事项——建议只开一倍速，别开多窗口，避免被后台判定刷课行为。</description>
+    <description>网盘『博客软件大全』文件夹里的 18 款软件合集，覆盖下载加速、PDF 处理、系统维护、激活部署、开发设计、游戏与移动应用 7 大类，每款附版本号和官方下载链接，文末有网盘地址。</description>
   </item>
   <item>
     <title>我用 Trae 一个月，它成了我日常 AI 的首选</title>
