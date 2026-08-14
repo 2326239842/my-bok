@@ -82,7 +82,36 @@ summary: "从 PDF 处理到论文下载，从格式转换到 AI 大模型——�
   background: var(--ac2);
 }
 @media(max-width:768px){
-  .free-grid { grid-template-columns: 1fr; }
+  .free-grid { grid-template-columns: 1fr; gap: 1.1rem; }
+  .free-card { padding: 1.1rem 1.15rem; border-radius: 12px; }
+  .free-card-top { gap: .7rem; }
+  .free-icon { font-size: 1.7rem; margin-top: 0; }
+  .free-title { font-size: 1rem; }
+  .free-desc { font-size: .85rem; line-height: 1.65; margin-bottom: .6rem; }
+  .free-link { font-size: .78rem; }
+  .free-tag { font-size: .7rem; padding: .18rem .55rem; margin-right: .35rem; margin-top: .4rem; }
+  .copy-btn { font-size: .75rem; padding: .35rem .6rem; margin-top: .55rem; border-radius: 7px; }
+  /* APP 卡：手机端紧凑横条 */
+  .free-card.app-card {
+    padding: 1.15rem 1.2rem;
+    border-radius: 14px;
+    border-width: 1.5px;
+    box-shadow: 0 4px 18px rgba(0,185,131,.12);
+  }
+  .app-card .free-card-top { align-items: center; margin-bottom: .65rem; }
+  .app-card .free-icon { font-size: 2.1rem; }
+  .app-card .free-title { font-size: 1.12rem; }
+  .app-card .free-desc { margin-bottom: .7rem; }
+  .app-card .app-dl-btn {
+    display: block;
+    text-align: center;
+    font-size: .95rem;
+    font-weight: 700;
+    padding: .75rem 0;
+    border-radius: 12px;
+    margin-top: .2rem;
+    letter-spacing: .02em;
+  }
 }
 </style>
 
@@ -124,15 +153,14 @@ function copyUrl(url) {
 
 <div class="free-grid">
 
-<div class="free-card" style="background:linear-gradient(135deg,var(--ac2),var(--bg3));border-color:var(--ac)">
+<div class="free-card app-card" style="background:linear-gradient(135deg,var(--ac2),var(--bg3));border-color:var(--ac)">
   <div class="free-card-top">
     <span class="free-icon">📱</span>
     <div class="free-title">我的博客 APP（安卓）</div>
   </div>
-  <div class="free-desc">把整个博客打包成了安卓应用，<b>打开即用，无需浏览器</b>。支持浏览器打开链接、下载图片，2.5 MB 小巧轻量。点下方按钮直接下载安装包。</div>
-  <span class="free-tag">📱 安卓应用</span><span class="free-tag">💾 2.5 MB</span>
-  <div class="free-link">🔗 <a href="/downloads/yadong-blog-app.apk">/downloads/yadong-blog-app.apk</a></div>
-  <a class="copy-btn" href="/downloads/yadong-blog-app.apk" style="display:inline-flex;background:var(--ac);color:#fff;border-color:var(--ac);padding:.35rem .8rem;font-weight:600">⬇️ 下载 APP</a>
+  <div class="free-desc">把整个博客打包成了安卓应用，打开即用，无需浏览器，2.5 MB 小巧轻量。</div>
+  <span class="free-tag">📱 安卓应用</span>
+  <a class="copy-btn app-dl-btn" href="/downloads/yadong-blog-app.apk" style="background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700">⬇️ 下载 APP（2.5 MB）</a>
 </div>
 
 <div class="free-card">
