@@ -24,3 +24,9 @@
 
 /sitemap.xml
   Cache-Control: public, max-age=86400
+
+# APK 下载 — 正确 MIME + 附件下载 + 短缓存
+/downloads/*.apk
+  Content-Type: application/vnd.android.package-archive
+  Content-Disposition: attachment
+  Cache-Control: public, max-age=3600
