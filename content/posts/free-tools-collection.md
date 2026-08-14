@@ -124,6 +124,17 @@ function copyUrl(url) {
 
 <div class="free-grid">
 
+<div class="free-card" style="background:linear-gradient(135deg,var(--ac2),var(--bg3));border-color:var(--ac)">
+  <div class="free-card-top">
+    <span class="free-icon">📱</span>
+    <div class="free-title">我的博客 APP（安卓）</div>
+  </div>
+  <div class="free-desc">把整个博客打包成了安卓应用，<b>打开即用，无需浏览器</b>。支持浏览器打开链接、下载图片，2.5 MB 小巧轻量。点下方按钮直接下载安装包。</div>
+  <span class="free-tag">📱 安卓应用</span><span class="free-tag">💾 2.5 MB</span>
+  <div class="free-link">🔗 <a href="/downloads/yadong-blog-app.apk">/downloads/yadong-blog-app.apk</a></div>
+  <a class="copy-btn" href="/downloads/yadong-blog-app.apk" style="display:inline-flex;background:var(--ac);color:#fff;border-color:var(--ac);padding:.35rem .8rem;font-weight:600">⬇️ 下载 APP</a>
+</div>
+
 <div class="free-card">
   <div class="free-card-top">
     <span class="free-icon">💻</span>
@@ -138,12 +149,12 @@ function copyUrl(url) {
 <div class="free-card">
   <div class="free-card-top">
     <span class="free-icon">🎬</span>
-    <div class="free-title">影视大全</div>
+    <div class="free-title">A123TV 影视</div>
   </div>
-  <div class="free-desc">追剧神器，海量影视资源在线观看。⚠️ 安全性未知，建议搭配广告拦截插件使用，不要输入个人信息。</div>
-  <span class="free-tag">影视追剧</span><span class="free-tag">⚠️ 注意安全</span>
-  <div class="free-link">🔗 <a href="https://www.yingshidaquantv.com/" target="_blank">yingshidaquantv.com</a></div>
-  <button class="copy-btn" data-url="https://www.yingshidaquantv.com/" onclick="copyUrl('https://www.yingshidaquantv.com/')">📋 复制</button>
+  <div class="free-desc">免费在线影视网站。⚠️ <b>之前的「影视大全」已经打不开了，换成这个新站</b>。只点「电影」/「电视剧」界面正常看片就行，<b style="color:#e11d48">「福利」类目千万别点</b>，里面是成人内容，有风险。</div>
+  <span class="free-tag">影视追剧</span><span class="free-tag">⚠️ 勿点福利</span>
+  <div class="free-link">🔗 <a href="https://a123tv.com/" target="_blank">a123tv.com</a></div>
+  <button class="copy-btn" data-url="https://a123tv.com/" onclick="copyUrl('https://a123tv.com/')">📋 复制</button>
 </div>
 
 <div class="free-card">

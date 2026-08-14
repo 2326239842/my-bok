@@ -42,15 +42,6 @@ summary: "网盘『博客软件大全』文件夹里的 18 款软件合集，覆
   <b>说明：</b>本合集为网盘「博客软件大全」文件夹中的 18 款软件，每条按「英文名 / 中文名 / 版本 / 详细介绍 / 下载链接」整理。合集中含部分第三方<strong>激活 / 试用重置 / 修改解锁版</strong>工具（已逐一标注），相关介绍仅作信息说明，长期使用请支持正版、合法合规使用。
 </div>
 
-<div class="fs-pan">
-  <div class="t">📱 我的博客 APP（安卓）</div>
-  <div class="u" style="font-size:.9rem">把整个博客打包成了安卓应用，打开即用，无需浏览器</div>
-  <div style="margin:.6rem 0 .3rem">
-    <a class="fs-btn" style="font-size:.95rem;padding:.6rem 1.4rem;background:#fff;color:var(--ac);border-radius:10px" href="/downloads/yadong-blog-app.apk">⬇️ 下载 APP（2.5 MB）</a>
-  </div>
-  <div class="p">适用于 Android 手机 / 平板 · 支持浏览器打开链接、下载图片 · 点击上方按钮直接下载安装包</div>
-</div>
-
 <div class="fs-cat" id="cat-download">
   <h3>⬇️ 下载与远程协作<span class="tag">3 款</span></h3>
   <hr class="fs-rule">
