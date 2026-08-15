@@ -18,6 +18,11 @@
 /images/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
+# 音乐文件 — 长期缓存 + 支持流式播放（Range 请求）
+/music/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+  Accept-Ranges: bytes
+
 # robots.txt / sitemap.xml — 中期缓存
 /robots.txt
   Cache-Control: public, max-age=86400
