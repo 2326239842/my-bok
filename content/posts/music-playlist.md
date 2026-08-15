@@ -21,9 +21,14 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
+    <source src="/music/杨丞琳 - 带我走.ogg" type="audio/ogg">
     <source src="/music/杨丞琳 - 带我走.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
   </audio>
+  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/杨丞琳 - 带我走.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
+    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  </div>
 </div>
 
 <p>《不良笑花》的片尾曲，也是杨丞琳从可爱转型实力派的一首作品。苏打绿青峰创作的词曲，带着一种脆弱又勇敢的张力。前奏一响就有画面感了。</p>
@@ -40,9 +45,14 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
+    <source src="/music/宇多田ヒカル - Come Back To Me.ogg" type="audio/ogg">
     <source src="/music/宇多田ヒカル - Come Back To Me.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
   </audio>
+  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/宇多田ヒカル - Come Back To Me.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
+    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  </div>
 </div>
 
 <p>宇多田光进军美国的英文作品，R&amp;B 曲风。她的声音有一种独特的质感，慵懒又深情。这首歌讲的是分手后的不舍与挽留，但旋律是轻快的，这种反差很有意思。</p>
@@ -57,9 +67,14 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
+    <source src="/music/Blue - Alive.ogg" type="audio/ogg">
     <source src="/music/Blue - Alive.mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
   </audio>
+  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Blue - Alive.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
+    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  </div>
 </div>
 
 <p>英国男子组合 Blue 的歌，节奏感很强，听着就想跟着晃。歌词也很治愈——"I'm alive, I'm feeling good"——很适合需要提神的时候来一首。</p>
@@ -74,9 +89,14 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
     <span class="player-hint">点击播放</span>
   </div>
   <audio controls preload="none" class="music-audio">
+    <source src="/music/Toni Braxton; Trey Songz - Yesterday (Remix).ogg" type="audio/ogg">
     <source src="/music/Toni Braxton; Trey Songz - Yesterday (Remix).mp3" type="audio/mpeg">
     您的浏览器不支持音频播放。
   </audio>
+  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Toni Braxton; Trey Songz - Yesterday (Remix).mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
+    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  </div>
 </div>
 
 <p>Toni Braxton 的低沉嗓音配上 Trey Songz 的 R&amp;B 唱腔，绝配。这首歌讲的是对过去感情的怀念，编曲很精致，每次听都有新发现。</p>
