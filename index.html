@@ -307,6 +307,31 @@ a:hover{color:var(--ac-h);text-decoration:underline}
   .d-content{font-size:.95rem}
 }
 
+/* ═══ 悬浮播放器（黑胶唱片） ═══ */
+.gp{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120%);display:flex;align-items:center;gap:.9rem;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:999px;padding:.55rem .7rem .55rem .6rem;box-shadow:var(--glass-sh-hover),0 8px 32px rgba(0,0,0,.18);z-index:3000;transition:transform .45s var(--ease);max-width:calc(100vw - 24px)}
+.gp.on{transform:translateX(-50%) translateY(0)}
+.gp-cover{width:52px;height:52px;border-radius:50%;flex-shrink:0;position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.25);box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.gp-cover img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.gp-cover.spin img{animation:gpSpin 8s linear infinite}
+.gp-cover::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.28),transparent 45%)}
+.gp-cover::before{content:'';position:absolute;top:50%;left:50%;width:14px;height:14px;border-radius:50%;background:var(--bg);transform:translate(-50%,-50%);z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+@keyframes gpSpin{to{transform:rotate(360deg)}}
+.gp-info{display:flex;flex-direction:column;min-width:0;max-width:34vw}
+.gp-title{font-size:.85rem;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp-artist{font-size:.7rem;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.gp-progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--bdr);border-radius:0 0 999px 999px;overflow:hidden}
+.gp-progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--ac),var(--coral));transition:width .3s linear}
+.gp-btn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;background:linear-gradient(135deg,var(--ac),var(--ac-h));color:#fff;box-shadow:0 2px 12px var(--ac-glow);transition:all .25s var(--ease);flex-shrink:0;font-family:var(--font)}
+.gp-btn:hover{transform:scale(1.08)}
+.gp-btn:active{transform:scale(.95)}
+.gp-close{width:26px;height:26px;border-radius:50%;border:none;background:var(--bg4);color:var(--tx2);cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;font-family:var(--font)}
+.gp-close:hover{background:#f44;color:#fff}
+@media(max-width:768px){
+  .gp{bottom:12px;padding:.5rem .6rem}
+  .gp-cover{width:46px;height:46px}
+  .gp-info{max-width:44vw}
+}
+
 </style>
 </head>
 <body>
@@ -744,6 +769,7 @@ async function showDetail(id,noPush){
     const articleContent = _articleEdits[a.title] || contentData[a.title] || '<p>内容加载失败</p>';
     const dContent = document.getElementById('dContent');
     dContent.innerHTML = articleContent;
+    bindGPTriggers(dContent);
     // 代码高亮
     if (window.Prism) Prism.highlightAllUnder(dContent);
     // 相关文章推荐
@@ -1339,6 +1365,62 @@ function initScroll(){
   });
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('lb').classList.contains('on'))closeLB();else if(curArt)showHome();if(document.getElementById('editModal'))document.getElementById('editModal').style.display='none'}if(document.getElementById('lb').classList.contains('on')){if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)}});
 }
+
+// ===== Global Music Player (黑胶悬浮播放器) =====
+const _gpAudio=new Audio();
+let _gpHideTimer=null,_gpEl=null;
+function gpInit(){
+  _gpEl=document.getElementById('globalPlayer');
+  const btn=_gpEl.querySelector('.gp-btn');
+  btn.addEventListener('click',()=>{if(_gpAudio.paused)_gpAudio.play();else _gpAudio.pause()});
+  _gpEl.querySelector('.gp-close').addEventListener('click',()=>{_gpAudio.pause();_gpAudio.src='';hideGP(0)});
+  _gpAudio.addEventListener('play',()=>{_gpEl.classList.add('on');_gpEl.querySelector('.gp-cover').classList.add('spin');_gpEl.querySelector('.gp-btn').textContent='⏸';clearTimeout(_gpHideTimer)});
+  _gpAudio.addEventListener('pause',()=>{_gpEl.querySelector('.gp-cover').classList.remove('spin');_gpEl.querySelector('.gp-btn').textContent='▶';if(_gpAudio.src&&!_gpAudio.ended)hideGP(4000)});
+  _gpAudio.addEventListener('ended',()=>{_gpEl.querySelector('.gp-cover').classList.remove('spin');_gpEl.querySelector('.gp-btn').textContent='▶';hideGP(4000)});
+  _gpAudio.addEventListener('timeupdate',()=>{const p=_gpEl.querySelector('.gp-progress i');if(_gpAudio.duration)p.style.width=(_gpAudio.currentTime/_gpAudio.duration*100)+'%'});
+}
+function playSong(src,title,artist,cover){
+  if(!_gpEl)return;
+  _gpEl.querySelector('.gp-title').textContent=title||'未知歌曲';
+  _gpEl.querySelector('.gp-artist').textContent=artist||'';
+  _gpEl.querySelector('.gp-cover img').src=cover||'/favicon.svg';
+  _gpEl.querySelector('.gp-progress i').style.width='0%';
+  _gpEl.classList.add('on');
+  clearTimeout(_gpHideTimer);
+  if(_gpAudio.src!==src){
+    _gpAudio.src=src;
+    const p=_gpAudio.play();
+    if(p&&p.catch)p.catch(()=>{/* autoplay 策略拦截时静默 */});
+  }else if(_gpAudio.paused){_gpAudio.play()}
+}
+function hideGP(delay){
+  if(!_gpEl)return;
+  clearTimeout(_gpHideTimer);
+  _gpHideTimer=setTimeout(()=>{_gpEl.classList.remove('on')},delay);
+}
+// 让文章里的 .gp-trigger 按钮接入全局播放器（文章内容注入后调用）
+function bindGPTriggers(root){
+  (root||document).querySelectorAll('.gp-trigger').forEach(btn=>{
+    if(btn.dataset.bound)return;btn.dataset.bound='1';
+    btn.addEventListener('click',()=>{
+      playSong(btn.dataset.src,btn.dataset.title,btn.dataset.artist,btn.dataset.cover);
+    });
+  });
+}
+</script>
+<!-- ═══ 悬浮播放器 ═══ -->
+<div class="gp" id="globalPlayer">
+  <div class="gp-cover"><img src="/favicon.svg" alt="cover"></div>
+  <div class="gp-info">
+    <div class="gp-title">未播放</div>
+    <div class="gp-artist"></div>
+    <div class="gp-progress"><i></i></div>
+  </div>
+  <button class="gp-btn">▶</button>
+  <button class="gp-close">✕</button>
+</div>
+<script>
+gpInit();
 </script>
 </body>
 </html>

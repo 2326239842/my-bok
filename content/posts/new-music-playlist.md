@@ -17,19 +17,18 @@ summary: "歌单更新！这次收录 5 首最近一直在循环的歌：从中�
 
 <!-- 歌曲 1 -->
 <h2>1. 王以太 / 艾热 AIR — 周旋</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 王以太 / 艾热 AIR - 周旋</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/王以太,艾热 AIR - 周旋.ogg" data-title="周旋" data-artist="王以太 / 艾热 AIR" data-cover="/images/covers/王以太,艾热 AIR - 周旋.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/王以太,艾热 AIR - 周旋.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 王以太 / 艾热 AIR - 周旋</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · 王以太 / 艾热 AIR</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/王以太,艾热 AIR - 周旋.ogg" type="audio/ogg">
-    <source src="/music/王以太,艾热 AIR - 周旋.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/王以太,艾热 AIR - 周旋.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/王以太,艾热 AIR - 周旋.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -39,19 +38,18 @@ summary: "歌单更新！这次收录 5 首最近一直在循环的歌：从中�
 
 <!-- 歌曲 2 -->
 <h2>2. Cubi / Fi9江澈 / Birck — BINGBIAN病变（原版）</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 Cubi / Fi9江澈 / Birck - BINGBIAN病变（原版）</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.ogg" data-title="BINGBIAN病变（原版）" data-artist="Cubi / Fi9江澈 / Birck" data-cover="/images/covers/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 Cubi / Fi9江澈 / Birck - BINGBIAN病变（原版）</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · Cubi / Fi9江澈 / Birck</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.ogg" type="audio/ogg">
-    <source src="/music/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Cubi,Fi9江澈,Birck - BINGBIAN病变（原版）.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -61,19 +59,18 @@ summary: "歌单更新！这次收录 5 首最近一直在循环的歌：从中�
 
 <!-- 歌曲 3 -->
 <h2>3. 礼越 — 静音恋人（两颗缠绕的心）</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 礼越 - 静音恋人 (两颗缠绕的心)</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/礼越 - 静音恋人 (两颗缠绕的心).ogg" data-title="静音恋人（两颗缠绕的心）" data-artist="礼越" data-cover="/images/covers/礼越 - 静音恋人 (两颗缠绕的心).jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/礼越 - 静音恋人 (两颗缠绕的心).jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 礼越 - 静音恋人 (两颗缠绕的心)</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · 礼越</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/礼越 - 静音恋人 (两颗缠绕的心).ogg" type="audio/ogg">
-    <source src="/music/礼越 - 静音恋人 (两颗缠绕的心).mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/礼越 - 静音恋人 (两颗缠绕的心).mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/礼越 - 静音恋人 (两颗缠绕的心).ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -83,19 +80,18 @@ summary: "歌单更新！这次收录 5 首最近一直在循环的歌：从中�
 
 <!-- 歌曲 4 -->
 <h2>4. 泽国同学 — 八千里路明月照（氛围版）</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 泽国同学 - 八千里路明月照 (氛围版)</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/泽国同学 - 八千里路明月照 (氛围版).ogg" data-title="八千里路明月照（氛围版）" data-artist="泽国同学" data-cover="/images/covers/泽国同学 - 八千里路明月照 (氛围版).jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/泽国同学 - 八千里路明月照 (氛围版).jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 泽国同学 - 八千里路明月照 (氛围版)</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · 泽国同学</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/泽国同学 - 八千里路明月照 (氛围版).ogg" type="audio/ogg">
-    <source src="/music/泽国同学 - 八千里路明月照 (氛围版).mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/泽国同学 - 八千里路明月照 (氛围版).mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/泽国同学 - 八千里路明月照 (氛围版).ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -105,19 +101,18 @@ summary: "歌单更新！这次收录 5 首最近一直在循环的歌：从中�
 
 <!-- 歌曲 5 -->
 <h2>5. Xcho / МОТ — Баллада</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 Xcho / МОТ - Баллада</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/Xcho,МОТ - Баллада.ogg" data-title="Баллада" data-artist="Xcho / МОТ" data-cover="/images/covers/Xcho,МОТ - Баллада.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/Xcho,МОТ - Баллада.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 Xcho / МОТ - Баллада</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · Xcho / МОТ</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/Xcho,МОТ - Баллада.ogg" type="audio/ogg">
-    <source src="/music/Xcho,МОТ - Баллада.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/Xcho,МОТ - Баллада.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Xcho,МОТ - Баллада.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 

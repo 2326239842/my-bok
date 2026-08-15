@@ -15,19 +15,18 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
 
 <!-- 歌曲 1 -->
 <h2>1. 杨丞琳 — 带我走</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 杨丞琳 - 带我走</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/杨丞琳 - 带我走.ogg" data-title="带我走" data-artist="杨丞琳" data-cover="/images/covers/杨丞琳 - 带我走.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/杨丞琳 - 带我走.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 杨丞琳 - 带我走</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · 杨丞琳</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/杨丞琳 - 带我走.ogg" type="audio/ogg">
-    <source src="/music/杨丞琳 - 带我走.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/杨丞琳 - 带我走.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/杨丞琳 - 带我走.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -39,19 +38,18 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
 
 <!-- 歌曲 2 -->
 <h2>2. 宇多田ヒカル — Come Back To Me</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 宇多田ヒカル - Come Back To Me</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/宇多田ヒカル - Come Back To Me.ogg" data-title="Come Back To Me" data-artist="宇多田ヒカル" data-cover="/images/covers/宇多田ヒカル - Come Back To Me.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/宇多田ヒカル - Come Back To Me.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 宇多田ヒカル - Come Back To Me</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · 宇多田ヒカル</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/宇多田ヒカル - Come Back To Me.ogg" type="audio/ogg">
-    <source src="/music/宇多田ヒカル - Come Back To Me.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/宇多田ヒカル - Come Back To Me.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/宇多田ヒカル - Come Back To Me.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -61,19 +59,18 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
 
 <!-- 歌曲 3 -->
 <h2>3. Blue — Alive</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 Blue - Alive</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/Blue - Alive.ogg" data-title="Blue - Alive" data-artist="Blue" data-cover="/images/covers/Blue - Alive.jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/Blue - Alive.jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 Blue - Alive</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · Blue</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/Blue - Alive.ogg" type="audio/ogg">
-    <source src="/music/Blue - Alive.mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/Blue - Alive.mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Blue - Alive.ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
@@ -83,19 +80,18 @@ summary: "整理了最近常听的几首歌，从华语到欧美、从流行到R
 
 <!-- 歌曲 4 -->
 <h2>4. Toni Braxton &amp; Trey Songz — Yesterday (Remix)</h2>
-<div class="music-player">
-  <div class="player-info">
-    <span class="player-title">🎵 Toni Braxton &amp; Trey Songz - Yesterday (Remix)</span>
-    <span class="player-hint">点击播放</span>
+<div class="music-player" style="cursor:pointer">
+  <div class="gp-trigger" data-src="/music/Toni Braxton; Trey Songz - Yesterday (Remix).ogg" data-title="Yesterday (Remix)" data-artist="Toni Braxton / Trey Songz" data-cover="/images/covers/Toni Braxton; Trey Songz - Yesterday (Remix).jpg" style="display:flex;align-items:center;gap:.9rem;padding:.2rem 0">
+    <img src="/images/covers/Toni Braxton; Trey Songz - Yesterday (Remix).jpg" alt="cover" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2);border:2px solid rgba(255,255,255,.15)">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:.95rem;font-weight:700;color:var(--tx)">🎵 Toni Braxton &amp; Trey Songz - Yesterday (Remix)</div>
+      <div style="font-size:.72rem;color:var(--tx3);margin-top:.1rem">▶ 点击播放 · Toni Braxton / Trey Songz</div>
+    </div>
+    <span style="font-size:.85rem;flex-shrink:0">▶️</span>
   </div>
-  <audio controls preload="none" class="music-audio">
-    <source src="/music/Toni Braxton; Trey Songz - Yesterday (Remix).ogg" type="audio/ogg">
-    <source src="/music/Toni Braxton; Trey Songz - Yesterday (Remix).mp3" type="audio/mpeg">
-    您的浏览器不支持音频播放。
-  </audio>
-  <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center">
-    <a href="/music/Toni Braxton; Trey Songz - Yesterday (Remix).mp3" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.78rem;color:var(--ac);background:var(--ac2);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 MP3</a>
-    <span style="font-size:.7rem;color:var(--tx3)">网页播放用 OGG（更快），下载为 MP3（手机全能听）</span>
+  <div style="margin-top:.4rem;display:flex;gap:.5rem;align-items:center">
+    <a href="/music/Toni Braxton; Trey Songz - Yesterday (Remix).ogg" download style="display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;color:var(--ac);background:var(--ac2);padding:.25rem .7rem;border-radius:8px;text-decoration:none;font-weight:600">⬇️ 下载 OGG</a>
+    <span style="font-size:.68rem;color:var(--tx3)">网页播放 + 下载均为 OGG（Opus）格式，手机直接能听</span>
   </div>
 </div>
 
