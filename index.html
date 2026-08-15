@@ -78,12 +78,16 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 .nav-copy-btn:active{transform:translateY(0) scale(.97)}
 
 /* Layout */
-.layout{display:flex;max-width:1240px;margin:0 auto;padding:calc(54px + 3rem) clamp(1rem,4vw,2.5rem) 4rem;gap:2.5rem}
+.layout{display:flex;max-width:1180px;margin:0 auto;padding:calc(54px + 3rem) clamp(1rem,4vw,2.5rem) 4rem}
 .main{flex:7;min-width:0}
-.side{flex:3;min-width:280px;max-width:340px}
+/* 侧边栏：全端统一隐藏式抽屉（点击 ☰ 滑出，内部独立滚动） */
+.side{position:fixed;top:0;left:-320px;width:300px;height:100dvh;max-width:88vw;z-index:2000;overflow-y:auto;overflow-x:hidden;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur-lg);-webkit-backdrop-filter:var(--glass-blur-lg);border-right:var(--glass-bdr);transition:left .32s var(--ease-sm);padding:1.4rem 1.5rem;box-shadow:none;flex:none;min-width:0;pointer-events:none;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.side::-webkit-scrollbar{width:4px}
+.side::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:4px}
+.side.open{left:0;box-shadow:12px 0 48px rgba(0,0,0,.16);pointer-events:auto}
 
 /* Sidebar — Liquid Glass */
-.side-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:var(--r);padding:1.75rem;position:sticky;top:calc(54px + 2.5rem);box-shadow:var(--glass-sh);overflow:hidden}
+.side-card{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:var(--r);padding:1.5rem;box-shadow:var(--glass-sh);overflow:hidden}
 .side-card::before{content:'';position:absolute;top:0;left:0;right:0;height:120px;background:linear-gradient(180deg,rgba(0,185,131,.08),transparent);pointer-events:none}
 .side-card::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(255,255,255,.15) 90deg,transparent 180deg,rgba(0,185,131,.08) 270deg,transparent 360deg);animation:glassSheen 8s linear infinite;pointer-events:none;opacity:.5;z-index:0}
 @keyframes glassSheen{to{transform:rotate(360deg)}}
@@ -270,7 +274,7 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 /* Table */
 .table-wrap{overflow-x:auto;margin:1.2em 0;-webkit-overflow-scrolling:touch}
 
-.menu-btn{display:none;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--tx2);padding:6px;border-radius:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.menu-btn{display:flex;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--tx2);padding:6px;border-radius:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .menu-btn:hover{background:var(--bg3);color:var(--ac)}
 
 /* Scrollbar */
@@ -286,8 +290,8 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 @media(max-width:768px){
   .layout{flex-direction:column;padding-top:calc(54px + 2rem);gap:1.5rem}
   .nav{top:8px;left:8px;right:8px;height:50px}
-  .side{position:fixed;top:0;left:-300px;width:280px;height:100vh;max-width:280px;z-index:2000;overflow-y:auto;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur-lg);-webkit-backdrop-filter:var(--glass-blur-lg);border-right:var(--glass-bdr);transition:left .3s var(--ease-sm);padding:1.25rem;box-shadow:none;flex:none;min-width:0;pointer-events:none}
-  .side.open{left:0;box-shadow:8px 0 40px rgba(0,0,0,.12);pointer-events:auto}
+  .side{width:280px;left:-300px;padding:1.25rem;height:100dvh}
+  .side.open{left:0}
   .side-card{display:block;padding:0;border:none;background:none;box-shadow:none}
   .side-card::before,.side-card::after{display:none}
   .side-avatar{margin:0 auto .8rem;width:72px;height:72px;font-size:1.8rem}
@@ -297,8 +301,6 @@ a:hover{color:var(--ac-h);text-decoration:underline}
   .side-links{justify-content:center}
   .side-section{text-align:left}
   .toc{display:none!important}
-  .side-mask{display:none;position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:1999;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-  .side-mask.on{display:block}
   .menu-btn{display:flex!important}
   .nav-r button:not(.nav-copy-btn){font-size:.9rem;padding:.4rem}
   .card{padding:1.1rem}
@@ -306,6 +308,10 @@ a:hover{color:var(--ac-h);text-decoration:underline}
   .d-meta h1{font-size:1.5rem}
   .d-content{font-size:.95rem}
 }
+
+/* 侧边栏遮罩：全端生效 */
+.side-mask{display:none;position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:1999;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.side-mask.on{display:block}
 
 /* ═══ 悬浮播放器（黑胶唱片） ═══ */
 .gp{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120%);display:flex;align-items:center;gap:.9rem;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:999px;padding:.55rem .7rem .55rem .6rem;box-shadow:var(--glass-sh-hover),0 8px 32px rgba(0,0,0,.18);z-index:3000;transition:transform .45s var(--ease);max-width:calc(100vw - 24px)}
@@ -731,6 +737,7 @@ async function ensureContent() {
 }
 
 async function showDetail(id,noPush){
+  closeSide();
   const a=articles.find(x=>x.id===id);if(!a)return;curArt=a;
   // 动态 SEO：更新 title 和 meta description
   document.title = a.title + " | Yadong's Blog";
@@ -1144,7 +1151,22 @@ function buildTOC(){
 
 // ===== Search =====
 function toggleSearch(){document.getElementById('searchWrap').classList.toggle('active');if(document.getElementById('searchWrap').classList.contains('active'))document.getElementById('searchInput').focus()}
-function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideMask').classList.toggle('on')}
+function toggleSide(){
+  const side=document.getElementById('side'),mask=document.getElementById('sideMask');
+  const opening=!side.classList.contains('open');
+  side.classList.toggle('open');mask.classList.toggle('on');
+  // 打开时锁定页面滚动，关闭时恢复（抽屉内部滚动不受影响）
+  if(opening){window._sideOpenScrollY=window.scrollY;document.body.style.overflow='hidden';document.body.style.touchAction='none'}
+  else{
+    document.body.style.overflow='';document.body.style.touchAction='';
+    if(window._sideOpenScrollY!==undefined){window.scrollTo(0,window._sideOpenScrollY);window._sideOpenScrollY=undefined}
+  }
+}
+function closeSide(){
+  const side=document.getElementById('side'),mask=document.getElementById('sideMask');
+  if(side.classList.contains('open')){side.classList.remove('open');mask.classList.remove('on');document.body.style.overflow='';document.body.style.touchAction='';if(window._sideOpenScrollY!==undefined){window.scrollTo(0,window._sideOpenScrollY);window._sideOpenScrollY=undefined}}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('side').classList.contains('open'))closeSide()});
 
 // ===== Theme =====
 function clearCache(){
