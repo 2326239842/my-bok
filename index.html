@@ -97,12 +97,12 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 @keyframes avatarShine{0%,100%{opacity:.3;transform:translate(0,0)}50%{opacity:.7;transform:translate(2px,-2px)}}
 .side-name{font-size:1.15rem;font-weight:800;text-align:center;margin-bottom:.35rem;letter-spacing:-.01em;color:var(--tx)}
 .side-bio{font-size:.85rem;color:var(--tx2);text-align:center;line-height:1.65;margin-bottom:1.25rem}
-.side-stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.25rem}
-.side-stat{background:var(--bg3);border-radius:var(--r2);padding:.75rem .5rem;text-align:center;border:1px solid var(--bdr);transition:all .3s var(--ease);cursor:default}
+.side-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem;margin-bottom:1rem}
+.side-stat{background:var(--bg3);border-radius:10px;padding:.5rem .25rem;text-align:center;border:1px solid var(--bdr);transition:all .3s var(--ease);cursor:default;min-width:0}
 .side-stat:hover{border-color:var(--ac3);transform:translateY(-2px);box-shadow:var(--sh-sm);background:var(--bg2)}
-.side-stat-num{font-size:1.15rem;font-weight:800;color:var(--ac);line-height:1.2;transition:color .2s}
+.side-stat-num{font-size:1rem;font-weight:800;color:var(--ac);line-height:1.2;transition:color .2s}
 .side-stat:hover .side-stat-num{color:var(--coral)}
-.side-stat-lbl{font-size:.7rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;margin-top:.15rem;font-weight:600}
+.side-stat-lbl{font-size:.62rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.03em;margin-top:.1rem;font-weight:600;white-space:nowrap}
 .side-links{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap}
 .side-link{padding:.4rem .85rem;border-radius:999px;font-size:.76rem;background:var(--bg3);color:var(--tx2);border:1px solid var(--bdr);transition:all .3s var(--ease);font-weight:500;position:relative;overflow:hidden}
 .side-link::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac2),transparent);opacity:0;transition:opacity .3s}
@@ -378,10 +378,14 @@ a:hover{color:var(--ac-h);text-decoration:underline}
       <div class="side-name">Yadong</div>
       <div class="side-bio">写代码的，偶尔写点别的。<br>喜欢折腾，喜欢把想法变成现实。</div>
       <div class="side-stats">
-        <div class="side-stat"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
-        <div class="side-stat"><div class="side-stat-num" id="statLikes">0</div><div class="side-stat-lbl">红心</div></div>
+        <div class="side-stat" onclick="statFilter('all')" style="cursor:pointer" title="全部文章"><div class="side-stat-num" id="statPosts">0</div><div class="side-stat-lbl">文章</div></div>
+        <div class="side-stat" onclick="statFilter('tag')" style="cursor:pointer" title="标签统计"><div class="side-stat-num" id="statTags">0</div><div class="side-stat-lbl">标签</div></div>
+        <div class="side-stat" onclick="statFilter('comment')" style="cursor:pointer" title="评论统计"><div class="side-stat-num" id="statComments">0</div><div class="side-stat-lbl">评论</div></div>
+        <div class="side-stat" onclick="statFilter('like')" style="cursor:pointer" title="红心统计"><div class="side-stat-num" id="statLikes">0</div><div class="side-stat-lbl">红心</div></div>
+      </div>
+      <div class="side-section" id="statChartSec" style="display:none">
+        <h4 id="statChartTitle">📊 统计图表</h4>
+        <div id="statChart" style="font-size:.75rem;color:var(--tx2)"></div>
       </div>
       <div class="side-links">
         <a class="side-link" href="https://github.com/2326239842" target="_blank" rel="noopener" onclick="window.open(this.href,'_blank');return false">🐙 GitHub</a>
@@ -1215,6 +1219,79 @@ async function updateStats(){
   renderCards();
 }
 
+// ===== 统计图表（点击 stats 弹出） =====
+function statFilter(kind){
+  const sec=document.getElementById('statChartSec');
+  const chart=document.getElementById('statChart');
+  const title=document.getElementById('statChartTitle');
+  if(kind==='all'){
+    // 年度发文柱状图
+    const years={};
+    articles.forEach(a=>{
+      const y=a.date.substring(0,4);
+      years[y]=(years[y]||0)+1;
+    });
+    const sorted=Object.keys(years).sort();
+    const max=Math.max(...Object.values(years),1);
+    title.textContent='📊 年度发文统计';
+    chart.innerHTML='<div style="display:flex;align-items:flex-end;gap:6px;height:90px;padding:4px 2px">'+
+      sorted.map(y=>{
+        const n=years[y];
+        const h=Math.round(n/max*78)+4;
+        return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+          <span style="font-size:.62rem;color:var(--tx3)">${n}</span>
+          <div style="width:100%;max-width:34px;height:${h}px;background:linear-gradient(180deg,var(--ac),var(--ac-h));border-radius:5px 5px 2px 2px;min-height:4px" title="${y}年 ${n}篇"></div>
+          <span style="font-size:.6rem;color:var(--tx3)">${y.slice(2)}</span>
+        </div>`;
+      }).join('')+'</div>';
+  } else if(kind==='tag'){
+    // 标签排行（横向条形）
+    const tagCount={};
+    articles.forEach(a=>a.tags.forEach(t=>tagCount[t]=(tagCount[t]||0)+1));
+    const top=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    const max=Math.max(...top.map(x=>x[1]),1);
+    title.textContent='🏷️ 热门标签 TOP8';
+    chart.innerHTML=top.map(([t,n])=>{
+      const w=Math.round(n/max*100);
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <span style="font-size:.68rem;color:var(--tx2);width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0">${t}</span>
+        <div style="flex:1;background:var(--bg4);border-radius:4px;height:12px;overflow:hidden"><div style="width:${w}%;height:100%;background:linear-gradient(90deg,var(--ac),var(--coral));border-radius:4px"></div></div>
+        <span style="font-size:.65rem;color:var(--tx3);width:22px;text-align:right">${n}</span>
+      </div>`;
+    }).join('');
+  } else if(kind==='comment'){
+    // 评论排行
+    const rows=Object.entries(_cmtCountCache||{}).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    title.textContent='💬 评论最多 TOP5';
+    if(!rows.length||rows.every(r=>!r[1])){chart.innerHTML='<div style="color:var(--tx3);padding:.5rem 0">暂无评论数据</div>';return}
+    const max=Math.max(...rows.map(r=>r[1]),1);
+    chart.innerHTML=rows.map(([t,n])=>{
+      const w=Math.max(Math.round(n/max*100),5);
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <span style="font-size:.66rem;color:var(--tx2);width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0">${t.slice(0,10)}</span>
+        <div style="flex:1;background:var(--bg4);border-radius:4px;height:11px;overflow:hidden"><div style="width:${w}%;height:100%;background:linear-gradient(90deg,#f59e0b,#f97316);border-radius:4px"></div></div>
+        <span style="font-size:.65rem;color:var(--tx3);width:22px;text-align:right">${n}</span>
+      </div>`;
+    }).join('');
+  } else if(kind==='like'){
+    // 红心排行
+    const rows=Object.entries(_likeCounts||{}).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    title.textContent='❤️ 红心最多 TOP5';
+    if(!rows.length||rows.every(r=>!r[1])){chart.innerHTML='<div style="color:var(--tx3);padding:.5rem 0">暂无红心数据</div>';return}
+    const max=Math.max(...rows.map(r=>r[1]),1);
+    chart.innerHTML=rows.map(([t,n])=>{
+      const w=Math.max(Math.round(n/max*100),5);
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <span style="font-size:.66rem;color:var(--tx2);width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0">${t.slice(0,10)}</span>
+        <div style="flex:1;background:var(--bg4);border-radius:4px;height:11px;overflow:hidden"><div style="width:${w}%;height:100%;background:linear-gradient(90deg,#ec4899,#f43f5e);border-radius:4px"></div></div>
+        <span style="font-size:.65rem;color:var(--tx3);width:22px;text-align:right">${n}</span>
+      </div>`;
+    }).join('');
+  }
+  sec.style.display=sec.style.display==='none'?'block':'block';
+  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
 // ===== 随机一句 =====
 const quotes=[
   {text:'代码是写给人看的，顺便让机器执行。',author:'Harold Abelson'},
@@ -1247,70 +1324,75 @@ function initUptime(){
   update();setInterval(update,60000);
 }
 
-// ===== 文章归档 =====
+// ===== 文章归档（年份 → 月份 → 文章标题） =====
 let curArchiveYear=null,curArchiveMonth=null;
-function initArchives(){
+function buildArchiveTree(){
   const years={};
   articles.forEach(a=>{
     const y=a.date.substring(0,4);
     const m=a.date.substring(0,7);
     if(!years[y])years[y]={};
-    if(!years[y][m])years[y][m]=0;
-    years[y][m]++;
+    if(!years[y][m])years[y][m]=[];
+    years[y][m].push(a);
   });
-  const sorted=Object.keys(years).sort().reverse();
-  renderArchives(sorted,years);
+  // 排序：年份倒序、月份倒序、文章日期倒序
+  Object.keys(years).forEach(y=>{
+    Object.keys(years[y]).forEach(m=>years[y][m].sort((a,b)=>new Date(b.date)-new Date(a.date)));
+  });
+  return years;
 }
-function renderArchives(sorted,years){
+function initArchives(){
+  renderArchives(buildArchiveTree());
+}
+function renderArchives(years){
   const el=document.getElementById('sideArchives');
   if(!curArchiveYear){
-    // Show years
-    el.innerHTML=sorted.map(y=>{
-      const count=Object.values(years[y]).reduce((a,b)=>a+b,0);
-      return `<div style="display:flex;justify-content:space-between;font-size:.82rem;padding:.35rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2)" onclick="pickYear('${y}')"><span>📁 ${y} 年</span><span style="color:var(--tx3)">${count} 篇 ▸</span></div>`;
+    // 年份列表
+    const sortedY=Object.keys(years).sort().reverse();
+    el.innerHTML=sortedY.map(y=>{
+      const arts=Object.values(years[y]).flat();
+      return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem;padding:.4rem .2rem;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2);transition:color .2s" onclick="pickYear('${y}')"><span>📁 ${y} 年</span><span style="color:var(--tx3);font-size:.75rem">${arts.length} 篇 ▸</span></div>`;
     }).join('');
-  } else {
-    // Show months for selected year
-    const months=years[curArchiveYear];
+  } else if(!curArchiveMonth){
+    // 月份列表
+    const months=years[curArchiveYear]||{};
     const sortedM=Object.keys(months).sort().reverse();
     let html=`<div style="font-size:.78rem;color:var(--tx3);padding:.3rem 0;cursor:pointer;margin-bottom:.3rem" onclick="pickYear(null)">← 返回全部年份</div>`;
-    html+=`<div style="font-size:.82rem;font-weight:600;color:var(--ac);padding:.3rem 0;border-bottom:1px solid var(--bdr);margin-bottom:.3rem">${curArchiveYear} 年</div>`;
+    html+=`<div style="font-size:.82rem;font-weight:600;color:var(--ac);padding:.35rem 0;border-bottom:1px solid var(--bdr);margin-bottom:.3rem">${curArchiveYear} 年</div>`;
     html+=sortedM.map(m=>{
       const mo=parseInt(m.split('-')[1]);
-      const active=curArchiveMonth===m;
-      return `<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:.3rem 0;border-bottom:1px solid var(--bdr);cursor:pointer;color:${active?'var(--ac)':'var(--tx2)'};font-weight:${active?'600':'400'}" onclick="pickMonth('${m}')"><span>${mo} 月</span><span style="color:var(--tx3)">${months[m]} 篇</span></div>`;
+      const n=months[m].length;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:.4rem .2rem;border-bottom:1px solid var(--bdr);cursor:pointer;color:var(--tx2);transition:color .2s" onclick="pickMonth('${m}')"><span>🗓️ ${mo} 月</span><span style="color:var(--tx3);font-size:.75rem">${n} 篇 ▸</span></div>`;
     }).join('');
-    html+=`<div style="font-size:.78rem;color:var(--ac);padding:.4rem 0;cursor:pointer;text-align:center;margin-top:.3rem" onclick="pickMonth(null)">查看全部</div>`;
+    el.innerHTML=html;
+  } else {
+    // 文章标题列表（该月）
+    const months=years[curArchiveYear]||{};
+    const arts=months[curArchiveMonth]||[];
+    let html=`<div style="font-size:.78rem;color:var(--tx3);padding:.3rem 0;cursor:pointer;margin-bottom:.3rem" onclick="pickMonth(null)">← 返回 ${curArchiveYear} 年</div>`;
+    html+=`<div style="font-size:.82rem;font-weight:600;color:var(--ac);padding:.35rem 0;border-bottom:1px solid var(--bdr);margin-bottom:.3rem">${curArchiveYear} 年 ${parseInt(curArchiveMonth.split('-')[1])} 月 · ${arts.length} 篇</div>`;
+    html+=arts.map(a=>{
+      const d=a.date.substring(8,10);
+      return `<div style="display:flex;align-items:baseline;gap:.4rem;font-size:.78rem;padding:.32rem .1rem;border-bottom:1px dashed var(--bdr);cursor:pointer;color:var(--tx2);transition:color .2s;line-height:1.4" onclick="goArticle(${a.id})"><span style="color:var(--tx3);font-size:.68rem;flex-shrink:0">${d}日</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.title}</span></div>`;
+    }).join('');
     el.innerHTML=html;
   }
 }
 function pickYear(y){
   curArchiveYear=y;curArchiveMonth=null;curPage=1;
   window._monthFilter=null;
-  const years={};
-  articles.forEach(a=>{
-    const yr=a.date.substring(0,4);
-    const m=a.date.substring(0,7);
-    if(!years[yr])years[yr]={};
-    if(!years[yr][m])years[yr][m]=0;
-    years[yr][m]++;
-  });
-  renderArchives(Object.keys(years).sort().reverse(),years);
+  renderArchives(buildArchiveTree());
   renderCards();
 }
 function pickMonth(m){
   curArchiveMonth=m;curPage=1;
   window._monthFilter=m;
-  const years={};
-  articles.forEach(a=>{
-    const yr=a.date.substring(0,4);
-    const mo=a.date.substring(0,7);
-    if(!years[yr])years[yr]={};
-    if(!years[yr][mo])years[yr][mo]=0;
-    years[yr][mo]++;
-  });
-  renderArchives(Object.keys(years).sort().reverse(),years);
+  renderArchives(buildArchiveTree());
   renderCards();
+}
+function goArticle(id){
+  const a=articles.find(x=>x.id===id);
+  if(a)showDetail(a.id);
 }
 
 // ===== Lightbox =====
