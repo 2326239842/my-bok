@@ -78,7 +78,7 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 .nav-copy-btn:active{transform:translateY(0) scale(.97)}
 
 /* Layout */
-.layout{display:flex;max-width:1180px;margin:0 auto;padding:calc(54px + 3rem) clamp(1rem,4vw,2.5rem) 4rem}
+.layout{display:flex;max-width:1180px;margin:0 auto;padding:calc(54px + 3rem) clamp(1rem,4vw,2.5rem) 1.5rem}
 .main{flex:7;min-width:0}
 /* 侧边栏：全端统一隐藏式抽屉（点击 ☰ 滑出，内部独立滚动） */
 .side{position:fixed;top:0;left:-320px;width:300px;height:100dvh;max-width:88vw;z-index:2000;overflow-y:auto;overflow-x:hidden;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur-lg);-webkit-backdrop-filter:var(--glass-blur-lg);border-right:var(--glass-bdr);transition:left .32s var(--ease-sm);padding:1.4rem 1.5rem;box-shadow:none;flex:none;min-width:0;pointer-events:none;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
@@ -339,10 +339,35 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 }
 
 </style>
+<style>
+/* ═══ 草地背景 + 透明度开关 ═══ */
+#grassBG{position:fixed;inset:0;z-index:-1;background:url('images/grass-mountains.jpg') center/cover no-repeat;opacity:.35;transition:opacity .3s;pointer-events:none}
+.grass-toggle{position:fixed;left:1.2rem;bottom:1.2rem;z-index:3000;display:flex;align-items:center;gap:.6rem;font-family:var(--font)}
+.grass-toggle .gt-icon{width:34px;height:34px;border:none;border-radius:50%;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;box-shadow:var(--glass-sh);flex-shrink:0}
+.grass-toggle .gt-icon:hover{background:var(--ac);color:#fff;transform:scale(1.08)}
+.grass-toggle .gt-panel{display:flex;align-items:center;gap:.55rem;padding:.5rem .85rem;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:999px;box-shadow:var(--glass-sh);opacity:0;transform:translateX(8px);pointer-events:none;transition:opacity .3s,transform .3s;white-space:nowrap}
+.grass-toggle.open .gt-panel{opacity:1;transform:translateX(0);pointer-events:auto}
+.grass-toggle .gt-label{font-size:.75rem;font-weight:600;color:var(--tx2);white-space:nowrap}
+.grass-toggle input[type=range]{width:120px;accent-color:var(--ac);cursor:pointer}
+.grass-toggle .gt-val{font-size:.75rem;font-weight:700;color:var(--ac);min-width:2.8em;text-align:right}
+@media(max-width:600px){.grass-toggle{left:.6rem;bottom:.6rem}.grass-toggle input[type=range]{width:80px}}
+#grassFoot{position:relative;z-index:1;text-align:center;color:var(--tx2);font-size:.82rem;padding:1.1rem 1.5rem 1.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+</style>
 </head>
 <body>
 
 <div id="progress"></div>
+
+<!-- ═══ 草地背景层（透明可调） ═══ -->
+<div id="grassBG"></div>
+<div class="grass-toggle" id="grassToggle">
+  <button class="gt-icon" onclick="toggleGrassPanel()" title="草地背景透明度">🌄</button>
+  <div class="gt-panel">
+    <span class="gt-label">背景</span>
+    <input type="range" id="grassRange" min="0" max="100" value="35" oninput="setGrass(this.value)">
+    <span class="gt-val" id="grassVal">35%</span>
+  </div>
+</div>
 
 <nav class="nav" id="nav">
   <a href="#" class="nav-logo" onclick="showHome();return false">Yadong</a>
@@ -626,7 +651,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 });
 
 // ===== Render Cards =====
-const PER_PAGE=30;let curPage=1;let _sortOrder='new';
+const PER_PAGE=25;let curPage=1;let _sortOrder='new';
 let _savedScrollY=0;
 function setSort(order){_sortOrder=order;curPage=1;
   document.getElementById('sortNew').classList.toggle('active',order==='new');
@@ -1525,6 +1550,41 @@ function bindGPTriggers(root){
 </div>
 <script>
 gpInit();
+</script>
+<!-- ═══ 草地背景底部版权 ═══ -->
+<footer id="grassFoot">
+  © 2026 Yadong's Space · Made with <span style="color:var(--coral)">♥</span>
+</footer>
+<script>
+// ═══ 草地背景透明度开关（自动隐藏） ═══
+(function(){
+  const bg=document.getElementById('grassBG');
+  const val=document.getElementById('grassVal');
+  const range=document.getElementById('grassRange');
+  const toggle=document.getElementById('grassToggle');
+  let _hideTimer=null;
+  function setGrass(v){
+    const o=Math.max(0,Math.min(100,+v));
+    bg.style.opacity=(o/100).toFixed(2);
+    if(val)val.textContent=o+'%';
+    if(range)range.value=o;
+  }
+  function touch(){
+    clearTimeout(_hideTimer);
+    _hideTimer=setTimeout(()=>{if(toggle)toggle.classList.remove('open');},3500);
+  }
+  function toggleGrassPanel(){
+    const open=toggle.classList.toggle('open');
+    if(open) touch(); else clearTimeout(_hideTimer);
+  }
+  if(range)range.addEventListener('input',touch);
+  if(toggle){
+    toggle.addEventListener('mouseenter',()=>clearTimeout(_hideTimer));
+    toggle.addEventListener('mouseleave',touch);
+  }
+  window.setGrass=setGrass;
+  window.toggleGrassPanel=toggleGrassPanel;
+})();
 </script>
 </body>
 </html>
