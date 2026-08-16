@@ -352,6 +352,17 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 .grass-toggle .gt-val{font-size:.75rem;font-weight:700;color:var(--ac);min-width:2.8em;text-align:right}
 @media(max-width:600px){.grass-toggle{left:.6rem;bottom:.6rem}.grass-toggle input[type=range]{width:80px}}
 #grassFoot{position:relative;z-index:1;text-align:center;color:var(--tx2);font-size:.82rem;padding:1.1rem 1.5rem 1.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+/* 移动端优化：仅 <600px 生效，桌面不受影响 */
+@media(max-width:600px){
+  #grassBG{opacity:.2}
+  .grass-toggle .gt-icon{width:30px;height:30px;font-size:.9rem}
+  .grass-toggle .gt-panel{padding:.42rem .7rem}
+  .nav-r .nav-copy-btn,
+  .nav-r button[onclick*="reload"],
+  .nav-r button[onclick*="clearCache"]{display:none}
+  .nav-app-btn{font-size:.7rem;padding:.34rem .6rem;gap:.2rem}
+  .nav-r{gap:.25rem}
+}
 </style>
 </head>
 <body>
