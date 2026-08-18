@@ -5,95 +5,102 @@
   <link>https://yadongw118.dpdns.org/</link>
   <description>Yadong 的个人博客 - 记录技术探索、生活感悟与创意项目</description>
   <language>zh-CN</language>
-  <lastBuildDate>Sat, 15 Aug 2026 13:37:32 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 18 Aug 2026 13:32:11 GMT</lastBuildDate>
   <atom:link href="https://yadongw118.dpdns.org/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
-    <title>新歌入列：最近循环的 5 首歌 🎵</title>
+    <title>《形同陌路》：我的第一首 AI 创作歌曲 🎵</title>
     <link>https://yadongw118.dpdns.org/#/post/1</link>
+    <guid isPermaLink="false">《形同陌路》：我的第一首 AI 创作歌曲 🎵</guid>
+    <pubDate>Tue, 18 Aug 2026 21:35:00 GMT</pubDate>
+    <description>用 AI 做了人生第一首歌《形同陌路》。前面是我自己写的所思所想，后面是 AI 帮我润色的可唱版本。也想聊聊体验：AI 编曲很强，但曲子里缺情感，像工厂里的复制品——纯娱乐性质，不盈利，交流学习，求轻点喷。</description>
+  </item>
+  <item>
+    <title>新歌入列：最近循环的 5 首歌 🎵</title>
+    <link>https://yadongw118.dpdns.org/#/post/2</link>
     <guid isPermaLink="false">新歌入列：最近循环的 5 首歌 🎵</guid>
     <pubDate>Sat, 15 Aug 2026 20:50:00 GMT</pubDate>
     <description>歌单更新！这次收录 5 首最近一直在循环的歌：从中文说唱的《周旋》《BINGBIAN病变》，到俄语抒情《Баллада》，再到温柔治愈的《静音恋人》《八千里路明月照》。每首都嵌了播放器，点开即听。</description>
   </item>
   <item>
     <title>篡改猴（Tampermonkey）安装教程：Edge 浏览器图文版</title>
-    <link>https://yadongw118.dpdns.org/#/post/2</link>
+    <link>https://yadongw118.dpdns.org/#/post/3</link>
     <guid isPermaLink="false">篡改猴（Tampermonkey）安装教程：Edge 浏览器图文版</guid>
     <pubDate>Fri, 14 Aug 2026 06:00:00 GMT</pubDate>
     <description>篡改猴（Tampermonkey）是最流行的用户脚本管理器，可以个性化修改网页、屏蔽广告、跳过会员验证、辅助刷课。本文用图文一步步教你如何在 Edge 浏览器上安装篡改猴并获取第一个脚本。</description>
   </item>
   <item>
     <title>用篡改猴刷网课：学习通视频+刷题脚本实测分享</title>
-    <link>https://yadongw118.dpdns.org/#/post/3</link>
+    <link>https://yadongw118.dpdns.org/#/post/4</link>
     <guid isPermaLink="false">用篡改猴刷网课：学习通视频+刷题脚本实测分享</guid>
     <pubDate>Fri, 14 Aug 2026 05:00:00 GMT</pubDate>
     <description>两个亲测可用的网课脚本：一个刷视频（学习通网课助手），一个刷题（做题助手）。附使用注意事项——建议只开一倍速，别开多窗口，避免被后台判定刷课行为。</description>
   </item>
   <item>
     <title>篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</title>
-    <link>https://yadongw118.dpdns.org/#/post/4</link>
+    <link>https://yadongw118.dpdns.org/#/post/5</link>
     <guid isPermaLink="false">篡改猴免费观看在线电影电视剧：VIP 视频解析脚本实测</guid>
     <pubDate>Fri, 14 Aug 2026 04:00:00 GMT</pubDate>
     <description>用篡改猴的 VIP 视频解析脚本，在网页版腾讯、爱奇艺、优酷不用登录就能直接看付费视频。附实测体验：多个解析源可选，但画质固定、略有卡顿，需关闭原窗口观看。</description>
   </item>
   <item>
     <title>干净卸载软件：卸载工具+追踪安装防流氓软件教程</title>
-    <link>https://yadongw118.dpdns.org/#/post/5</link>
+    <link>https://yadongw118.dpdns.org/#/post/6</link>
     <guid isPermaLink="false">干净卸载软件：卸载工具+追踪安装防流氓软件教程</guid>
     <pubDate>Fri, 14 Aug 2026 03:00:00 GMT</pubDate>
     <description>用卸载工具干净卸载软件，重点是『追踪安装』功能——记录软件安装的每一个文件，遇到流氓软件时强制删除也能删干净。附启动项管理和注册表清理说明。</description>
   </item>
   <item>
     <title>IDM 下载安装与设置：多线程下载神器入门</title>
-    <link>https://yadongw118.dpdns.org/#/post/6</link>
+    <link>https://yadongw118.dpdns.org/#/post/7</link>
     <guid isPermaLink="false">IDM 下载安装与设置：多线程下载神器入门</guid>
     <pubDate>Fri, 14 Aug 2026 02:00:00 GMT</pubDate>
     <description>IDM（Internet Download Manager）通过多线程技术接管浏览器下载，在不改变网速的前提下极大提升下载速度。本文分享绿色中文版的安装设置流程，以及浏览器接管、下载位置配置等要点。</description>
   </item>
   <item>
     <title>Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</title>
-    <link>https://yadongw118.dpdns.org/#/post/7</link>
+    <link>https://yadongw118.dpdns.org/#/post/8</link>
     <guid isPermaLink="false">Win11 有效关闭广告和增加浏览速度（系统+浏览器+软件三管齐下）</guid>
     <pubDate>Fri, 14 Aug 2026 01:00:00 GMT</pubDate>
     <description>Win11 广告明显比之前的系统多，拖慢了运行速度和网速。本文从系统设置、浏览器广告去除、应用软件广告去除三个方面，手把手教你有效关闭广告、提升浏览速度。</description>
   </item>
   <item>
     <title>博客软件大全：18 款常用软件合集分享</title>
-    <link>https://yadongw118.dpdns.org/#/post/8</link>
+    <link>https://yadongw118.dpdns.org/#/post/9</link>
     <guid isPermaLink="false">博客软件大全：18 款常用软件合集分享</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
     <description>网盘『博客软件大全』文件夹里的 18 款软件合集，覆盖下载加速、PDF 处理、系统维护、激活部署、开发设计、游戏与移动应用 7 大类，每款附版本号和官方下载链接，文末有网盘地址。</description>
   </item>
   <item>
     <title>我用 Trae 一个月，它成了我日常 AI 的首选</title>
-    <link>https://yadongw118.dpdns.org/#/post/9</link>
+    <link>https://yadongw118.dpdns.org/#/post/10</link>
     <guid isPermaLink="false">我用 Trae 一个月，它成了我日常 AI 的首选</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
     <description>从豆包到 Cursor，再到 Claude Code——折腾了一圈之后，我发现轻量好用的 Trae 反而更适合大多数日常场景。</description>
   </item>
   <item>
     <title>网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</title>
-    <link>https://yadongw118.dpdns.org/#/post/10</link>
+    <link>https://yadongw118.dpdns.org/#/post/11</link>
     <guid isPermaLink="false">网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
     <description>一个脚本搞定九大网盘直链获取，不用装任何客户端，配合 IDM 多线程拉满带宽——这是我用了两年的下载终极方案。</description>
   </item>
   <item>
     <title>头像连连看——朋友局小游戏</title>
-    <link>https://yadongw118.dpdns.org/#/post/11</link>
+    <link>https://yadongw118.dpdns.org/#/post/12</link>
     <guid isPermaLink="false">头像连连看——朋友局小游戏</guid>
     <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
     <description>用朋友头像做的连连看，打开文章就能玩</description>
   </item>
   <item>
     <title>Win11Debloat 完全指南：三种方案彻底清理 Windows 臃肿</title>
-    <link>https://yadongw118.dpdns.org/#/post/12</link>
+    <link>https://yadongw118.dpdns.org/#/post/13</link>
     <guid isPermaLink="false">Win11Debloat 完全指南：三种方案彻底清理 Windows 臃肿</guid>
     <pubDate>Sun, 19 Jul 2026 00:00:00 GMT</pubDate>
     <description>Win11Debloat 是一个开源 Windows 清理脚本，能一键删除系统预装臃肿应用、关闭遥测、优化界面。本文提供三种方案——保守、中等、完整，适合不同需求的用户，附完整代码与小白教程。</description>
   </item>
   <item>
     <title>我做了个国际空间站实时追踪系统——3D地球+8颗卫星</title>
-    <link>https://yadongw118.dpdns.org/#/post/13</link>
+    <link>https://yadongw118.dpdns.org/#/post/14</link>
     <guid isPermaLink="false">我做了个国际空间站实时追踪系统——3D地球+8颗卫星</guid>
     <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
     <description>🌍 灵感来源
@@ -104,52 +111,45 @@
   </item>
   <item>
     <title>用AI做PPT踩的坑：从手写COM自动化到复用Skill组件库</title>
-    <link>https://yadongw118.dpdns.org/#/post/14</link>
+    <link>https://yadongw118.dpdns.org/#/post/15</link>
     <guid isPermaLink="false">用AI做PPT踩的坑：从手写COM自动化到复用Skill组件库</guid>
     <pubDate>Fri, 19 Jun 2026 00:00:00 GMT</pubDate>
     <description>一次真实的AI辅助PPT制作复盘——期望、妥协、技术选型与最终交付。用AI做16页经济分析PPT，踩了调研超时、对齐bug、重复造轮子、import失败四个坑。</description>
   </item>
   <item>
     <title>Hermes Agent Windows 安装指南：从踩坑到跑通的完整记录</title>
-    <link>https://yadongw118.dpdns.org/#/post/15</link>
+    <link>https://yadongw118.dpdns.org/#/post/16</link>
     <guid isPermaLink="false">Hermes Agent Windows 安装指南：从踩坑到跑通的完整记录</guid>
     <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
     <description>记录在 Windows 11 上安装 Hermes Agent 的全过程，包括前置条件、Python 版本踩坑、环境变量配置、Web UI 搭建，以及实际使用中的问题解决方案。</description>
   </item>
   <item>
     <title>我做了一个手势控制的3D星系——不用装任何插件</title>
-    <link>https://yadongw118.dpdns.org/#/post/16</link>
+    <link>https://yadongw118.dpdns.org/#/post/17</link>
     <guid isPermaLink="false">我做了一个手势控制的3D星系——不用装任何插件</guid>
     <pubDate>Thu, 28 May 2026 00:00:00 GMT</pubDate>
     <description>用Three.js + MediaPipe在浏览器里实现手势控制的粒子星系，11种形态、双手交互，打开网页就能玩</description>
   </item>
   <item>
     <title>王者荣耀：一台精密的行为工程机器</title>
-    <link>https://yadongw118.dpdns.org/#/post/17</link>
+    <link>https://yadongw118.dpdns.org/#/post/18</link>
     <guid isPermaLink="false">王者荣耀：一台精密的行为工程机器</guid>
     <pubDate>Wed, 27 May 2026 14:00:00 GMT</pubDate>
     <description>从斯金纳箱到沉没成本，从ELO匹配到社交绑定——用心理学手术刀解剖国民手游的每一个上瘾机制。</description>
   </item>
   <item>
     <title>小米MiMo降价风暴：百亿计划收官，Token价格对标DeepSeek</title>
-    <link>https://yadongw118.dpdns.org/#/post/18</link>
+    <link>https://yadongw118.dpdns.org/#/post/19</link>
     <guid isPermaLink="false">小米MiMo降价风暴：百亿计划收官，Token价格对标DeepSeek</guid>
     <pubDate>Wed, 27 May 2026 00:00:00 GMT</pubDate>
     <description>小米MiMo百亿激励计划圆满收官，Token价格大幅下调对标DeepSeek，110亿额度重置，多模态+1M上下文，开发者迎来最佳时机</description>
   </item>
   <item>
     <title>收藏夹大公开：20 个超实用的免费网站工具</title>
-    <link>https://yadongw118.dpdns.org/#/post/19</link>
+    <link>https://yadongw118.dpdns.org/#/post/20</link>
     <guid isPermaLink="false">收藏夹大公开：20 个超实用的免费网站工具</guid>
     <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
     <description>从 PDF 处理到论文下载，从格式转换到 AI 大模型——这 20 个免费网站每个都值得放进书签栏。</description>
-  </item>
-  <item>
-    <title>宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑</title>
-    <link>https://yadongw118.dpdns.org/#/post/20</link>
-    <guid isPermaLink="false">宇宙十大终极思想实验：从忒修斯之船到玻尔兹曼大脑</guid>
-    <pubDate>Mon, 25 May 2026 00:00:00 GMT</pubDate>
-    <description>探索认知、逻辑与宇宙本质的极限——从忒修斯之船到玻尔兹曼大脑，十大改变人类思考方式的思想实验深度解读。</description>
   </item>
 </channel>
 </rss>
