@@ -139,7 +139,8 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 
 /* Article Cards — Liquid Glass */
 .articles{display:flex;flex-direction:column;gap:.85rem}
-.card{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:var(--r);padding:1.25rem 1.5rem;cursor:pointer;transition:all .35s var(--ease);opacity:0;transform:translateY(16px);position:relative;overflow:hidden;box-shadow:var(--glass-sh)}
+.card{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:var(--r);padding:1.25rem 1.5rem;cursor:pointer;transition:all .35s var(--ease);position:relative;overflow:hidden;box-shadow:var(--glass-sh);animation:cardIn .45s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .card.visible{opacity:1;transform:translateY(0)}
 .card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--ac),var(--coral));opacity:0;transition:opacity .3s;z-index:1}
 .card::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.12),transparent 40%);pointer-events:none;opacity:0;transition:opacity .4s}
