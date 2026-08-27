@@ -34,7 +34,7 @@ curl -sS --max-time 10 -o /dev/null -w "%{http_code}" https://yadongw118.dpdns.o
 
 ## 关键规则
 1. 图片放 `images/` 目录
-2. `_headers` 不用 `/*` catch-all
+2. `_headers` 不用 `/*` catch-all（文件不能有 BOM，否则规则失效）
 3. 部署后必须验证网站可访问
 4. 日期格式 `YYYY-MM-DD`
 5. commit message 不含 emoji
@@ -43,6 +43,8 @@ curl -sS --max-time 10 -o /dev/null -w "%{http_code}" https://yadongw118.dpdns.o
 8. 不要在调查中循环（确认服务端正常后直接给方案）
 9. **⚠️ HTML 实体转义**：文章正文中的 `&` 必须写成 `&amp;`（包括代码块内的 `R&B`、`Mail & Calendar`、`R&D` 等）。桌面 WebView2 会自动修正，但 Android System WebView 会中断 innerHTML 解析 → 手机端文章显示"加载失败"。构建后用 `python3 -c "import re,json; data=json.load(open('articles-content.json')); [print(f'❌ {t}') for t,c in data.items() if re.findall(r'&(?!(?:amp|lt|gt|quot|apos|#[0-9]+|#x[0-9a-fA-F]+);)', c)]"` 验证无未转义字符
 10. **🎵 音乐文件**：`music/` 目录**只用 OGG（Opus）格式**，128kbps MP3 时代已废弃（不再放 mp3）。转换工具：`D:\FormatFactory\FormatFactory\ffmpeg.exe -y -i 输入.mp3 -codec:a libopus -b:a 96k -map_metadata 0 -id3v2_version 3 输出.ogg`。文章播放用 `.gp-trigger` 按钮（data-src/data-title/data-artist/data-cover）接入 index.html 的全局悬浮播放器（黑胶唱片旋转效果）；封面图放 `images/covers/`（用 `ffmpeg -i 歌.ogg -map 0:v:0 -frames:v 1 -vf "scale=300:300" 封面.jpg` 从 OGG 提取）。文章结构参考 `content/posts/new-music-playlist.md`
+11. **🗂️ 合集分类**：frontmatter 加 `collection: "合集名"` 字段即自动归入合集。现有合集名：`音乐`、`电脑浏览器使用`、`电脑优化`、`网页交互`（顺序在 build.js 的 COLLECTION_ORDER 中，新合集自动追加到后面）。留言板 slug 固定为 `guestbook`（在 `functions/api/comments.js` 的 KV `comments:guestbook`）
+12. **🌐 国内推送**：GitHub 22 端口被墙，`~/.ssh/config` 已配 `Host github.com → ssh.github.com:443`，直接 `git push` 即可
 
 ## 详见
 完整交接文档在 `C:\Users\wang\Desktop\yadong-site\AGENTS.md`
