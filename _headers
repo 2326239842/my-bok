@@ -5,7 +5,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# Service Worker 不缓存——让新版 SW（v3）能尽快被所有浏览器拉取接管，避免旧缓存残留
+# Service Worker 不缓存——让新版 SW（v4）能尽快被所有浏览器拉取接管，避免旧缓存残留
 /sw.js
   Cache-Control: no-cache
 
@@ -26,6 +26,10 @@
 /music/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
   Accept-Ranges: bytes
+
+# Prism 本地资源 — 长期缓存
+/assets/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 # robots.txt / sitemap.xml — 中期缓存
 /robots.txt
