@@ -1,6 +1,7 @@
 ---
 title: "新歌入列：最近循环的 5 首歌 🎵"
 date: 2026-08-15T20:50:00Z
+collection: "音乐"
 draft: false
 tags: ["音乐", "生活", "歌单"]
 categories: ["生活"]

@@ -1,6 +1,7 @@
 ---
 title: "最近在听的歌 —— 一份私藏歌单 🎵"
 date: "2026-05-19"
+collection: "音乐"
 draft: false
 tags: ["音乐", "生活", "音乐"]
 categories: ["生活"]

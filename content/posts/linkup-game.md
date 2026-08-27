@@ -1,6 +1,7 @@
 ---
 title: "头像连连看——朋友局小游戏"
 date: 2026-08-05
+collection: "网页交互"
 draft: false
 tags: ["游戏", "JavaScript", "连连看", "前端", "互动"]
 categories: ["项目"]

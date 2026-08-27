@@ -1,6 +1,7 @@
 ---
 title: "我做了个国际空间站实时追踪系统——3D地球+8颗卫星"
 date: 2026-06-20
+collection: "网页交互"
 draft: false
 tags: ["Three.js", "WebGL", "卫星追踪", "3D", "前端", "ISS"]
 ---

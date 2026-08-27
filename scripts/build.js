@@ -236,7 +236,8 @@ POSTS_DIRS.forEach(dir => {
       summary: meta.summary || body.substring(0, 100).replace(/[#*>\\-]/g, '').trim() + '...',
       content: content,
       image: meta.image || '',
-      audio: meta.audio || ''
+      audio: meta.audio || '',
+      collection: meta.collection || ''
     });
     idx++;
   });
@@ -276,12 +277,27 @@ const articlesMeta = articles.map(a => ({
   tags: a.tags,
   summary: a.summary,
   image: a.image,
-  audio: a.audio
+  audio: a.audio,
+  collection: a.collection
 }));
+
+// 合集分类：按预定义顺序排列，未定义的新合集按文章数倒序追加
+const COLLECTION_ORDER = ['音乐', '电脑浏览器使用', '电脑优化', '网页交互'];
+const collMap = {};
+articles.forEach(a => { if (a.collection) collMap[a.collection] = (collMap[a.collection] || 0) + 1; });
+const collNames = Object.keys(collMap);
+collNames.sort((x, y) => {
+  const ix = COLLECTION_ORDER.indexOf(x), iy = COLLECTION_ORDER.indexOf(y);
+  if (ix >= 0 && iy >= 0) return ix - iy;
+  if (ix >= 0) return -1;
+  if (iy >= 0) return 1;
+  return collMap[y] - collMap[x];
+});
+const collections = collNames.map(n => ({ name: n, count: collMap[n] }));
 
 const before = indexHtml.substring(0, startIdx + START_MARKER.length);
 const after = indexHtml.substring(endIdx);
-const newArticles = `\nconst articles=${JSON.stringify(articlesMeta)};\nconst slugMap=${JSON.stringify(slugMap)};\n`;
+const newArticles = `\nconst articles=${JSON.stringify(articlesMeta)};\nconst slugMap=${JSON.stringify(slugMap)};\nconst collections=${JSON.stringify(collections)};\n`;
 
 const newIndex = before + newArticles + after;
 fs.writeFileSync(INDEX_FILE, newIndex);

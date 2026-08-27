@@ -1,6 +1,7 @@
 ---
 title: "《形同陌路》：我的第一首 AI 创作歌曲 🎵"
 date: 2026-08-18T21:35:00Z
+collection: "音乐"
 draft: false
 tags: ["音乐", "AI", "原创", "生活"]
 categories: ["生活"]

@@ -5,7 +5,7 @@
   <link>https://yadongw118.dpdns.org/</link>
   <description>Yadong 的个人博客 - 记录技术探索、生活感悟与创意项目</description>
   <language>zh-CN</language>
-  <lastBuildDate>Tue, 25 Aug 2026 14:06:32 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 27 Aug 2026 00:28:12 GMT</lastBuildDate>
   <atom:link href="https://yadongw118.dpdns.org/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
     <title>《形同陌路》：我的第一首 AI 创作歌曲 🎵</title>
@@ -64,25 +64,25 @@
     <description>Win11 广告明显比之前的系统多，拖慢了运行速度和网速。本文从系统设置、浏览器广告去除、应用软件广告去除三个方面，手把手教你有效关闭广告、提升浏览速度。</description>
   </item>
   <item>
-    <title>博客软件大全：18 款常用软件合集分享</title>
+    <title>网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</title>
     <link>https://yadongw118.dpdns.org/#/post/9</link>
+    <guid isPermaLink="false">网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</guid>
+    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    <description>一个脚本搞定九大网盘直链获取，不用装任何客户端，配合 IDM 多线程拉满带宽——这是我用了两年的下载终极方案。</description>
+  </item>
+  <item>
+    <title>博客软件大全：18 款常用软件合集分享</title>
+    <link>https://yadongw118.dpdns.org/#/post/10</link>
     <guid isPermaLink="false">博客软件大全：18 款常用软件合集分享</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
     <description>网盘『博客软件大全』文件夹里的 18 款软件合集，覆盖下载加速、PDF 处理、系统维护、激活部署、开发设计、游戏与移动应用 7 大类，每款附版本号和官方下载链接，文末有网盘地址。</description>
   </item>
   <item>
     <title>我用 Trae 一个月，它成了我日常 AI 的首选</title>
-    <link>https://yadongw118.dpdns.org/#/post/10</link>
+    <link>https://yadongw118.dpdns.org/#/post/11</link>
     <guid isPermaLink="false">我用 Trae 一个月，它成了我日常 AI 的首选</guid>
     <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
     <description>从豆包到 Cursor，再到 Claude Code——折腾了一圈之后，我发现轻量好用的 Trae 反而更适合大多数日常场景。</description>
-  </item>
-  <item>
-    <title>网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</title>
-    <link>https://yadongw118.dpdns.org/#/post/11</link>
-    <guid isPermaLink="false">网盘限速的终极解法：LinkSwift + IDM，不装客户端也能全速下载</guid>
-    <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
-    <description>一个脚本搞定九大网盘直链获取，不用装任何客户端，配合 IDM 多线程拉满带宽——这是我用了两年的下载终极方案。</description>
   </item>
   <item>
     <title>头像连连看——朋友局小游戏</title>

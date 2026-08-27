@@ -1,6 +1,7 @@
 ---
 title: "我做了一个手势控制的3D星系——不用装任何插件"
 date: 2026-05-28
+collection: "网页交互"
 draft: false
 tags: ["Three.js", "MediaPipe", "WebGL", "3D", "手势交互", "前端"]
 categories: ["技术"]

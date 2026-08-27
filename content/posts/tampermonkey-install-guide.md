@@ -1,6 +1,7 @@
 ---
 title: "篡改猴（Tampermonkey）安装教程：Edge 浏览器图文版"
 date: 2026-08-14T06:00:00Z
+collection: "电脑浏览器使用"
 tags: ["篡改猴", "Tampermonkey", "浏览器扩展", "教程", "Edge"]
 summary: "篡改猴（Tampermonkey）是最流行的用户脚本管理器，可以个性化修改网页、屏蔽广告、跳过会员验证、辅助刷课。本文用图文一步步教你如何在 Edge 浏览器上安装篡改猴并获取第一个脚本。"
 ---

@@ -1,6 +1,7 @@
 ---
 title: "IDM 下载安装与设置：多线程下载神器入门"
 date: 2026-08-14T02:00:00Z
+collection: "电脑浏览器使用"
 tags: ["IDM", "下载工具", "Windows", "教程"]
 summary: "IDM（Internet Download Manager）通过多线程技术接管浏览器下载，在不改变网速的前提下极大提升下载速度。本文分享绿色中文版的安装设置流程，以及浏览器接管、下载位置配置等要点。"
 ---

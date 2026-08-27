@@ -1,6 +1,7 @@
 ---
 title: "Win11Debloat 完全指南：三种方案彻底清理 Windows 臃肿"
 date: "2026-07-19"
+collection: "电脑优化"
 tags: ["Windows", "优化", "开源工具", "系统清理"]
 summary: "Win11Debloat 是一个开源 Windows 清理脚本，能一键删除系统预装臃肿应用、关闭遥测、优化界面。本文提供三种方案——保守、中等、完整，适合不同需求的用户，附完整代码与小白教程。"
 ---

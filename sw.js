@@ -6,7 +6,7 @@
 //     避免返回过期的文章数据导致渲染异常。
 //  3) 静态资源(png/jpg/webp/svg/mp4/ogg/woff2)：缓存优先 + 后台更新(离线可用)。
 //  4) 每次有新版 SW 立即 skipWaiting + claim 接管，并将 CACHE 名升版以清理旧缓存。
-const CACHE = 'yadong-blog-v3';
+const CACHE = 'yadong-blog-v4';
 
 // 安装时只预缓存 favicon 等极少数固定资源；不预缓存 '/' 或 index.html，
 // 避免把"旧骨架"固化进缓存（这正是刷新才好、不刷新白的根因）。

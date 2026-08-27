@@ -1,0 +1,1 @@
+<svg height="400px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024px"><text fill="red" x="512px" y="200px">failed to talk with github api: {"message":"Requires authentication","documentation_url":"https://docs.github.com/rest/activity/starring#list-stargazers","status":"401"}</text></svg>
