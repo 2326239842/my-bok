@@ -1,4 +1,4 @@
-﻿# HTML — 短期缓存 + stale-while-revalidate
+# HTML — 短期缓存 + stale-while-revalidate
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
