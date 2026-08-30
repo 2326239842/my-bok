@@ -84,6 +84,10 @@ summary: "从 AI 生成定制简历，到一键登记投递记录、跟踪笔试
 
 <h2>📊 第二部分：求职追踪看板</h2>
 
+<p><img src="/images/job-tracker-board.jpg" alt="求职追踪看板界面" style="max-width:100%;border-radius:12px;border:1px solid var(--bdr);box-shadow:0 8px 30px rgba(15,23,42,.12)"></p>
+
+<p style="color:var(--tx3);font-size:.85rem;text-align:center">△ 求职追踪看板：8 列状态流 + 卡片一键推进（截图用演示数据）</p>
+
 <h3>2.1 这是什么</h3>
 
 <p>一个<b>单文件 HTML 应用</b>（零依赖、双击即用、部署即上线），专门管理投递记录的全生命周期。</p>
