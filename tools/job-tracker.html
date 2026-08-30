@@ -415,7 +415,7 @@ body.dark .modal{background:linear-gradient(160deg,#1c2040,#161a33)}
     <button class="btn" onclick="document.getElementById('importFile').click()">⬆ 导入</button>
     <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv,text/plain" style="display:none" onchange="importData(this)">
     <button class="btn" onclick="showAbout()">ℹ️ 关于</button>
-    <button class="btn" onclick="lockApp()" title="锁定并隐藏数据">🔒 锁定</button>
+    <button class="btn danger" onclick="lockApp()" title="退出登录并清除本机记住状态">🚪 退出</button>
     <button class="btn primary" onclick="openForm()">＋ 添加投递</button>
   </div>
   <div class="tabs">
@@ -722,6 +722,11 @@ function tryUnlock(){
     if(document.getElementById('authRemember').checked) localStorage.setItem('jobTracker_remember','1');
     sessionStorage.setItem('jobTracker_unlock','1');
     document.getElementById('authGate').classList.add('hide');
+    // 恢复页面显示（退出时被隐藏）
+    document.getElementById('page-board').style.display='';
+    document.getElementById('page-cal').style.display='none';
+    document.getElementById('page-stats').style.display='none';
+    document.getElementById('page-trash').style.display='none';
     boot();
   }else{
     document.getElementById('authErr').textContent = '❌ 密码错误，请重试';
@@ -730,11 +735,19 @@ function tryUnlock(){
   }
 }
 function lockApp(){
+  if(!confirm('确定退出登录吗？退出后将回到密码门，需要重新输入密码才能进入。')) return;
+  // 一键退出：清除会话标记 + 本机记住状态
   sessionStorage.removeItem('jobTracker_unlock');
+  localStorage.removeItem('jobTracker_remember');
   document.getElementById('authGate').classList.remove('hide');
   document.getElementById('authPwd').value='';
   document.getElementById('authErr').textContent='';
   document.getElementById('authPwd').focus();
+  // 隐藏应用内容（防止退出瞬间数据仍可见）
+  document.getElementById('page-board').style.display='none';
+  document.getElementById('page-cal').style.display='none';
+  document.getElementById('page-stats').style.display='none';
+  document.getElementById('page-trash').style.display='none';
 }
 function boot(){
   load(); render(); refreshFilters();
