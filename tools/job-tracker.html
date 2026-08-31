@@ -355,9 +355,28 @@ body.dark .modal{background:linear-gradient(160deg,#1c2040,#161a33)}
   background:var(--card2);border:1px solid var(--border);border-radius:5px;
   padding:1px 6px;font-size:10px;font-family:inherit;
 }
-@media(max-width:1300px){.board{grid-template-columns:repeat(4,minmax(180px,1fr))}.stats-page{grid-template-columns:1fr}}
+@media(max-width:1520px){.board{grid-template-columns:repeat(4,minmax(180px,1fr))}.stats-page{grid-template-columns:1fr}}
 @media(max-width:1000px){.cal-layout{grid-template-columns:1fr}}
-@media(max-width:760px){.board{grid-template-columns:repeat(2,minmax(170px,1fr))}.form-grid{grid-template-columns:1fr}body{padding:14px}.kbd-hint{display:none}}
+@media(max-width:760px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}.form-grid{grid-template-columns:1fr}body{padding:14px}.kbd-hint{display:none}}
+/* 手机端专用断点：看板单列竖排、日历/弹窗紧凑化 */
+@media(max-width:600px){
+  .board{grid-template-columns:1fr;overflow-x:visible}
+  .col{min-height:0;padding:8px}
+  .col-list{max-height:none;overflow-y:visible}
+  .cal-cell{min-height:44px;padding:4px 4px}
+  .cal-cell .cnum{font-size:11.5px}
+  .cal-cell .evs{gap:2px;margin-top:3px}
+  .modal{padding:18px 15px;border-radius:14px}
+  .modal h3{font-size:16px}
+  body{padding:10px}
+  .stat{padding:10px 13px}
+  .stat .num{font-size:21px}
+  .topbar .btn{padding:7px 11px;font-size:12px}
+  .tabs .tab{padding:7px 11px;font-size:12.5px}
+  .trash-list{grid-template-columns:1fr}
+  .big-nums{grid-template-columns:1fr 1fr;gap:8px}
+  .form-actions .btn{flex:1;justify-content:center}
+}
 /* ========== 管理员验证门 ========== */
 #authGate{
   position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
