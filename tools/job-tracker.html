@@ -62,6 +62,8 @@ h1 small{font-size:12.5px;color:var(--muted);font-weight:400;-webkit-text-fill-c
 .btn.mini{padding:2px 9px;font-size:11px;border-radius:7px}
 .btn.ghost{background:transparent;box-shadow:none}
 .btn.on{background:var(--grad);color:#fff;border-color:transparent}
+#cloudBadge.badge-err{border-color:var(--red)55;background:var(--danger-bg);color:var(--red)}
+#cloudBadge.badge-ok{border-color:var(--green)55;background:var(--green)15;color:var(--green)}
 .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
 .tab{
   border:1px solid var(--border);background:var(--card);color:var(--muted);
@@ -355,28 +357,9 @@ body.dark .modal{background:linear-gradient(160deg,#1c2040,#161a33)}
   background:var(--card2);border:1px solid var(--border);border-radius:5px;
   padding:1px 6px;font-size:10px;font-family:inherit;
 }
-@media(max-width:1520px){.board{grid-template-columns:repeat(4,minmax(180px,1fr))}.stats-page{grid-template-columns:1fr}}
+@media(max-width:1300px){.board{grid-template-columns:repeat(4,minmax(180px,1fr))}.stats-page{grid-template-columns:1fr}}
 @media(max-width:1000px){.cal-layout{grid-template-columns:1fr}}
-@media(max-width:760px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}.form-grid{grid-template-columns:1fr}body{padding:14px}.kbd-hint{display:none}}
-/* 手机端专用断点：看板单列竖排、日历/弹窗紧凑化 */
-@media(max-width:600px){
-  .board{grid-template-columns:1fr;overflow-x:visible}
-  .col{min-height:0;padding:8px}
-  .col-list{max-height:none;overflow-y:visible}
-  .cal-cell{min-height:44px;padding:4px 4px}
-  .cal-cell .cnum{font-size:11.5px}
-  .cal-cell .evs{gap:2px;margin-top:3px}
-  .modal{padding:18px 15px;border-radius:14px}
-  .modal h3{font-size:16px}
-  body{padding:10px}
-  .stat{padding:10px 13px}
-  .stat .num{font-size:21px}
-  .topbar .btn{padding:7px 11px;font-size:12px}
-  .tabs .tab{padding:7px 11px;font-size:12.5px}
-  .trash-list{grid-template-columns:1fr}
-  .big-nums{grid-template-columns:1fr 1fr;gap:8px}
-  .form-actions .btn{flex:1;justify-content:center}
-}
+@media(max-width:760px){.board{grid-template-columns:repeat(2,minmax(170px,1fr))}.form-grid{grid-template-columns:1fr}body{padding:14px}.kbd-hint{display:none}}
 /* ========== 管理员验证门 ========== */
 #authGate{
   position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -434,6 +417,7 @@ body.dark .modal{background:linear-gradient(160deg,#1c2040,#161a33)}
     <button class="btn" onclick="document.getElementById('importFile').click()">⬆ 导入</button>
     <input type="file" id="importFile" accept=".json,.csv,application/json,text/csv,text/plain" style="display:none" onchange="importData(this)">
     <button class="btn" onclick="showAbout()">ℹ️ 关于</button>
+    <span id="cloudBadge" class="btn small" style="display:none;border-color:#a855f766;background:var(--grad-soft);color:var(--purple);cursor:default" title="">⚪ 本地</span>
     <button class="btn danger" onclick="lockApp()" title="退出登录并清除本机记住状态">🚪 退出</button>
     <button class="btn primary" onclick="openForm()">＋ 添加投递</button>
   </div>
@@ -668,9 +652,9 @@ body.dark .modal{background:linear-gradient(160deg,#1c2040,#161a33)}
   <div class="modal" style="max-width:520px">
     <h3>ℹ️ 关于求职追踪<button class="close" onclick="closeAbout()">✕</button></h3>
     <div style="font-size:12.5px;line-height:1.9;color:var(--muted)">
-      <div><b style="color:var(--text)">🔒 数据存储</b><br>所有记录仅保存在<u>你当前使用的这台设备/浏览器</u>的 localStorage 里，不上传任何服务器，别人打开这个页面看到的是空数据。换电脑 / 换浏览器 / 清理缓存前，请先 <b>⬇ 导出 JSON</b> 备份，再到新环境 <b>⬆ 导入</b> 恢复。</div>
-      <div style="margin-top:10px"><b style="color:var(--text)">🌐 部署到博客后</b><br>第一次在博客打开是空数据（本地 file:// 的数据不会自动带过来），需要导入一次 JSON。博客端是 https，浏览器会禁用 file:// 链接，所以简历路径的"打开"按钮会自动隐藏，仍可"复制"路径。</div>
-      <div style="margin-top:10px"><b style="color:var(--text)">💾 建议</b><br>每周或每投一批就导出一次 JSON 备份，防止误清缓存丢数据。</div>
+      <div><b style="color:var(--text)">☁️ 云端同步（默认）</b><br>登录后数据自动同步到服务器（与本站评论区同架构），<b>电脑、手机、任何浏览器打开都是同一份数据</b>，任意一处增删改，其他地方刷新即可看到。顶部 ☁️ 徽章显示同步状态。</div>
+      <div style="margin-top:10px"><b style="color:var(--text)">💾 本地缓存</b><br>浏览器 localStorage 会保留一份本地副本：打开更快、断网也能看。每次修改自动双写：本地 + 云端。</div>
+      <div style="margin-top:10px"><b style="color:var(--text)">🔒 隐私</b><br>读取和写入都需管理员密码认证（token 24 小时有效），其他人即使打开页面也看不到你的数据。导出 JSON 仍是终极备份手段，建议定期导出。</div>
     </div>
     <div class="form-actions">
       <button class="btn primary" onclick="closeAbout()">知道了</button>
@@ -735,6 +719,97 @@ const DEFAULT_PATH = IS_LOCAL ? 'C:\\Users\\wang\\Desktop\\简历' : '';
 const ADMIN_PASS = 'wyd73199254110';
 const AUTH_LOCAL = false;
 
+/* ===== 云端同步（Cloudflare KV，与评论系统同架构） =====
+ * 数据主存储在云端 KV，电脑/手机/任何浏览器看到的都是同一份。
+ * localStorage 降级为本地缓存（离线可看、快速启动）。
+ * API: functions/api/jobtracker.js  (verify换token → pull/save全量) */
+const API_URL = IS_LOCAL ? 'https://yadongw118.dpdns.org/api/jobtracker' : '/api/jobtracker';
+let cloudReady = false;   // 是否已成功连接云端
+let cloudToken = '';
+let cloudPushTimer = null;
+
+function cloudSetToken(t){ cloudToken = t||''; t ? sessionStorage.setItem('jobtracker_token', t) : sessionStorage.removeItem('jobtracker_token'); }
+function cloudGetToken(){
+  if(cloudToken) return cloudToken;
+  const t = sessionStorage.getItem('jobtracker_token');
+  if(t) cloudToken = t;
+  return cloudToken;
+}
+async function cloudVerify(){
+  try{
+    const res = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({_action:'verify', password: ADMIN_PASS})});
+    const data = await res.json();
+    if(data.ok && data.token){ cloudSetToken(data.token); return true; }
+    return false;
+  }catch(e){ return false; }
+}
+async function cloudPull(){
+  const t = cloudGetToken();
+  if(!t) return null;
+  try{
+    const res = await fetch(API_URL + '?token=' + encodeURIComponent(t));
+    if(res.status === 403){ cloudSetToken(''); return null; }
+    const data = await res.json();
+    return data.ok ? data.records : null;
+  }catch(e){ return null; }
+}
+async function cloudPush(){
+  const t = cloudGetToken();
+  if(!t) return false;
+  try{
+    const res = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({_action:'save', token: t, records})});
+    if(res.status === 403){ cloudSetToken(''); return false; }
+    const data = await res.json();
+    return !!data.ok;
+  }catch(e){ return false; }
+}
+/* 登录后连接云端：先拉云端数据；云端空但本地有 → 首次推送本地 */
+async function cloudConnect(){
+  cloudReady = false;
+  if(cloudGetToken() || await cloudVerify()){
+    cloudReady = true;
+    setCloudBadge('sync');
+    const remote = await cloudPull();
+    if(remote && remote.length){
+      const localEmpty = !records.length;
+      const changed = JSON.stringify(records||[]) !== JSON.stringify(remote);
+      if(localEmpty || changed){
+        records = remote;
+        persist(); render(); refreshFilters();
+        setCloudBadge('ok', '已同步云端数据');
+      }
+    }else if(records.length){
+      const ok = await cloudPush();
+      setCloudBadge(ok?'ok':'err', ok?'已上传到云端':'云端同步失败');
+    }
+  }else{
+    setCloudBadge('err', '云端不可用，仅本地模式');
+  }
+}
+/* 修改后推送（防抖 600ms） */
+function cloudSyncSoon(){
+  if(!cloudReady) return;
+  clearTimeout(cloudPushTimer);
+  cloudPushTimer = setTimeout(async ()=>{
+    const ok = await cloudPush();
+    if(ok){ setCloudBadge('ok'); }
+    else{ setCloudBadge('err', '云端保存失败，数据仍在本地'); }
+  }, 600);
+}
+/* 顶栏云状态徽章 */
+function setCloudBadge(state, msg){
+  const b = document.getElementById('cloudBadge');
+  if(!b) return;
+  const map = {off:'⚪ 本地', sync:'🔄 同步中', ok:'☁️ 已同步', err:'⚠️ 离线'};
+  b.textContent = map[state]||map.off;
+  b.style.display = 'inline-flex';
+  b.classList.toggle('badge-err', state==='err');
+  b.classList.toggle('badge-ok', state==='ok'||state==='sync');
+  b.title = msg||'';
+}
+
 function tryUnlock(){
   const v = document.getElementById('authPwd').value;
   if(v === ADMIN_PASS){
@@ -747,6 +822,8 @@ function tryUnlock(){
     document.getElementById('page-stats').style.display='none';
     document.getElementById('page-trash').style.display='none';
     boot();
+    // 密码正确 → 连接云端同步数据
+    cloudConnect();
   }else{
     document.getElementById('authErr').textContent = '❌ 密码错误，请重试';
     document.getElementById('authPwd').value='';
@@ -755,9 +832,11 @@ function tryUnlock(){
 }
 function lockApp(){
   if(!confirm('确定退出登录吗？退出后将回到密码门，需要重新输入密码才能进入。')) return;
-  // 一键退出：清除会话标记 + 本机记住状态
+  // 一键退出：清除会话标记 + 本机记住状态 + 云端 token
   sessionStorage.removeItem('jobTracker_unlock');
   localStorage.removeItem('jobTracker_remember');
+  cloudSetToken('');
+  cloudReady = false;
   document.getElementById('authGate').classList.remove('hide');
   document.getElementById('authPwd').value='';
   document.getElementById('authErr').textContent='';
@@ -778,6 +857,7 @@ function initAuth(){
   if(auto){
     document.getElementById('authGate').classList.add('hide');
     boot();
+    cloudConnect(); // 免密直进也要连云端
   }
 }
 
@@ -821,7 +901,7 @@ function load(){
   calSelDate = fmtDate(now);
 }
 function persist(){ localStorage.setItem(LS_KEY, JSON.stringify(records)); }
-function save(){ persist(); render(); refreshFilters(); }
+function save(){ persist(); render(); refreshFilters(); cloudSyncSoon(); }
 function today(){ return fmtDate(new Date()); }
 function fmtDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
