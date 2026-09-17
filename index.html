@@ -1852,7 +1852,9 @@ function bindGPTriggers(root){
   const triggers=Array.prototype.slice.call(scope.querySelectorAll('.gp-trigger'));
   // 收集本文歌单（按正文顺序），用于连播
   _gpList=triggers.map(b=>({src:b.dataset.src,title:b.dataset.title,artist:b.dataset.artist,cover:b.dataset.cover}));
-  _gpIdx=-1;_gpLoop=false;
+  // 若当前播放的歌就在这份歌单里（同一篇文章重渲染/回退），保留播放进度与连播开关，不要重置
+  const _curInList=_gpList.findIndex(x=>x.src===_gpCurSrc);
+  if(_curInList>=0){_gpIdx=_curInList}else{_gpIdx=-1;_gpLoop=false}
   triggers.forEach(btn=>{
     if(btn.dataset.bound)return;btn.dataset.bound='1';
     btn.addEventListener('click',()=>{
