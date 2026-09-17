@@ -141,4 +141,8 @@ Trae 支持 MCP（模型上下文协议），可以接入各种外部工具和�
 
 ---
 
+> **⚠️ 下载前必看**：现在官网的下载页上有两个不同的产品——**TraeWork** 和 **TraeCode**，它们不是同一个东西，名字很像，**千万不要下错了**。这篇文章写的是 **TraeWork**（网页版 / 桌面版 / 移动版，内含 Work、Code、Design 三种模式），想复现我上面这些体验就下它；**TraeCode** 则是对标 Cursor 的集成开发环境（IDE 模式 + SOLO 模式），面向需要完整代码开发环境的工程师。下错了会觉得「跟文章里说的不一样」。
+
+---
+
 *Trae 官网：[trae.cn](https://www.trae.cn) | 官方文档：[docs.trae.cn](https://docs.trae.cn)*
