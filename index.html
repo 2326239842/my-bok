@@ -337,7 +337,27 @@ a:hover{color:var(--ac-h);text-decoration:underline}
 .gp-loopbtn .lb-tip{font-size:.68rem;font-weight:500;opacity:.8}
 .gp-loopbtn.on .lb-tip{opacity:.9}
 .gp-loopbar{display:flex;justify-content:flex-end;margin:0 0 1rem}
+/* ═══ 播放器控制组（上一曲/下一曲/播放列表） ═══ */
+.gp-ctrl{display:flex;align-items:center;gap:.35rem;flex-shrink:0}
+.gp-nav{width:30px;height:30px;border-radius:50%;border:1px solid var(--bdr2);background:var(--bg3);color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.78rem;line-height:1;padding:0;transition:all .2s var(--ease);flex-shrink:0;font-family:var(--font)}
+.gp-nav:hover{border-color:var(--ac);color:var(--ac);transform:translateY(-1px)}
+.gp-nav.on{background:linear-gradient(135deg,var(--ac),var(--ac-h));color:#fff;border-color:transparent}
+.gp-nav[disabled]{opacity:.3;cursor:default;transform:none;border-color:var(--bdr2);color:var(--tx3)}
+/* ═══ 播放列表面板 ═══ */
+.gp-panel{position:fixed;left:50%;bottom:94px;transform:translateX(-50%) translateY(12px);width:min(430px,calc(100vw - 26px));max-height:min(48vh,380px);overflow-y:auto;overscroll-behavior:contain;background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:var(--glass-bdr);border-radius:16px;box-shadow:var(--glass-sh-hover),0 10px 34px rgba(0,0,0,.22);padding:.45rem;z-index:2999;opacity:0;pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.gp-panel.on{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.gp-panel .gpp-head{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--tx3);padding:.2rem .5rem .45rem;border-bottom:1px solid var(--bdr);margin-bottom:.3rem}
+.gp-item{display:flex;align-items:center;gap:.55rem;padding:.42rem .5rem;border-radius:10px;cursor:pointer;transition:background .18s}
+.gp-item:hover{background:var(--bg3)}
+.gp-item.cur{background:var(--ac2)}
+.gp-item .gpp-idx{width:18px;text-align:center;font-size:.72rem;color:var(--tx3);flex-shrink:0}
+.gp-item.cur .gpp-idx{color:var(--ac)}
+.gp-item .gpp-t{flex:1;min-width:0;font-size:.82rem;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp-item.cur .gpp-t{color:var(--ac);font-weight:700}
+.gp-item .gpp-a{font-size:.68rem;color:var(--tx3);flex-shrink:0;max-width:36%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp-item .gpp-eq{font-size:.7rem;color:var(--ac);flex-shrink:0;width:12px;text-align:center}
 @media(max-width:768px){.gp-loopbtn{font-size:.7rem;padding:.2rem .6rem}.gp-loopbtn .lb-tip{display:none}}
+@media(max-width:480px){.gp-nav{width:27px;height:27px;font-size:.72rem}.gp-ctrl{gap:.22rem}.gp-panel{bottom:88px}.gp-item .gpp-a{max-width:30%}}
 @media(max-width:768px){
   .gp{bottom:12px;padding:.5rem .6rem}
   .gp-cover{width:46px;height:46px}
@@ -1704,7 +1724,18 @@ function gpInit(){
   _gpEl=document.getElementById('globalPlayer');
   const btn=_gpEl.querySelector('.gp-btn');
   btn.addEventListener('click',()=>{if(_gpAudio.paused)_gpAudio.play();else _gpAudio.pause()});
-  _gpEl.querySelector('.gp-close').addEventListener('click',()=>{_gpAudio.pause();_gpAudio.src='';_gpCurSrc='';hideGP(0)});
+  const bPrev=document.getElementById('gpPrev'),bNext=document.getElementById('gpNext'),bList=document.getElementById('gpListBtn');
+  if(bPrev)bPrev.addEventListener('click',gpPrev);
+  if(bNext)bNext.addEventListener('click',gpNext);
+  if(bList)bList.addEventListener('click',()=>gpTogglePanel());
+  // 点空白处收起播放列表
+  document.addEventListener('click',e=>{
+    const p=document.getElementById('gpPanel');
+    if(!p||!p.classList.contains('on'))return;
+    if(e.target.closest&&(e.target.closest('#gpPanel')||e.target.closest('#globalPlayer')))return;
+    gpTogglePanel(false);
+  });
+  _gpEl.querySelector('.gp-close').addEventListener('click',()=>{_gpAudio.pause();_gpAudio.src='';_gpCurSrc='';gpTogglePanel(false);hideGP(0)});
   _gpAudio.addEventListener('play',()=>{_gpEl.classList.add('on');_gpEl.querySelector('.gp-cover').classList.add('spin');_gpEl.querySelector('.gp-btn').textContent='⏸';clearTimeout(_gpHideTimer)});
   _gpAudio.addEventListener('pause',()=>{_gpEl.querySelector('.gp-cover').classList.remove('spin');_gpEl.querySelector('.gp-btn').textContent='▶';if(_gpAudio.src&&!_gpAudio.ended)hideGP(4000)});
   _gpAudio.addEventListener('ended',()=>{
@@ -1721,6 +1752,8 @@ function gpPaint(){
   const n=_gpList.length;
   _gpEl.querySelector('.gp-artist').textContent=(_gpMeta.artist||'')+((_gpLoop&&n>1&&_gpIdx>=0)?((_gpMeta.artist?' · ':'')+'连播 '+(_gpIdx+1)+'/'+n):'');
   _gpEl.querySelector('.gp-cover img').src=_gpMeta.cover||'/favicon.svg';
+  gpNavBtns();
+  gpMarkPanel();
 }
 function playSong(src,title,artist,cover){
   if(!_gpEl)return;
@@ -1761,10 +1794,57 @@ function gpToggleLoop(){
   gpSyncLoop();
   if(_gpLoop&&_gpAudio.paused)gpPlayAt(_gpIdx>=0?_gpIdx:0); // 打开连播即从当前/第一首开始
 }
+// ===== 上一曲 / 下一曲 =====
+function gpNavBtns(){
+  const multi=_gpList.length>1;
+  const p=document.getElementById('gpPrev'),n=document.getElementById('gpNext'),b=document.getElementById('gpListBtn');
+  if(p)p.disabled=!multi;
+  if(n)n.disabled=!multi;
+  if(b)b.style.display=_gpList.length>1?'':'none';
+}
+function gpNext(){
+  if(_gpList.length<2)return;
+  gpPlayAt(_gpIdx<0?0:(_gpIdx+1)%_gpList.length);   // 末首下一曲回到第一首
+}
+function gpPrev(){
+  if(_gpList.length<2)return;
+  gpPlayAt(_gpIdx<=0?_gpList.length-1:_gpIdx-1);    // 首首上一曲跳到最后一首
+}
+// ===== 播放列表面板 =====
+function gpRenderPanel(){
+  const p=document.getElementById('gpPanel');if(!p)return;
+  if(!_gpList.length){p.innerHTML='';p.classList.remove('on');const b=document.getElementById('gpListBtn');if(b)b.classList.remove('on');return}
+  p.innerHTML='<div class="gpp-head">🎧 <b style="color:var(--tx2)">本文歌单</b><span style="margin-left:auto">共 '+_gpList.length+' 首</span></div>'+
+    _gpList.map((s,i)=>'<div class="gp-item'+(_gpIdx===i?' cur':'')+'" data-i="'+i+'" title="'+(s.title||'').replace(/"/g,'&quot;')+'">'+
+      '<span class="gpp-idx">'+(i+1)+'</span>'+
+      '<span class="gpp-t">'+esc(s.title||'未知歌曲')+'</span>'+
+      '<span class="gpp-a">'+esc(s.artist||'')+'</span>'+
+      '<span class="gpp-eq">'+(_gpIdx===i?'♪':'')+'</span></div>').join('');
+  p.querySelectorAll('.gp-item').forEach(el=>{
+    el.addEventListener('click',()=>{gpPlayAt(+el.dataset.i);gpMarkPanel()});
+  });
+}
+function gpMarkPanel(){
+  const p=document.getElementById('gpPanel');if(!p)return;
+  p.querySelectorAll('.gp-item').forEach(el=>{
+    const cur=(+el.dataset.i===_gpIdx);
+    el.classList.toggle('cur',cur);
+    const eq=el.querySelector('.gpp-eq');if(eq)eq.textContent=cur?'♪':'';
+  });
+}
+function gpTogglePanel(force){
+  const p=document.getElementById('gpPanel');if(!p)return;
+  const b=document.getElementById('gpListBtn');
+  if(!_gpList.length){p.classList.remove('on');if(b)b.classList.remove('on');return}
+  const on=(typeof force==='boolean')?force:!p.classList.contains('on');
+  p.classList.toggle('on',on);
+  if(b)b.classList.toggle('on',on);
+  if(on)gpMarkPanel();
+}
 function hideGP(delay){
   if(!_gpEl)return;
   clearTimeout(_gpHideTimer);
-  _gpHideTimer=setTimeout(()=>{_gpEl.classList.remove('on')},delay);
+  _gpHideTimer=setTimeout(()=>{_gpEl.classList.remove('on');gpTogglePanel(false)},delay);
 }
 // 让文章里的 .gp-trigger 按钮接入全局播放器（文章内容注入后调用）
 function bindGPTriggers(root){
@@ -1786,6 +1866,7 @@ function bindGPTriggers(root){
     else root.insertAdjacentHTML('afterbegin','<div class="gp-loopbar"><span class="gp-loopbtn" id="gpLoopBtn" onclick="gpToggleLoop()">🔁 连播：关</span></div>');
   }
   gpSyncLoop();
+  gpRenderPanel();
 }
 </script>
 <!-- ═══ 悬浮播放器 ═══ -->
@@ -1796,9 +1877,16 @@ function bindGPTriggers(root){
     <div class="gp-artist"></div>
     <div class="gp-progress"><i></i></div>
   </div>
-  <button class="gp-btn">▶</button>
-  <button class="gp-close">✕</button>
+  <div class="gp-ctrl">
+    <button class="gp-nav" id="gpPrev" title="上一曲" disabled>⏮</button>
+    <button class="gp-btn" id="gpPlay" title="播放/暂停">▶</button>
+    <button class="gp-nav" id="gpNext" title="下一曲" disabled>⏭</button>
+    <button class="gp-nav" id="gpListBtn" title="播放列表">☰</button>
+  </div>
+  <button class="gp-close" title="关闭">✕</button>
 </div>
+<!-- ═══ 播放列表面板 ═══ -->
+<div class="gp-panel" id="gpPanel"></div>
 <script>
 gpInit();
 </script>
