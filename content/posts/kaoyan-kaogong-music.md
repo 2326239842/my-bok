@@ -97,6 +97,7 @@ summary: "备考路上循环的歌单，会一直更新。这次收录 5 首：�
   <li>《帅是一种感觉》</li>
   <li>《唱你的首歌》</li>
   <li>《Cuo Wei Shi Kong》</li>
+  <li>《Reminiscence of Nine Doors》（葛泉浩）</li>
   <li>《Horizon Chase》《Gaming Music Vibes》等电音段落</li>
 </ul>
 
